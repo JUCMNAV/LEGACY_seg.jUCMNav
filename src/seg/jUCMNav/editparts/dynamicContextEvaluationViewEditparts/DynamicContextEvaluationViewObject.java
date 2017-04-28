@@ -30,11 +30,13 @@ import grl.IntentionalElementRef;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.dynamicContexts.DynamicContextEvaluationViewObjectFigure;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urn.dyncontext.DynamicContext;
 import urn.dyncontext.Timepoint;
 import urn.dyncontext.TimepointGroup;
+import urncore.Metadata;
 import urncore.URNmodelElement;
 
 /**
@@ -55,6 +57,9 @@ public class DynamicContextEvaluationViewObject {
 
     // Timepoints
     private String[] timepointNames = new String[0];
+    
+    //Granularity
+    private int granularity = 1;
 
     // Intentional elements and their links
     private ArrayList<IntentionalElement> intElts = new ArrayList<IntentionalElement>();
@@ -68,7 +73,7 @@ public class DynamicContextEvaluationViewObject {
     //ArrayList that will contain all the elements in proper hierarchy
     private ArrayList<URNmodelElement> allElts = new ArrayList<URNmodelElement>();
     
-    //ArrayList of String containing hierarchical informatiom
+    //ArrayList of String containing hierarchical information
     private ArrayList<String> hierarchyInfo = new ArrayList<String>();
     
     private int indEltIndex = 0;
@@ -123,6 +128,9 @@ public class DynamicContextEvaluationViewObject {
         this.dyn = dyn;
         this.group = group;
         
+        //Get the granularity for heatmap and charts from preferences
+        this.granularity = StrategyEvaluationPreferences.getGranularity();
+        
         if (dyn == null || group == null)
         	return;
         
@@ -153,12 +161,14 @@ public class DynamicContextEvaluationViewObject {
         indEltIndex = allElts.size();
         
         boolean[] elementsIncl = new boolean[elements.size()];
+        
         //Variable to count if any element ref is present without any actor
         int countRef = 0;
         for (int i = 0; i < elementRefs.size(); i++) {
         	if (!included[i]) {
         		if (countRef == 0) {
-        			//Add null space to show undefined actor, which contain all the element references which are without any actor parent
+        			//Add null space to show undefined actor, which contain all 
+        			//the element references which are without any actor parent
         	        allElts.add(null);
         	        hierarchyInfo.add(null);
         	    }
@@ -206,6 +216,8 @@ public class DynamicContextEvaluationViewObject {
         //Collect all the timepoints in the group
         ArrayList timepoints = new ArrayList();
         timepoints.addAll(group.getTimepoints());
+        
+        //Sort the timepoints
         Collections.sort(timepoints, new Comparator<Timepoint>() {
         	@Override
         	public int compare(Timepoint t1, Timepoint t2) {
@@ -216,25 +228,67 @@ public class DynamicContextEvaluationViewObject {
         firstTimepoint = first.getTimepoint();
         Timepoint last = (Timepoint) timepoints.get(timepoints.size()-1);
         lastTimepoint = last.getTimepoint();
-		long diff = last.getTimepoint().getTime() - first.getTimepoint().getTime();
+        long diff = last.getTimepoint().getTime() - first.getTimepoint().getTime();
 	    int days = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-	    Calendar c = Calendar.getInstance(); 
-		c.setTime(first.getTimepoint());
+	    
+	    //In case granularity taken from preferences is greater than the number of days
+	    //to be plotted, set the granularity to 1
+	    if (days <= granularity)
+	    	granularity = 1;
+	    Calendar c = Calendar.getInstance();
+	    
+	    //Calculate the length required according to granularity of the timepoints array, which will be used to create heatmap
+	    int length = (days/granularity);
+	    
+	    //Check if last timepoint coincides with the last date as per granularity
+	    c.setTime(first.getTimepoint());
+	    c.add(Calendar.DATE, granularity*length);
+	    c.set(Calendar.MILLISECOND, 0);
+	    if (lastTimepoint.equals(c.getTime())) {
+	    	length += 1;
+	    } else 
+	    	length += 2;
+	    
+	    //Set the calendar to first timepoint
+	    c.setTime(first.getTimepoint());
 		if (timepoints != null) {
-        	timepointNames = new String[days+1];
+        	timepointNames = new String[length];
         	int j = 0;
-        	for (int i = 0; i < days+1; i++) {
+        	for (int i = 0; i < length; i++) {
         		Calendar c2 = Calendar.getInstance();
         		c2.setTime(((Timepoint) timepoints.get(j)).getTimepoint());
         		c2.set(Calendar.MILLISECOND, 0);
-        		if (c2.compareTo(c) == 0) {
+        		
+        		//Check if the date is available in the timepoints of that group 
+        		boolean available = false;
+        		while (j < timepoints.size() && c2.compareTo(c) <= 0) {
+        			if (c2.compareTo(c) == 0) {
+	        			available = true;
+	        			break;
+	        		} else {
+	        			j += 1;
+	        			if (j < timepoints.size()) {
+		        			c2.setTime(((Timepoint) timepoints.get(j)).getTimepoint());
+		            		c2.set(Calendar.MILLISECOND, 0);
+	        			}
+	        		}
+        		}
+        		if (available) {
         			Timepoint tp = (Timepoint) timepoints.get(j);
             		timepointNames[i] = df.format(tp.getTimepoint());
-            		j += 1;
+            		if (j < timepoints.size()-1)
+            			j += 1;
         		} else {
         			timepointNames[i] = "";
         		}
-        		c.add(Calendar.DATE, 1);
+        		
+        		//Keep the last timepoint as the one defined in the group in spite of the granularity
+        		if (i == length - 1) { 
+        			timepointNames[i] = df.format(lastTimepoint);
+        		}
+        		
+        		//Increase the number of days by granularity
+        		c.add(Calendar.DATE, granularity);
         		c.set(Calendar.MILLISECOND, 0);
         	}
         }
@@ -244,21 +298,24 @@ public class DynamicContextEvaluationViewObject {
         if (dyn != null && group != null) {
 			
         	int count = 0;
+        	
+        	//Set the calendar to first timepoint
 			c.setTime(first.getTimepoint());
 			if (elements != null) {
-				colors = new Color[allElts.size()][(int)days+1];
+				colors = new Color[allElts.size()][length];
 				evaluationLevels = new double[colors.length][colors[0].length];
 				importanceValues = new double[colors.length][colors[0].length];
 			}
 			if (decompLinks.size() != 0)
 				overallDecompEval = new double[colors.length][colors[0].length];
 			
-			while (count <= days) {
+			while (count < length) {
 				Timepoint tNew;
 				if (count == 0)
 					tNew = first;
-				else if (count == days)
+				else if (count == length-1) {
 					tNew = last;
+				}
 				else {
 					tNew = (Timepoint) ModelCreationFactory.getNewObject(group.getUrnspec(), Timepoint.class);
 					tNew.setTimepoint(c.getTime());
@@ -272,6 +329,7 @@ public class DynamicContextEvaluationViewObject {
 				sm.setTimepoint(tNew);
 	        	sm.setStrategy(dyn.getStrategy());
 	        	if (allElts != null) {
+	        		//To store sum of products of evaluation and importance for each timepoint for System Evaluation
 	        		double totProd = 0;
 	        		double totImp = 0;
 		        	for (int i = 0; i < allElts.size(); i++) {
@@ -284,14 +342,13 @@ public class DynamicContextEvaluationViewObject {
 		        		if (allElts.get(i) instanceof Actor) {
 		        			Actor actor = (Actor) allElts.get(i);
 							boolean ignored = false;
-						    /*Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
-							  if (metaDeactStatus != null) {
-								String deactStatus = MetadataHelper.getMetaData(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
-								if (deactStatus.equalsIgnoreCase("true"))
-									ignored = true;
-							}*/
+						    
 							ignored = sm.isActorIgnored(actor);
+							
+							//Get the color to be displayed for this actor
 							colors[i][count] = getActualColor(sm.getActorEvaluation(actor), ignored);
+							
+							//If the actor is deactivated, its evaluation and importance values are also ignored
 				            if (ignored) {
 				            	evaluationLevels[i][count] = 0;
 					            importanceValues[i][count] = 0;
@@ -311,7 +368,11 @@ public class DynamicContextEvaluationViewObject {
 			            	ArrayList<Dependency> eltDepLinks = depLinks.get(i);
 			            	ArrayList<Decomposition> eltDecompLinks = decompLinks.get(i);
 			        		boolean ignored = EvaluationStrategyManager.getInstance().isIgnored(element);
+			        		
+			        		//Get the color to be displayed for this element
 			            	colors[i][count] = getActualColor(sm.getEvaluation(element), ignored);
+			            	
+			            	//If the element is deactivated, its evaluation and importance values are also ignored
 			            	if (ignored) {
 			            		evaluationLevels[i][count] = 0;
 				            	importanceValues[i][count] = 0;
@@ -319,7 +380,8 @@ public class DynamicContextEvaluationViewObject {
 				            	evaluationLevels[i][count] = (double) sm.getEvaluation(element);
 				            	importanceValues[i][count] = (double) element.getImportanceQuantitative();
 				            	
-				            	//For elements not included in any actor
+				            	//For elements not included in any actor, consider their individual evaluation and
+				            	//importance values for System evaluation as well
 				            	if (i >= indEltIndex) {
 				            		totProd += (double) sm.getEvaluation(element) * element.getImportanceQuantitative();
 					            	totImp += (double) element.getImportanceQuantitative();
@@ -328,9 +390,18 @@ public class DynamicContextEvaluationViewObject {
 			            	
 			            	for (Iterator iter = eltContriLinks.iterator(); iter.hasNext();) {
 			            		Contribution link = (Contribution) iter.next();
+			            		
+			            		//If the link is deactivated, ignore it
+			            		boolean linkIgnored = false;
+			            		Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(link, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			        			if (metaDeactStatus != null) {
+			        				String deactStatus = MetadataHelper.getMetaData(link, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			        				if (deactStatus.equalsIgnoreCase("true"))
+			        					linkIgnored = true;
+			        			}
 		
 			            		//Storing value for ignored as -120(an impossible value to achieve in these cases as they are bound by [-100,100])
-			            		if (ignored) 
+			            		if (ignored || linkIgnored) 
 			            			eltContriLinkValues.add(Double.valueOf(-120));
 			            		else {
 			            			IntentionalElement srcElt = (IntentionalElement) link.getSrc();
@@ -341,6 +412,8 @@ public class DynamicContextEvaluationViewObject {
 			            			else {
 			            				Double contriValue = Double.valueOf(link.getQuantitativeContribution());
 			            				Double contriLinkValue = (Double.valueOf((double) sm.getEvaluation(srcElt)) * contriValue)/100;
+			            				
+			            				//Store individual evaluation due to this contributon link
 			            				eltContriLinkValues.add(Double.valueOf(Math.round(contriLinkValue)));
 			            			}
 			            		}
@@ -348,9 +421,18 @@ public class DynamicContextEvaluationViewObject {
 			            	
 			            	for (Iterator iter = eltDepLinks.iterator(); iter.hasNext();) {
 			            		Dependency link = (Dependency) iter.next();
-		
+			            		
+			            		//If the link is deactivated, ignore it
+			            		boolean linkIgnored = false;
+			            		Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(link, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			        			if (metaDeactStatus != null) {
+			        				String deactStatus = MetadataHelper.getMetaData(link, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			        				if (deactStatus.equalsIgnoreCase("true"))
+			        					linkIgnored = true;
+			        			}
+			            		
 			            		//Storing value for ignored as -120(an impossible value to achieve in these cases as they are bound by [-100,100])
-			            		if (ignored) 
+			            		if (ignored || linkIgnored) 
 			            			eltDepLinkValues.add(Double.valueOf(-120));
 			            		else {
 			            			IntentionalElement srcElt = (IntentionalElement) link.getSrc();
@@ -359,6 +441,7 @@ public class DynamicContextEvaluationViewObject {
 			            			if (EvaluationStrategyManager.getInstance().isIgnored(srcElt))
 			            				eltDepLinkValues.add(Double.valueOf(-120));
 			            			else {
+			            				//Store individual evaluation due to this dependency link
 			            				eltDepLinkValues.add(Double.valueOf((double) sm.getEvaluation(srcElt)));
 			            			}
 			            		}
@@ -366,9 +449,18 @@ public class DynamicContextEvaluationViewObject {
 			            	
 			            	for (Iterator iter = eltDecompLinks.iterator(); iter.hasNext();) {
 			            		Decomposition link = (Decomposition) iter.next();
+			            		
+			            		//If the link is deactivated, ignore it
+			            		boolean linkIgnored = false;
+			            		Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(link, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			        			if (metaDeactStatus != null) {
+			        				String deactStatus = MetadataHelper.getMetaData(link, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			        				if (deactStatus.equalsIgnoreCase("true"))
+			        					linkIgnored = true;
+			        			}
 		
 			            		//Storing value for ignored as -120(an impossible value to achieve in these cases as they are bound by [-100,100])
-			            		if (ignored) 
+			            		if (ignored || linkIgnored) 
 			            			eltDecompLinkValues.add(Double.valueOf(-120));
 			            		else {
 			            			IntentionalElement srcElt = (IntentionalElement) link.getSrc();
@@ -377,6 +469,7 @@ public class DynamicContextEvaluationViewObject {
 			            			if (EvaluationStrategyManager.getInstance().isIgnored(srcElt))
 			            				eltDecompLinkValues.add(Double.valueOf(-120));
 			            			else {
+			            				//Store individual evaluation due to this decomposition link
 			            				eltDecompLinkValues.add(Double.valueOf((double) sm.getEvaluation(srcElt)));
 			            			}
 			            		}
@@ -423,7 +516,9 @@ public class DynamicContextEvaluationViewObject {
 		        	depLinkValuesMap.put(Integer.valueOf(count), depLinkValues);
 		        	decompLinkValuesMap.put(Integer.valueOf(count), decompLinkValues);
 		        	count += 1;
-		        	c.add(Calendar.DATE, 1);
+		        	
+		        	//Increase the number of days by granularity
+		        	c.add(Calendar.DATE, granularity);
 	        	}
 			}
         }
@@ -436,6 +531,12 @@ public class DynamicContextEvaluationViewObject {
         height = figure.getPreferredHeight();
     }
     
+    /**
+     * This method gets the color to be displayed according to the satisfaction value 
+     * 
+     * @return color to be displayed
+     * 
+     */
     private Color getActualColor(int eval, boolean ignored) {
     	String color = null;
     	Color actualColor = null;
@@ -473,11 +574,19 @@ public class DynamicContextEvaluationViewObject {
     	return actualColor;
     }
     
+    /**
+     * This method checks and collects all the children of actor refs and returns a boolean array indicating 
+     * if an element ref is a child of any actor (boolean array corresponds to the IntentionalElementRef array containing all 
+     * the element refs. 
+     * 
+     * @return boolean array 
+     * 
+     */
     private boolean[] getActorsAndChildren(ArrayList<URNmodelElement> allElts, boolean[] included, ArrayList<IntentionalElementRef> elementRefs, Actor actor) {
     	boolean alreadyIncl[] = included;
     	boolean addedActor = false;
     	
-    	//Keep a list of elements added as children for this actor
+    	//Keep a list of elements added as children for the required actor (passed in the parameters)
     	ArrayList<URNmodelElement> addedElts = new ArrayList<URNmodelElement>();
 		for (Iterator iter = actor.getContRefs().iterator(); iter.hasNext();) {
     		ActorRef ref = (ActorRef) iter.next();
@@ -498,8 +607,10 @@ public class DynamicContextEvaluationViewObject {
         			IntentionalElement elt = eltRef.getDef();
         			
         			//Skip this element if already added because of more than one references,else add it to the list
-        			if (addedElts.contains(elt))
+        			if (addedElts.contains(elt)) {
+        				alreadyIncl[elementRefs.indexOf(eltRef)] = true;
         				continue;
+        			}
         			else {
         				hierarchyInfo.add(null);
         				alreadyIncl[elementRefs.indexOf(eltRef)] = true;
@@ -509,6 +620,7 @@ public class DynamicContextEvaluationViewObject {
         		}
         		
         		int childActorsCount = 0;
+        		
         		//Collect all the children Actors and their children elements
         		for (Iterator iter1 = ref.getChildren().iterator(); iter1.hasNext();) {
         			ActorRef childActRef = (ActorRef) iter1.next();
@@ -531,7 +643,14 @@ public class DynamicContextEvaluationViewObject {
     	
     }
     
-    //To collect all the children of an ActorRef
+    /**
+     * This method checks and collects all the children of actor refs (which are themselves children) and returns a boolean 
+     * array indicating if an element ref is a child of any actor (boolean array corresponds to the IntentionalElementRef array containing all 
+     * the element refs. 
+     * 
+     * @return boolean array 
+     * 
+     */
     private boolean[] getChildren(ArrayList<URNmodelElement> allElts, boolean[] included, ArrayList<IntentionalElementRef> elementRefs, ActorRef ref, String name) {
     	boolean alreadyIncl[] = included;
     	Actor act = (Actor) ref.getContDef();
@@ -552,8 +671,10 @@ public class DynamicContextEvaluationViewObject {
 					IntentionalElement element = eltRef.getDef();
 					
 					//Skip this element if already added because of more than one references,else add it to the list
-        			if (addedElts.contains(element))
+        			if (addedElts.contains(element)) {
+        				alreadyIncl[elementRefs.indexOf(eltRef)] = true;
         				continue;
+        			}
         			else {
 						allElts.add(element);
 						hierarchyInfo.add(null);
@@ -573,6 +694,8 @@ public class DynamicContextEvaluationViewObject {
         			else {
 						childActorCount += 1;
 						String nameHere = name + "_" + childActorCount;
+						
+						//recursively call this method for any child actor ref
 						alreadyIncl = getChildren(allElts, alreadyIncl, elementRefs, childActRef, nameHere);
 						addedElts.add(childAct);
         			}
@@ -582,18 +705,33 @@ public class DynamicContextEvaluationViewObject {
     	return alreadyIncl;
     }
     
+    /**
+     * 
+     * @return ArrayList<Contribution> for element i (i corresponds to index of element in allElts)
+     * 
+     */
     public ArrayList<Contribution> getContributionLinks(int i) {
     	ArrayList<Contribution> reqLinks = new ArrayList<Contribution>();
     	reqLinks = contriLinks.get(i);
     	return reqLinks;
     }
     
+    /**
+     * 
+     * @return ArrayList<Dependency>  for element i (i corresponds to index of element in allElts)
+     * 
+     */
     public ArrayList<Dependency> getDependencyLinks(int i) {
     	ArrayList<Dependency> reqLinks = new ArrayList<Dependency>();
     	reqLinks = depLinks.get(i);
     	return reqLinks;
     }
     
+    /**
+     * 
+     * @return ArrayList<Decomposition> for element i (i corresponds to index of element in allElts)
+     * 
+     */
     public ArrayList<Decomposition> getDecompLinks(int i) {
     	ArrayList<Decomposition> reqLinks = new ArrayList<Decomposition>();
     	reqLinks = decompLinks.get(i);
@@ -627,53 +765,104 @@ public class DynamicContextEvaluationViewObject {
     public void setY(int y) {
         this.y = y;
     }
-
+    
+    /**
+     * 
+     * @return String array with relevant timepoints' names
+     * 
+     */
     public String[] getTimepointNames() {
         return timepointNames;
     }
-
-    public ArrayList<IntentionalElement> getIntentionalElements() {
-        return intElts;
-    }
     
-    public ArrayList<Actor> getActors() {
-        return actors;
-    }
-    
+    /**
+     * 
+     * @return ArrayList that contains all the elements in proper hierarchy
+     * 
+     */
     public ArrayList<URNmodelElement> getAllElements() {
         return allElts;
     }
     
+    /**
+     * 
+     * @return ArrayList of String containing hierarchical information
+     * 
+     */
     public ArrayList<String> getHierarchyInfo() {
     	return hierarchyInfo;
     }
     
+    /**
+     * 
+     * @return Evaluation values at different timepoints for different elements and actors.
+     * 
+     */
     public double[][] getEvaluationValues() {
     	return evaluationLevels;
     }
     
+    /**
+     * 
+     * @return Importance values at different timepoints for different elements and actors.
+     * 
+     */
     public double[][] getImportanceValues() {
     	return importanceValues;
     }
     
+    /**
+     * 
+     * @return Evaluation due to decomposition links at different timepoints for different elements and actors.
+     * 
+     */
     public double[][] getOverallDecompValues() {
     	return overallDecompEval;
     }
     
+    /**
+     * 
+     * @return index from where intentional elements with no actor parents exist
+     * 
+     */
     public int getIndependentIndex() {
     	return indEltIndex;
     }
     
+    /**
+     * 
+     * @return calculated colors for each element
+     * 
+     */
     public Color[][] getColors() {
     	return colors;
     }
     
+    /**
+     * 
+     * @return first timepoint
+     * 
+     */
     public Date startRange() {
     	return firstTimepoint;
     }
     
+    /**
+     * 
+     * @return last timepoint
+     * 
+     */
     public Date endRange() {
     	return lastTimepoint;
+    }
+    
+    /**
+     * 
+     * @return granularity
+     * 
+     */
+    public int getGranularity() {
+    	return granularity;
     }
 
 }

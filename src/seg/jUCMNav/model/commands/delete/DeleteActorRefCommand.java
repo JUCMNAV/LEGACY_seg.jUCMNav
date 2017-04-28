@@ -39,30 +39,11 @@ public class DeleteActorRefCommand extends CompoundCommand {
         add(new RemoveURNmodelElementCommand(ar));
     }
     
-    /**
-     * Deletes all the changes associated with the selected ActorRef
-     */
-    private void deleteChanges() {
-    	Actor actor = (Actor) actorRef.getContDef();
-    	for (Iterator it = (actor.getGrlspec().getUrnspec().getDynamicContexts().iterator()); it.hasNext();) {
-            DynamicContext dyn = (DynamicContext) it.next();
-            
-            //Delete Actor Changes
-            for (Iterator itEval = DynamicContextsUtils.getAllAvailableChanges(actorRef, dyn, actor.getGrlspec().getUrnspec()).iterator(); itEval.hasNext();) {
-                Change change = (Change) itEval.next();
-                add(new DeleteChangeCommand(change));                
-            }
-        }
-    }
-
     public void execute() {
         // Verify if this reference is the only one
     	if (actorRef.getContDef().getContRefs().size() <= 1) {
     		
-    		//Delete the changes everytime all the references are deleted
-        	deleteChanges();
-        	
-        	if (DeletePreferences.getDeleteDefinition(actorRef))
+    		if (DeletePreferences.getDeleteDefinition(actorRef))
         		add(new DeleteActorCommand((Actor) actorRef.getContDef()));
         }
         super.execute();

@@ -23,6 +23,7 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
 	
 	private BooleanFieldEditor autoSelectMandatoryFeatures;
 	private IntegerFieldEditor tolerance;
+	private IntegerFieldEditor granularity;
 
     public StrategyEvaluationPreferencePage() {
         super(FieldEditorPreferencePage.GRID);
@@ -66,6 +67,11 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
         tolerance = new IntegerFieldEditor(StrategyEvaluationPreferences.PREF_TOLERANCE, Messages
                 .getString("GeneralPreferencePage.GRLEvaluationAlgorithmTolerance"), getFieldEditorParent()); //$NON-NLS-1$
         addField(tolerance);
+        
+        //Add field for granularity(in case of TimedGRL algorithm)
+        granularity = new IntegerFieldEditor(StrategyEvaluationPreferences.PREF_GRANULARITY, Messages
+                .getString("GeneralPreferencePage.TimedGRLEvaluationAlgorithmGranularity"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(granularity);
 
         BooleanFieldEditor eval_filled = new BooleanFieldEditor(StrategyEvaluationPreferences.PREF_EVALFILLED, Messages
                 .getString("GeneralPreferencePage.GrlStrategiesElementFilled"), getFieldEditorParent()); //$NON-NLS-1$
@@ -84,9 +90,17 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
 			StrategyEvaluationPreferences.setTolerance(0);
 			tolerance.setStringValue("0"); //$NON-NLS-1$
 			tolerance.setEnabled(false, getFieldEditorParent());
+			granularity.setStringValue("1"); //$NON-NLS-1$
+			granularity.setEnabled(false, getFieldEditorParent());
+		} else if (algoChoice.equals(Integer.toString(StrategyEvaluationPreferences.TIMED_GRL_ALGORITHM))) {
+			autoSelectMandatoryFeatures.setEnabled(false, getFieldEditorParent());
+			tolerance.setEnabled(true, getFieldEditorParent());
+			granularity.setEnabled(true, getFieldEditorParent());
 		} else {
 			autoSelectMandatoryFeatures.setEnabled(false, getFieldEditorParent());
 			tolerance.setEnabled(true, getFieldEditorParent());
+			granularity.setStringValue("1"); //$NON-NLS-1$
+			granularity.setEnabled(false, getFieldEditorParent());
 		}
 
     }
@@ -112,11 +126,23 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
     				StrategyEvaluationPreferences.setTolerance(0);
     				tolerance.setStringValue("0"); //$NON-NLS-1$
     				tolerance.setEnabled(false, getFieldEditorParent());
+    				granularity.setStringValue("1"); //$NON-NLS-1$
+    				granularity.setEnabled(false, getFieldEditorParent());
+    			} else if (event.getNewValue().equals(Integer.toString(StrategyEvaluationPreferences.TIMED_GRL_ALGORITHM))) { 
+    				autoSelectMandatoryFeatures.setEnabled(false, getFieldEditorParent());
+    				StrategyEvaluationPreferences.setTolerance(StrategyEvaluationPreferences.DEFAULT_TOLERANCE);
+    				tolerance.setStringValue(StrategyEvaluationPreferences.DEFAULT_TOLERANCE+""); //$NON-NLS-1$
+    				tolerance.setEnabled(true, getFieldEditorParent());
+    				StrategyEvaluationPreferences.setGranularity(StrategyEvaluationPreferences.DEFAULT_GRANULARITY);
+    				granularity.setStringValue(StrategyEvaluationPreferences.DEFAULT_GRANULARITY+""); //$NON-NLS-1$
+    				granularity.setEnabled(true, getFieldEditorParent());
     			} else {
     				autoSelectMandatoryFeatures.setEnabled(false, getFieldEditorParent());
     				StrategyEvaluationPreferences.setTolerance(StrategyEvaluationPreferences.DEFAULT_TOLERANCE);
     				tolerance.setStringValue(StrategyEvaluationPreferences.DEFAULT_TOLERANCE+""); //$NON-NLS-1$
     				tolerance.setEnabled(true, getFieldEditorParent());
+    				granularity.setStringValue("1"); //$NON-NLS-1$
+    				granularity.setEnabled(false, getFieldEditorParent());
     			}
     		}
     	}

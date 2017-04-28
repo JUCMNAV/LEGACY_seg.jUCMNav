@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.eclipse.gef.commands.Command;
 
+import grl.Actor;
 import grl.ActorRef;
 import grl.ElementLink;
 import grl.IntentionalElement;
@@ -118,9 +119,9 @@ public class AddNumericChangeCommand extends Command implements JUCMNavCommand {
     	else if (parent instanceof IntentionalElement)
     		elt = (IntentionalElement) this.parent;
     	else if (parent instanceof ActorRefEditPart)
-    		elt = (ActorRef)((ActorRefEditPart) this.parent).getModel();
+    		elt = (Actor) ((ActorRef)((ActorRefEditPart) this.parent).getModel()).getContDef();
     	else if (parent instanceof ActorRef)
-    		elt = (ActorRef) this.parent;
+    		elt = (Actor) ((ActorRef) this.parent).getContDef();
         
         //Add a new type of numeric change according to the selected change 
         if (selectedChange.equals("Constant Change")){

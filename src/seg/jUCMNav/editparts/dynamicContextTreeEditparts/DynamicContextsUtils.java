@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import grl.Actor;
 import grl.ActorRef;
 import grl.Contribution;
 import grl.ContributionContext;
@@ -248,9 +249,9 @@ public class DynamicContextsUtils {
 	    	else if (parent instanceof IntentionalElement)
 	    		elt = (IntentionalElement) parent;
 	    	else if (parent instanceof ActorRefEditPart)
-	    		elt = (ActorRef)((ActorRefEditPart) parent).getModel();
-	    	else if (parent instanceof ActorRef)
-	    		elt = (ActorRef) parent;
+	    		elt = (Actor) ((ActorRef)((ActorRefEditPart) parent).getModel()).getContDef();
+	    	else if (parent instanceof Actor)
+	    		elt = (Actor) parent;
 	    	for (Iterator iter = allChanges.iterator(); iter.hasNext();) {
 	    		Change change = null;
 	    		Object nextIter = iter.next();
@@ -282,6 +283,34 @@ public class DynamicContextsUtils {
 			});
     	}
     	return availableChanges;
+    }
+    
+    /*
+     * Returns a boolean indicating if any change has been added to the URNModelElement
+     * 
+     * @param el
+     * 				URNmodelElement for which we need to check if any change exists
+     * @param urn
+     * 			URNSpec
+     */
+    public static boolean changeExistsFor(URNmodelElement el, URNspec urn) {
+    	boolean exists = false;
+    	List dynContexts = urn.getDynamicContexts();
+    	for (Iterator iter = dynContexts.iterator(); iter.hasNext();) {
+    		DynamicContext dyn = (DynamicContext) iter.next();
+	    	List allChanges = dyn.getChanges();
+	    	
+	    	for (Iterator iter1 = allChanges.iterator(); iter1.hasNext();) {
+	    		Change change = (Change) iter1.next();
+	    		if (change.getElement().equals(el)){
+	    			exists = true;
+	    			break;
+	    		}
+	    	}
+	    	if (exists)
+	    		break;
+    	} 
+    	return exists;
     }
     
 }

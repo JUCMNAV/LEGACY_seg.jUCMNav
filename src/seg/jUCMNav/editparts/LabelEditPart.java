@@ -26,6 +26,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
 import seg.jUCMNav.editpolicies.directEditPolicy.AutocompleteTextCellEditor;
 import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
@@ -37,6 +38,7 @@ import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.util.JUCMNavFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.LabelPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
@@ -356,11 +358,24 @@ public class LabelEditPart extends ModelElementEditPart {
                     IURNContainer componentElement = ((IURNContainerRef) modelElement).getContDef();
                     if (componentElement != null) {
                     	
-                    	//Updated to show importance for actors on the label
+                    	//Updated to show importance for actors on the label as well as change icon(if any change is added)
                     	if (componentElement instanceof Actor) {
                     		Actor act = (Actor) componentElement;
                     		String importance = IntentionalElementEditPart.getImportanceSuffix(act.getImportanceQuantitative(), act.getImportance());
                     		labelFigure.setSuffixText(importance + UrnMetadata.getStereotypes(componentElement));
+                    		
+                    		//If TimedGRL algorithm selected and design view is active, then add change label if required
+                    		if (StrategyEvaluationPreferences.getAlgorithm().equals(StrategyEvaluationPreferences.TIMED_GRL_ALGORITHM + "") && 
+                            		getRoot()!= null && !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
+                            	
+                            	//Add change label if at least one change exists for the actor
+                            	if (DynamicContextsUtils.changeExistsFor(act, act.getGrlspec().getUrnspec())) {
+                            		labelFigure.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
+                            	} else
+                            		labelFigure.setIcon(null);
+                    		} else
+                        		labelFigure.setIcon(null);
+                    		
                     	} else
                     		labelFigure.setSuffixText(UrnMetadata.getStereotypes(componentElement));
                     }

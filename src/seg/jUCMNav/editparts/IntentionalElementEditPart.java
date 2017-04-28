@@ -2,6 +2,7 @@ package seg.jUCMNav.editparts;
 
 import fm.Feature;
 import fm.FeatureDiagram;
+import grl.ActorRef;
 import grl.Decomposition;
 import grl.DecompositionType;
 import grl.ElementLink;
@@ -47,6 +48,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
 import seg.jUCMNav.editpolicies.directEditPolicy.GrlNodeDirectEditPolicy;
 import seg.jUCMNav.editpolicies.directEditPolicy.IntentionalElementNodeEditPolicy;
 import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
@@ -83,8 +85,11 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     private Label evaluationLabel;
 
     private Label kpiEvaluationValueLabel;
+    
+    private Label changeLabel;
 
     private Image evaluationImg;
+    
 
   
     /**
@@ -141,17 +146,25 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         kpiEvaluationValueLabel.setForegroundColor(ColorManager.BLUE);
         kpiEvaluationValueLabel.setVisible(false);
         kpiEvaluationValueLabel.setSize(70, 16);
+        
+        changeLabel = new Label();
+        changeLabel.setForegroundColor(ColorManager.LINKREFLABEL);
+        changeLabel.setVisible(false);
+        changeLabel.setSize(50, 16);
 
         try {
             ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
                     .getChildren().get(0)).add(evaluationLabel);
             ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
                     .getChildren().get(0)).add(kpiEvaluationValueLabel);
+            ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
+                    .getChildren().get(0)).add(changeLabel);
         } catch (Exception ex) {
             System.out.println("problem with scaling grl evaluation label"); //$NON-NLS-1$
             // bug 435: old code.. hoping new code is more robust
             ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
             ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(kpiEvaluationValueLabel);
+            ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(changeLabel);
         }
         return fig;
     }
@@ -166,6 +179,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             // bug 435: ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
             ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
                     .getChildren().get(0)).remove(evaluationLabel);
+            ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
+                    .getChildren().get(0)).remove(changeLabel);
             if (getNode() instanceof IntentionalElementRef && (getNode()).getDef() != null)
                 (getNode()).getDef().eAdapters().remove(this);
         }
@@ -383,6 +398,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     figure.setForegroundColor(ColorManager.AQUA);
                 }
                 ((IntentionalElementPropertySource) getPropertySource()).setEvaluationStrategyView(false);
+                
                 if (getNode().getFromLinks().size() + getNode().getToLinks().size() + elem.getFromLinks().size() + elem.getToLinks().size() > 0) {
                     evaluationLabel.setText(""); //$NON-NLS-1$
                     setUrnLinkIcon(getNode(), elem);
@@ -403,8 +419,29 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     evaluationLabel.setVisible(false);
                     kpiEvaluationValueLabel.setVisible(false);
                 }
+                
+                //If TimedGRL algorithm selected and design view is active, then add change label if required
+                if (StrategyEvaluationPreferences.getAlgorithm().equals(StrategyEvaluationPreferences.TIMED_GRL_ALGORITHM + "")) {
+                	
+                	//Add change label if at least one change exists for the element
+                	if (getNode().getDef() instanceof IntentionalElement && 
+                			DynamicContextsUtils.changeExistsFor(getNode().getDef(), getNode().getDef().getGrlspec().getUrnspec())) {
+                		changeLabel.setForegroundColor(ColorManager.LINE);
+                    	changeLabel.setText("");//$NON-NLS-1$
+                        Point changePosition = getNodeFigure().getLocation();
+                        changePosition.y = changePosition.y - 8;
+                        changePosition.x = changePosition.x;
+                        changeLabel.setLocation(changePosition);
+                        changeLabel.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
+                        changeLabel.setVisible(true);
+                	} else
+                		changeLabel.setVisible(false);
+                } else
+                	changeLabel.setVisible(false);
 
             } else {
+            	changeLabel.setVisible(false);
+            	
                 // Set strategy view to true
                 ((IntentionalElementPropertySource) getPropertySource()).setEvaluationStrategyView(true);
                 // Get the evaluation value

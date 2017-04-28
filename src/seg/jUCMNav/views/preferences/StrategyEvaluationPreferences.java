@@ -19,6 +19,7 @@ public class StrategyEvaluationPreferences {
     public final static boolean DEFAULT_EVALFILLED = true;
     public final static boolean DEFAULT_VISUALIZEASPOSITIVERANGE = false;
     public final static boolean DEFAULT_AUTOSELECTMANDATORYFEATURES = false;
+    public final static int DEFAULT_GRANULARITY = 1;
     
     public final static int QUANTITATIVE_ALGORITHM = 0;
     public final static int QUALITATIVE_ALGORITHM = 1;
@@ -37,7 +38,8 @@ public class StrategyEvaluationPreferences {
     public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$
     public static final String PREF_EVALFILLED = "PREF_EVALFILLED"; //$NON-NLS-1$
     public static final String PREF_VISUALIZEASPOSITIVERANGE = "PREF_VISUALIZEASPOSITIVERANGE"; //$NON-NLS-1$
-    public static final String PREF_AUTOSELECTMANDATORYFEATURES = "PREF_AUTOSELECTMANDATORYFEATURES"; //$NON-NLS-1$ 
+    public static final String PREF_AUTOSELECTMANDATORYFEATURES = "PREF_AUTOSELECTMANDATORYFEATURES"; //$NON-NLS-1$
+    public static final String PREF_GRANULARITY = "PREF_GRANULARITY"; //$NON-NLS-1$
 	
     /**
      * 
@@ -55,6 +57,7 @@ public class StrategyEvaluationPreferences {
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_TOLERANCE, StrategyEvaluationPreferences.DEFAULT_TOLERANCE);
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_EVALFILLED, StrategyEvaluationPreferences.DEFAULT_EVALFILLED);
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_VISUALIZEASPOSITIVERANGE, StrategyEvaluationPreferences.DEFAULT_VISUALIZEASPOSITIVERANGE);
+        getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_GRANULARITY, StrategyEvaluationPreferences.DEFAULT_GRANULARITY);
     }
 
     /**
@@ -102,6 +105,14 @@ public class StrategyEvaluationPreferences {
     public static String getAlgorithm() {
         return getPreferenceStore().getString(PREF_ALGORITHM);
     }
+    
+    /**
+     * 
+     * @return the TimedGRL evaluation algorithm granularity
+     */
+    public static int getGranularity() {
+        return getPreferenceStore().getInt(PREF_GRANULARITY);
+    }
 
     /**
      * 
@@ -128,6 +139,15 @@ public class StrategyEvaluationPreferences {
      */
     public static void setAlgorithm(String b) {
         getPreferenceStore().setValue(PREF_ALGORITHM, b);
+    }
+    
+    /**
+     * 
+     * @param granularity(in days)
+     *            the TimedGRL evaluation algorithm granularity
+     */
+    public static void setGranularity(int granularity) {
+        getPreferenceStore().setValue(PREF_GRANULARITY, granularity);
     }
 
     /**

@@ -476,7 +476,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         	if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
                     && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.DynamicContextsView") != null) { //$NON-NLS-1$
             	DynamicContextsView dv = (DynamicContextsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.DynamicContextsView").getView(false);
-                if (dv != null && dv.getDynamicContext() != null) {
+                if (dv != null) {
                 	
                 	//If the currentView in DynamicContexts view is ID_STRATEGY then true
                 	refreshDynView = dv.isDynamicView();
@@ -680,7 +680,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         	if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
                     && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.DynamicContextsView") != null) { //$NON-NLS-1$
             	DynamicContextsView dv = (DynamicContextsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.DynamicContextsView").getView(false);
-                if (dv != null && dv.getDynamicContext() != null) {
+                if (dv != null) {
                 	dv.showPage(ID_DESIGN);
                 }
             }

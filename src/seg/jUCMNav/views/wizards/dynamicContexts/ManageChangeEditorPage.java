@@ -33,6 +33,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -42,6 +43,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -60,6 +62,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.mariuszgromada.math.mxparser.*;
 
+import grl.Actor;
 import grl.ActorRef;
 import grl.Contribution;
 import grl.Decomposition;
@@ -76,6 +79,7 @@ import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.ChangeTreeEditPart;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.commands.create.AddDeactivationChangeCommand;
 import seg.jUCMNav.model.commands.create.AddEnumerationChangeCommand;
 import seg.jUCMNav.model.commands.create.AddNumericChangeCommand;
@@ -141,6 +145,9 @@ public class ManageChangeEditorPage extends WizardPage {
     private Composite container;
     private IWorkbenchPage workbenchPage;
     private Boolean wrongFormat;
+    
+    //Store the value from where changes of included Dynamic Contexts start; Set in getAvailableChanges()
+    int disabledFrom = -1;
 
     /**
      * The selection contains a URNModelElement for which change needs to be added. Loaded in {@link #initialize()}.
@@ -193,6 +200,11 @@ public class ManageChangeEditorPage extends WizardPage {
         	        for (int i = 0; i < availChanges.length; i++) {
         	            TableItem item = new TableItem(availableChanges, SWT.NONE);
         	            item.setText(new String[] {availChanges[i][0], availChanges[i][1], availChanges[i][2], availChanges[i][3], availChanges[i][4], availChanges[i][5]});
+        	            
+        	            //If the item belongs to included dynamic contexts (indicated by disabledFrom index), then grey out that item
+        	            if (disabledFrom != -1 && i >= disabledFrom) {
+        	            	item.setBackground(ColorManager.GRAY);
+        	            }
         	        }
                 }
                 availableChanges.update();
@@ -241,6 +253,11 @@ public class ManageChangeEditorPage extends WizardPage {
         	        	if ((availChanges[i][0].startsWith("Selected") && affectedProperty.startsWith("Selected")) || (availChanges[i][0].equals(affectedProperty))) {
 	        	            TableItem item = new TableItem(availableChanges, SWT.NONE);
 	        	            item.setText(new String[] {availChanges[i][0], availChanges[i][1], availChanges[i][2], availChanges[i][3], availChanges[i][4], availChanges[i][5]});
+	        	            
+	        	            //If the item belongs to included dynamic contexts (indicated by disabledFrom index), then grey out that item
+	        	            if (disabledFrom != -1 && i >= disabledFrom) {
+	        	            	item.setBackground(ColorManager.GRAY);
+	        	            }
         	        	}
         	        }
                 }
@@ -284,9 +301,13 @@ public class ManageChangeEditorPage extends WizardPage {
 			                for (int h = 0; h < availableChanges.getColumnCount(); h++) {
 			                	oldItem[h] = items[i].getText(h);
 			                }
+			                Color background = items[i].getBackground();
 			                items[i].dispose();
 			                TableItem newItem = new TableItem(availableChanges, SWT.NONE, j);
 			                newItem.setText(oldItem);
+			                
+			                //The background color of the items should remain same even after sorting
+			                newItem.setBackground(background);
 			                items = availableChanges.getItems();
 			                break;
 			            }
@@ -333,19 +354,31 @@ public class ManageChangeEditorPage extends WizardPage {
             	
             }
         }
-       
         String[][] availChanges = getAvailableChanges();
         availableChanges.removeAll();
         if (availChanges != null) {
 	        for (int i = 0; i < availChanges.length; i++) {
 	            TableItem item = new TableItem(availableChanges, SWT.NONE);
 	            item.setText(new String[] {availChanges[i][0], availChanges[i][1], availChanges[i][2], availChanges[i][3], availChanges[i][4], availChanges[i][5]});
+	            
+	            //If the item belongs to included dynamic contexts (indicated by disabledFrom index), then grey out that item
+	            if (disabledFrom != -1 && i >= disabledFrom) {
+	            	item.setBackground(ColorManager.GRAY);
+	            }
 	        }
         }
+        
         availableChanges.addSelectionListener(new SelectionListener() {
             public void widgetSelected(SelectionEvent e) {
-            	updateItemInDialog(availableChanges.getSelectionIndex());
-            	dialogChanged();
+            	
+            	//If the change belongs to included dynamic contexts, clear the dialog box
+            	//Otherwise update the ManageChange dialog box with selected change's data
+            	if (availableChanges.getItem(availableChanges.getSelectionIndex()).getBackground().equals(ColorManager.GRAY)) {
+            		clearChangeData();
+            	} else {
+	            	updateItemInDialog(availableChanges.getSelectionIndex());
+	            	dialogChanged();
+            	}
             }
 
             public void widgetDefaultSelected(SelectionEvent e) {
@@ -813,6 +846,11 @@ public class ManageChangeEditorPage extends WizardPage {
     	        for (int i = 0; i < availChanges1.length; i++) {
     	            TableItem item = new TableItem(availableChanges, SWT.NONE);
     	            item.setText(new String[] {availChanges1[i][0], availChanges1[i][1], availChanges1[i][2], availChanges1[i][3], availChanges1[i][4], availChanges1[i][5]});
+    	            
+    	            //If the item belongs to included dynamic contexts (indicated by disabledFrom index), then grey out that item
+    	            if (disabledFrom != -1 && i >= disabledFrom) {
+    	            	item.setBackground(ColorManager.GRAY);
+    	            }
     	        }
             }
             availableChanges.update();
@@ -1045,7 +1083,7 @@ public class ManageChangeEditorPage extends WizardPage {
     			possibleAffProps[0] = "Selected Decomposition Link";
             }
     		
-    	} else if (this.parent instanceof ActorRefEditPart || this.parent instanceof ActorRef){
+    	} else if (this.parent instanceof ActorRefEditPart || this.parent instanceof Actor){
     		possibleAffProps = new String[3];
     		possibleAffProps[0] = "Selected Actor";
     		possibleAffProps[1] = "Count";
@@ -1075,12 +1113,18 @@ public class ManageChangeEditorPage extends WizardPage {
     	String[][] strings;
     	if (currentDynContext != null) {
 	    	java.util.List availableChanges = DynamicContextsUtils.getAllAvailableChanges(parent, currentDynContext, urn);
+	    	
+	    	//From this index onwards, changes will belong to included dynamic contexts and hence, should be greyed out in table
+	    	disabledFrom = availableChanges.size();
+	    	
+	    	//Get all the changes from included contexts as well, if required
+	    	getIncludedChanges(currentDynContext, availableChanges);
+	    	
 	    	ArrayList changesStrings = new ArrayList();
 	    	strings = new String[availableChanges.size()][6];
 	    	int i = 0;
 	        for (Iterator iter = availableChanges.iterator(); iter.hasNext();) {
 	            Change possibleChange = (Change) iter.next();
-	            //strings[i][0] = URNNamingHelper.getName(possibleChange.getContext());
 	            if (possibleChange instanceof DeactivationChange){
 	            	strings[i][0] = getPossibleAffectedProperties()[0];
 	            	strings[i][3] = "Deactivation Change";
@@ -1125,6 +1169,17 @@ public class ManageChangeEditorPage extends WizardPage {
     	}
     	
         return strings;
+    }
+    
+    /*
+	 * Adds the changes of included dynamic contexts, if any, to a list
+	 */
+    private void getIncludedChanges(DynamicContext dyn, List availableChanges) {
+    	for (Iterator iter = dyn.getIncludedContexts().iterator(); iter.hasNext();) {
+	    	DynamicContext context = (DynamicContext) iter.next();
+			availableChanges.addAll(DynamicContextsUtils.getAllAvailableChanges(parent, context, urn));
+			getIncludedChanges(context, availableChanges);
+		}
     }
     
 	/*
@@ -1323,29 +1378,29 @@ public class ManageChangeEditorPage extends WizardPage {
     private void dialogChanged() {
     	wrongFormat = false;
     	if (changes.getSelectionIndex() < 0)
-            updateStatus(Messages.getString("ManageChangePage.SelectChangeType")); //$NON-NLS-1$
+            updateErrorStatus(Messages.getString("ManageChangePage.SelectChangeType")); //$NON-NLS-1$
         else if (changes.getSelectionIndex() >= 0) {
             changeType = null;
             int index = changes.getSelectionIndex();
             changeType = changes.getItem(index);
-            updateStatus(null);
+            updateErrorStatus(null);
         }
         if (affectedProperties.getSelectionIndex() < 0)
-            updateStatus(Messages.getString("ManageChangePage.PleaseSelectAffectedProperty")); //$NON-NLS-1$
+        	updateErrorStatus(Messages.getString("ManageChangePage.PleaseSelectAffectedProperty")); //$NON-NLS-1$
         else if (affectedProperties.getSelectionIndex() >= 0) {
             affectedProperty = null;
             int index = affectedProperties.getSelectionIndex();
             affectedProperty = affectedProperties.getItem(index);
-            updateStatus(null);
+            updateErrorStatus(null);
         }
         
         if (dynamicContexts.getSelectionIndex() < 0)
-            updateStatus(Messages.getString("ManageChangePage.PleaseSelectDynamicContext")); //$NON-NLS-1$
+        	updateErrorStatus(Messages.getString("ManageChangePage.PleaseSelectDynamicContext")); //$NON-NLS-1$
         else if (dynamicContexts.getSelectionIndex() >= 0) {
             currentDynContext = null;
             int index = dynamicContexts.getSelectionIndex();
             currentDynContext = (DynamicContext) urn.getDynamicContexts().get(index);
-            updateStatus(null);
+            updateErrorStatus(null);
         }
         
         
@@ -1427,13 +1482,29 @@ public class ManageChangeEditorPage extends WizardPage {
     
 
     /**
-     * Updates the status of the window
+     * Updates the error status of the window
      * 
      * @param message
      *            the error message or null if no error message.
      */
-    private void updateStatus(String message) {
+    private void updateErrorStatus(String message) {
         setErrorMessage(message);
+
+        if (GeneralPreferencePage.getStrictCodeEditor())
+            setPageComplete(message == null);
+        else
+            setPageComplete(true);
+
+    }
+    
+    /**
+     * Updates the status of the window
+     * 
+     * @param message
+     *            the message or null if no message.
+     */
+    private void updateStatus(String message) {
+        setMessage(message);
 
         if (GeneralPreferencePage.getStrictCodeEditor())
             setPageComplete(message == null);

@@ -89,6 +89,7 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     private Rectangle[][] eltsEvalBar = null;
     private Point[] iconLocations = null;
     private int maxIntEltLength;
+    private int granularity;
     
     private Color[] linkColors = {ColorManager.BLACK, ColorManager.BLUE, ColorManager.YELLOW, ColorManager.PURPLE, ColorManager.RED,
     		new Color(null, StringConverter.asRGB("0,102,51")), new Color(null, StringConverter.asRGB("255,51,255")),
@@ -100,6 +101,7 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     public DynamicContextEvaluationViewObjectFigure(DynamicContextEvaluationViewObject object) {
         this.dynViewObject = object;
         colors = dynViewObject.getColors();
+        this.granularity = dynViewObject.getGranularity();
         initializeFigure();
     }
 
@@ -127,7 +129,11 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     public static Dimension getDefaultTextDimension() {
         return new Dimension(DEFAULT_TEXT_WIDTH, DEFAULT_TEXT_HEIGHT);
     }
-
+    
+    /**
+     * Initializes the figure.
+     * 
+     */
     private void initializeFigure() {
         xylayout = new XYLayout();
         this.setLayoutManager(xylayout);
@@ -165,20 +171,23 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         }
         
     }
-
+    
     protected void paintFigure(Graphics graphics) {
     	String[] tpNames = dynViewObject.getTimepointNames();
     	int x = maxIntEltLength + 38;
     	int y = LABEL_PADDING_Y;
+    	
+    	//Draw the timepoint labels corresponding to each timepoint
     	for (int i = 0; i < colors[0].length; i++) {
     		drawTimepointsLabel(graphics, tpNames[i], x, y);
     		x += DEFAULT_BAR_WIDTH;
-    		
     	}
     	
+    	//Draw rectangular evaluation bars for System, actors, and elements
     	for (int i = 0; i < colors.length; i++) {
     		for (int j = 0; j < colors[0].length; j++) {
     			int indEltIndex = dynViewObject.getIndependentIndex();
+    			
     			//Do not draw any rectangular bar for undefined actor
     			if (i != indEltIndex)
     				drawEvalBar(graphics, colors[i][j], eltsEvalBar[i][j]);
@@ -188,28 +197,42 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         
     }
     
+    /**
+     * Draw the timepoint label corresponding to the timepoint string passed as parameter
+     * 
+     */
     private void drawTimepointsLabel(Graphics graphics, String timepointName, int x, int y) {
     	
-    	//graphics.drawString(timepointName, x, y);
     	if (!timepointName.equals("")) {
-    		Image image = ImageUtilities.createRotatedImageOfString(timepointName, new Font(null, "Consolas", 8, SWT.BOLD), getForegroundColor(), getBackgroundColor());
+    		
+    		//Rotate the timepoint name and create an image
+    		Image image = ImageUtilities.createRotatedImageOfString(timepointName, 
+    				new Font(null, "Consolas", 8, SWT.BOLD), getForegroundColor(), getBackgroundColor());
 	    	graphics.drawImage(image, x, y);
+	    	
+	    	//dispose the image
     		image.dispose();
     	}
     	
     }
     
+    /**
+     * Draw rectangular evaluation bar for an element as per the color passed in the parameter
+     * 
+     */
     private void drawEvalBar(Graphics graphics, Color color, Rectangle singleBar) {
         Color evalColor = color;
         graphics.setBackgroundColor(ColorManager.BLACK);
         graphics.setBackgroundColor(evalColor);
         graphics.fillRectangle(singleBar);
-            	
     }
-
+    
+    /**
+     * Setup the heatmap
+     * 
+     */
     public void setupFigure() {
-        //setSubjectText();
-    	if (colors != null) {
+        if (colors != null) {
     		int indEltIndex = dynViewObject.getIndependentIndex();
     		setEvalBarText();
 	        calculateFigures();
@@ -258,9 +281,13 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
 	    
     }
     
+    /**
+     * Calculates the details of rectangular evaluation bars 
+     * 
+     */
     public void calculateFigures() {
     	
-    	//Store the icon locations
+    	//Store the icon locations (for the buttons)
     	iconLocations = new Point[colors.length];
     	
     	// calculate the evaluation bar
@@ -270,10 +297,10 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     	for (int i = 0; i < eltsEvalBar.length; i++) {
     		if (i == 0)
 	        	y = intElemsFlowPage[0].getBounds().y;
-        		//y = timepointsFlowPage[0].getBounds().y + timepointsTextFlow[0].getPreferredSize().height + LABEL_PADDING_Y;
-
+        		
 	        else 
 	        	y = intElemsFlowPage[i].getBounds().y;
+    		
 	    	for (int j = 0; j < eltsEvalBar[0].length; j++) {
 	    		eltsEvalBar[i][j] = new Rectangle();
 	    		eltsEvalBar[i][j].height = DEFAULT_BAR_HEIGHT;
@@ -283,22 +310,27 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
 			    else
 			    	eltsEvalBar[i][j].x = eltsEvalBar[i][j-1].x + DEFAULT_BAR_WIDTH;
 			        
-			    //evalBar[0][i].y = 30;
 			    eltsEvalBar[i][j].y = y;
 	    	}
 	    	iconLocations[i] = new Point();
 	    	iconLocations[i].y = y;
-	    	iconLocations[i].x = JUCMNavPlugin.getImage("icons/indicator.gif").getBounds().width + intElemsFlowPage[i].getBounds().x -15;
+	    	iconLocations[i].x = JUCMNavPlugin.getImage("icons/indicator.gif").getBounds().width + intElemsFlowPage[i].getBounds().x - 15;
 	    	
     	}
     }
-
-   public void setEvalBarText() {
+    
+    /**
+     * Adds textual parts of the heatmap
+     * 
+     */
+    public void setEvalBarText() {
         // draw text boxes
     	ArrayList<URNmodelElement> allElts = dynViewObject.getAllElements();
     	ArrayList<String> hierarchyInfo = dynViewObject.getHierarchyInfo();
     	int height = 0;
     	maxIntEltLength = 0;
+    	
+    	//Steps to move (towards right) as per the position in hierarchy
     	int moveToRight = 2;
     	for (int i = 0; i < colors.length; i++) {
     		if (i == 0) {
@@ -394,16 +426,21 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         return DEFAULT_TEXT_HEIGHT + 10;
     }
     
-    
+    /**
+     * Calculates and displays the charts corresponding to element i in the heatmap
+     * 
+     */
     public void calculateChart(int i) {
     	ArrayList<URNmodelElement> allElts = dynViewObject.getAllElements();
     	
+    	//Plot system evaluation in case selected button corresponds to "System"
     	if (i == 0) {
     		drawSystemEvaluation();
     	} else {
     	
 	    	//Draw chart for evaluation and importance of element i
 	    	drawChartEvalImp(allElts.get(i), i);
+	    	
 	    	if (allElts.get(i) instanceof IntentionalElement) {
 	    		
 	    		IntentionalElement elt = (IntentionalElement) allElts.get(i);
@@ -537,6 +574,10 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
 
     }
     
+    /**
+     * Plot chart for evaluation due to different contribution links of URNmodelElement i
+     * 
+     */
     private void drawContribLinksChart(List<Contribution> contribLinks, double[][] values, IntentionalElement elt, int i, int graphNo, int totalCount) {
     	int count = 0;
     	Display display = Display.getDefault();
@@ -548,11 +589,18 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     	Chart chart = new Chart(shell, SWT.NONE);
     	
     	// set titles
-        chart.getTitle().setText("Evaluations by Contribution Links of \"" + elt.getName() + "\"(" + (graphNo + 1) + " out of " + totalCount +")");
+        chart.getTitle().setText("Evaluations by Contribution Links of \"" + elt.getName() + 
+        		"\"(" + (graphNo + 1) + " out of " + totalCount +")");
         chart.getAxisSet().getXAxis(0).getTitle().setText("Timepoints");
         chart.getAxisSet().getYAxis(0).getTitle().setText("Values");
+        
+        //List to store only the values at timepoints to show as symbols
         ArrayList<LineSeries> symSeries = new ArrayList<LineSeries>();
+        
+        //List to store the values in order to draw line graph
         ArrayList<LineSeries> series = new ArrayList<LineSeries>();
+        
+        //Draw line graphs and symbol plots (for timepoints crosses) corresponding to each contribution link
     	for (Iterator iter = contribLinks.iterator(); iter.hasNext();) {
     		Contribution link = (Contribution) iter.next();
     		
@@ -565,11 +613,9 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         chart.getAxisSet().getYAxis(0).setRange(range);
         Calendar cStart = Calendar.getInstance();
         cStart.setTime(dynViewObject.startRange());
-        //cStart.set(Calendar.YEAR, 1969);
         Calendar cEnd = Calendar.getInstance();
         cEnd.setTime(dynViewObject.endRange());
-        cEnd.add(Calendar.DAY_OF_MONTH, 1);
-        //cEnd.set(Calendar.YEAR, 1969);
+        cEnd.add(Calendar.DAY_OF_MONTH, granularity);
         Range xRange = new Range(cEnd.getTimeInMillis(),cStart.getTimeInMillis());
         chart.getAxisSet().getXAxis(0).setRange(xRange);
         IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
@@ -581,9 +627,12 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         
         chart.getAxisSet().getXAxis(0).adjustRange();
         shell.open();
-    	
     }
     
+    /**
+     * Plot chart for evaluation due to different dependency links of URNmodelElement i
+     * 
+     */
     private void drawDepLinksChart(List<Dependency> depLinks, double[][] values, IntentionalElement elt, int i, int graphNo, int totalCount) {
     	int count = 0;
     	Display display = Display.getDefault();
@@ -598,8 +647,14 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         chart.getTitle().setText("Evaluations by Dependency Links of \"" + elt.getName() + "\"(" + (graphNo + 1) + " out of " + totalCount +")");
         chart.getAxisSet().getXAxis(0).getTitle().setText("Timepoints");
         chart.getAxisSet().getYAxis(0).getTitle().setText("Values");
+        
+        //List to store only the values at timepoints to show as symbols
         ArrayList<LineSeries> symSeries = new ArrayList<LineSeries>();
+        
+        //List to store the values in order to draw line graph
         ArrayList<LineSeries> series = new ArrayList<LineSeries>();
+        
+        //Draw line graphs and symbol plots (for timepoints crosses) corresponding to each dependency link
     	for (Iterator iter = depLinks.iterator(); iter.hasNext();) {
     		Dependency link = (Dependency) iter.next();
     		
@@ -612,11 +667,9 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         chart.getAxisSet().getYAxis(0).setRange(range);
         Calendar cStart = Calendar.getInstance();
         cStart.setTime(dynViewObject.startRange());
-        //cStart.set(Calendar.YEAR, 1969);
         Calendar cEnd = Calendar.getInstance();
         cEnd.setTime(dynViewObject.endRange());
-        cEnd.add(Calendar.DAY_OF_MONTH, 1);
-        //cEnd.set(Calendar.YEAR, 1969);
+        cEnd.add(Calendar.DAY_OF_MONTH, granularity);
         Range xRange = new Range(cEnd.getTimeInMillis(),cStart.getTimeInMillis());
         chart.getAxisSet().getXAxis(0).setRange(xRange);
         IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
@@ -631,6 +684,10 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     	
     }
     
+    /**
+     * Plot chart for evaluation due to different decomposition links of URNmodelElement i
+     * 
+     */
     private void drawDecompLinksChart(List<Decomposition> decompLinks, double[][] values, IntentionalElement elt, int i, int graphNo, int totalCount) {
     	int count = 0;
     	Display display = Display.getDefault();
@@ -645,26 +702,33 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         chart.getTitle().setText("Evaluations by Decomposition Links of \"" + elt.getName() + "\"(" + (graphNo + 1) + " out of " + totalCount +")");
         chart.getAxisSet().getXAxis(0).getTitle().setText("Timepoints");
         chart.getAxisSet().getYAxis(0).getTitle().setText("Values");
+        
+        //List to store only the values at timepoints to show as symbols
         ArrayList<LineSeries> symSeries = new ArrayList<LineSeries>();
+        
+        //List to store the values in order to draw line graph
         ArrayList<LineSeries> series = new ArrayList<LineSeries>();
+        
+        //Draw line graphs and symbol plots (for timepoints crosses) corresponding to each decomposition link
     	for (Iterator iter = decompLinks.iterator(); iter.hasNext();) {
     		Decomposition link = (Decomposition) iter.next();
     		
     		drawChartLink(chart, values, count, link, symSeries, series);
             count+= 1;
     	}
+    	
+    	//Get overall evaluation due to decomposition links and plot that on the same chart
     	double[][] overallDecomp = dynViewObject.getOverallDecompValues();
-    	drawChartLink1(chart, overallDecomp, i);
+    	drawChartLinkOverall(chart, overallDecomp, i);
+    	
     	// adjust the axis range
         Range range = new Range(-110, 110);
         chart.getAxisSet().getYAxis(0).setRange(range);
         Calendar cStart = Calendar.getInstance();
         cStart.setTime(dynViewObject.startRange());
-        //cStart.set(Calendar.YEAR, 1969);
         Calendar cEnd = Calendar.getInstance();
         cEnd.setTime(dynViewObject.endRange());
-        cEnd.add(Calendar.DAY_OF_MONTH, 1);
-        //cEnd.set(Calendar.YEAR, 1969);
+        cEnd.add(Calendar.DAY_OF_MONTH, granularity);
         Range xRange = new Range(cEnd.getTimeInMillis(),cStart.getTimeInMillis());
         chart.getAxisSet().getXAxis(0).setRange(xRange);
         IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
@@ -678,7 +742,12 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         shell.open();
     	
     }
-    private void drawChartLink1(Chart chart, double[][] evalLevels, int i) {
+    
+    /**
+     * Plot graph for overall evaluation due to decomposition links
+     * 
+     */
+    private void drawChartLinkOverall(Chart chart, double[][] evalLevels, int i) {
     	
     	/*Create line graphs only for the parts that aren't deactivated as well as collect only those values which are at timepoints*/
         //Lists to store only the values at timepoints to show as symbols
@@ -686,9 +755,12 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         List<Double> updYSeries = new ArrayList<Double>();
         List<Color> symbolColors = new ArrayList<Color>();
         String[] tpNames = dynViewObject.getTimepointNames();
+        
+        //Lists to store the values in order to draw line graphs
         List<Double> xLineSeries = new ArrayList<Double>();
         List<Double> yLineSeries = new ArrayList<Double>();
         int legendCount = 0;
+        
         for (int j = 0; j < evalLevels[i].length; j++) {
         	
         	//collect only those values which are at timepoints in order to plot as a scatter graph
@@ -696,32 +768,48 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         		updXSeries.add((double) j);
         		updYSeries.add(evalLevels[i][j]); 
         		
+        		//If deactivated, then Dark Gray else color corresponding to the graph of overall evaluation 
+        		//due to decomposition links for the symbols (crosses to indicate timepoints)
         		if(colors[i][j].equals(new Color(null, StringConverter.asRGB("169,169,169")))) {
             		symbolColors.add(ColorManager.DARKGRAY);
             	} else
             		symbolColors.add(linkColors[10]);
         	}
+        	
         	//if element is deactivated don't draw the graph, else do.
         	if(colors[i][j].equals(new Color(null, StringConverter.asRGB("169,169,169")))) {
+        		
+        		//If the values of prior activated portion exist
         		if (xLineSeries.size() != 0) {
+        			
+        			//Copy the collected values in the list to double arrays in order to draw line graph
         			double[] xLineSeries1 = new double[xLineSeries.size()];
         	        double[] yLineSeries1 = new double[yLineSeries.size()];
         	        for (int k = 0; k < xLineSeries.size(); k++) {
         	        	xLineSeries1[k] = ((Double) (xLineSeries.get(k))).doubleValue();
         	        	yLineSeries1[k] = ((Double) (yLineSeries.get(k))).doubleValue();
         	        }
+        	        
+        	        //Create the line chart until this deactivated part is discovered
         	        createLineGraph(chart, xLineSeries1, yLineSeries1, null, legendCount);
         	        legendCount += 1;
+        	        
+        	        //Clear the lists
         	        xLineSeries.clear();
         	        yLineSeries.clear();
         		}
         		
         	} else {
+        		
+        		//Keep on adding the values to draw the line graph
         		xLineSeries.add((double) j);
 	        	yLineSeries.add(evalLevels[i][j]); 
         	}
         	
+        	//If it is the last value, draw the line graph
         	if (j == evalLevels[i].length-1 && xLineSeries.size() != 0) {
+        		
+        		//Copy the collected values in the list to double arrays in order to draw line graph
         		double[] xLineSeries1 = new double[xLineSeries.size()];
     	        double[] yLineSeries1 = new double[yLineSeries.size()];
     	        for (int k = 0; k < xLineSeries.size(); k++) {
@@ -729,6 +817,7 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     	        	yLineSeries1[k] = ((Double) (yLineSeries.get(k))).doubleValue();
     	        }
     	        
+    	        //Create the line chart of the remaining values
     	        createLineGraph(chart, xLineSeries1, yLineSeries1, null, legendCount);
     	        
     	        xLineSeries.clear();
@@ -736,6 +825,9 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         	}
         	
         }
+        
+        //Copy the collected values in the list to double arrays in order to draw scatter plot 
+        //of symbols (crosses) at timepoints.
         double[] xSeries1 = new double[updXSeries.size()];
         double[] ySeries1 = new double[updYSeries.size()];
         Color[] symColors = new Color[symbolColors.size()];
@@ -745,14 +837,22 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         	symColors[j] = (Color) symbolColors.get(j);
         }
         
+        // Get the dates for x-axis to plot the symbols
         Date start = dynViewObject.startRange();
+        Date end = dynViewObject.endRange();
         Calendar cStart = Calendar.getInstance();
         cStart.setTime(start);
         Date[] series = new Date[xSeries1.length];
         for (int j = 0; j < xSeries1.length; j++) {
-        	cStart.add(Calendar.DAY_OF_MONTH, (int) xSeries1[j]);
-        	series[j] = cStart.getTime();
-        	cStart.setTime(start);
+        	
+        	//Last date should always correspond to last timepoint
+        	if (j == xSeries1.length - 1) {
+        		series[j] = end;
+        	} else {
+	        	cStart.add(Calendar.DAY_OF_MONTH, ((int) xSeries1[j]) * granularity);
+	        	series[j] = cStart.getTime();
+	        	cStart.setTime(start);
+        	}
         }
         
         //Plot symbols at timepoints for Evaluation
@@ -761,7 +861,6 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         symSeries1.setVisibleInLegend(false);
         symSeries1.setXDateSeries(series);
         
-        //symSeries1.setXSeries(xSeries1);
         symSeries1.setYSeries(ySeries1);
         symSeries1.setLineStyle(LineStyle.NONE);
         symSeries1.setSymbolType(PlotSymbolType.CROSS);
@@ -770,13 +869,20 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         symSeries1.setXAxisId(0);
     }
     
+    /**
+     * Plot graphs corresponding to different types of links
+     * 
+     */
     private void drawChartLink(Chart chart, double[][] values, int count, ElementLink link, ArrayList<LineSeries> symSeries, ArrayList<LineSeries> series) {
+    	
     	/*Create line graphs only for the parts that aren't deactivated as well as collect only those values which are at timepoints*/
         //Lists to store only the values at timepoints to show as symbols
         List<Double> updXSeries = new ArrayList<Double>();
         List<Double> updYSeries = new ArrayList<Double>();
         List<Color> symbolColors = new ArrayList<Color>();
         String[] tpNames = dynViewObject.getTimepointNames();
+        
+        //Lists to store the values in order to draw line graphs
         List<Double> xLineSeries = new ArrayList<Double>();
         List<Double> yLineSeries = new ArrayList<Double>();
         int legendCount = 0;
@@ -788,6 +894,8 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         		updXSeries.add((double) j);
         		updYSeries.add(values[count][j]);
         		
+        		//If deactivated, then Dark Gray else color corresponding to count 
+        		//for the symbols (crosses to indicate timepoints)
         		if (values[count][j] == -120) {
             		symbolColors.add(ColorManager.DARKGRAY);
             	} else {
@@ -798,32 +906,47 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
             	}
             		
         	}
+        	
         	//if element is deactivated don't draw the graph, else do.
         	if (values[count][j] == -120) {
+        		
+        		//If the values of prior activated portion exist
         		if (xLineSeries.size() != 0) {
+        			
+        			//Copy the collected values in the list to double arrays in order to draw line graph
         			double[] xLineSeries1 = new double[xLineSeries.size()];
         	        double[] yLineSeries1 = new double[yLineSeries.size()];
         	        for (int k = 0; k < xLineSeries.size(); k++) {
         	        	xLineSeries1[k] = ((Double) (xLineSeries.get(k))).doubleValue();
         	        	yLineSeries1[k] = ((Double) (yLineSeries.get(k))).doubleValue();
         	        }
+        	        
+        	        //Get the color for the line graph
         	        Color linkColor = null;
         	        if (link!= null)
         	        	linkColor = linkColors[count];
             		else
             			linkColor = linkColors[10];
+        	        
+        	        //Create the line chart until this deactivated part is discovered
         	        createLineGraph(chart, xLineSeries1, yLineSeries1, legendCount, count, link, linkColor, series);
         	        legendCount += 1;
+        	        
+        	        //Clear the lists
         	        xLineSeries.clear();
         	        yLineSeries.clear();
         		}
         		
         	} else {
+        		//Keep on adding the values to draw the line graph
         		xLineSeries.add((double) j);
 	        	yLineSeries.add(values[count][j]); 
         	}
         	
+        	//If it is the last value, draw the line graph
         	if (j == values[count].length-1 && xLineSeries.size() != 0) {
+        		
+        		//Copy the collected values in the list to double arrays in order to draw line graph
         		double[] xLineSeries1 = new double[xLineSeries.size()];
     	        double[] yLineSeries1 = new double[yLineSeries.size()];
     	        for (int k = 0; k < xLineSeries.size(); k++) {
@@ -835,6 +958,8 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     	        	linkColor = linkColors[count];
         		else
         			linkColor = linkColors[10];
+    	        
+    	        //Create the line chart of the remaining values
     	        createLineGraph(chart, xLineSeries1, yLineSeries1, legendCount, count, link, linkColor, series);
     	        
     	        xLineSeries.clear();
@@ -842,6 +967,9 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         	}
         	
         }
+        
+        //Copy the collected values in the list to double arrays in order to draw scatter plot 
+        //of symbols (crosses) at timepoints.
         double[] xSeries1 = new double[updXSeries.size()];
         double[] ySeries1 = new double[updYSeries.size()];
         Color[] symColors = new Color[symbolColors.size()];
@@ -854,16 +982,26 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         	symColors[j] = (Color) symbolColors.get(j);
         }
         
+        // Get the dates for x-axis to plot the symbols
         Date start = dynViewObject.startRange();
+        Date end = dynViewObject.endRange();
         Calendar cStart = Calendar.getInstance();
         cStart.setTime(start);
         Date[] dates = new Date[xSeries1.length];
         for (int j = 0; j < xSeries1.length; j++) {
-        	cStart.add(Calendar.DAY_OF_MONTH, (int) xSeries1[j]);
-        	dates[j] = cStart.getTime();
-        	cStart.setTime(start);
+        	
+        	//Last date should always correspond to last timepoint
+        	if (j == xSeries1.length - 1) {
+        		dates[j] = end;
+        	} else {
+	        	cStart.add(Calendar.DAY_OF_MONTH, ((int) xSeries1[j])*granularity);
+	        	dates[j] = cStart.getTime();
+	        	cStart.setTime(start);
+        	}
         }
         
+        //If the number of links do not match with the number of scatter plots created, add 
+        //the missing ones as null to equalize the count
         if (count > 0 && symSeries.size() < count) {
     		for (int k = 0; k < count+1-symSeries.size(); k++) {
     			symSeries.add(null);
@@ -885,6 +1023,10 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         symSeries.get(count).setXAxisId(0);
     }
     
+    /**
+     * Plot chart for evaluation and importance of URNmodelElement i
+     * 
+     */
     private void drawChartEvalImp(URNmodelElement elt, int i) {
     	double[][] evalLevels = dynViewObject.getEvaluationValues();
     	double[][] importValues = dynViewObject.getImportanceValues();
@@ -908,6 +1050,8 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         List<Double> updYSeriesImp = new ArrayList<Double>();
         List<Color> symbolColors = new ArrayList<Color>();
         String[] tpNames = dynViewObject.getTimepointNames();
+        
+        //Lists to store the values in order to draw line graphs
         List<Double> xLineSeries = new ArrayList<Double>();
         List<Double> yLineSeriesEval = new ArrayList<Double>();
         List<Double> yLineSeriesImp = new ArrayList<Double>();
@@ -920,14 +1064,20 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         		updYSeriesEval.add(evalLevels[i][j]); 
         		updYSeriesImp.add(importValues[i][j]);
         		
+        		//If deactivated, then Dark Gray else blue color for the symbols (crosses to indicate timepoints)
         		if(colors[i][j].equals(new Color(null, StringConverter.asRGB("169,169,169")))) {
             		symbolColors.add(ColorManager.DARKGRAY);
             	} else
             		symbolColors.add(ColorManager.BLUE);
         	}
+        	
         	//if element is deactivated don't draw the graph, else do.
         	if(colors[i][j].equals(new Color(null, StringConverter.asRGB("169,169,169")))) {
+        		
+        		//If the values of prior activated portion exist
         		if (xLineSeries.size() != 0) {
+        			
+        			//Copy the collected values in the list to double arrays in order to draw line graph
         			double[] xLineSeries1 = new double[xLineSeries.size()];
         	        double[] yLineSeries1 = new double[yLineSeriesEval.size()];
         	        double[] yLineSeries2 = new double[yLineSeriesImp.size()];
@@ -936,20 +1086,29 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         	        	yLineSeries1[k] = ((Double) (yLineSeriesEval.get(k))).doubleValue();
         	        	yLineSeries2[k] = ((Double) (yLineSeriesImp.get(k))).doubleValue();
         	        }
+        	        
+        	        //Create the line chart until this deactivated part is discovered
         	        createLineGraph(chart, xLineSeries1, yLineSeries1, yLineSeries2,legendCount);
         	        legendCount += 1;
+        	        
+        	        //Clear the lists 
         	        xLineSeries.clear();
         	        yLineSeriesEval.clear();
         	        yLineSeriesImp.clear();
         		}
         		
         	} else {
+        		
+        		//Keep on adding the values to draw the line graph
         		xLineSeries.add((double) j);
 	        	yLineSeriesEval.add(evalLevels[i][j]); 
 	        	yLineSeriesImp.add(importValues[i][j]);
         	}
         	
+        	//If it is the last value, draw the line graph
         	if (j == evalLevels[i].length-1 && xLineSeries.size() != 0) {
+        		
+        		//Copy the collected values in the list to double arrays in order to draw line graph
         		double[] xLineSeries1 = new double[xLineSeries.size()];
     	        double[] yLineSeries1 = new double[yLineSeriesEval.size()];
     	        double[] yLineSeries2 = new double[yLineSeriesImp.size()];
@@ -958,7 +1117,8 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     	        	yLineSeries1[k] = ((Double) (yLineSeriesEval.get(k))).doubleValue();
     	        	yLineSeries2[k] = ((Double) (yLineSeriesImp.get(k))).doubleValue();
     	        }
-    	        
+    	       
+    	        //Create the line chart of the remaining values
     	        createLineGraph(chart, xLineSeries1, yLineSeries1, yLineSeries2, legendCount);
     	        
     	        xLineSeries.clear();
@@ -967,6 +1127,9 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         	}
         	
         }
+        
+        //Copy the collected values in the list to double arrays in order to draw scatter plot 
+        //of symbols (crosses) at timepoints.
         double[] xSeries1 = new double[updXSeries.size()];
         double[] ySeries1 = new double[updYSeriesEval.size()];
         double[] ySeries2 = new double[updYSeriesImp.size()];
@@ -978,14 +1141,22 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         	symColors[j] = (Color) symbolColors.get(j);
         }
         
+        // Get the dates for x-axis to plot the symbols
         Date start = dynViewObject.startRange();
+        Date end = dynViewObject.endRange();
         Calendar cStart = Calendar.getInstance();
         cStart.setTime(start);
         Date[] series = new Date[xSeries1.length];
         for (int j = 0; j < xSeries1.length; j++) {
-        	cStart.add(Calendar.DAY_OF_MONTH, (int) xSeries1[j]);
-        	series[j] = cStart.getTime();
-        	cStart.setTime(start);
+        	
+        	//Last date should always correspond to last timepoint
+        	if (j == xSeries1.length - 1) {
+        		series[j] =end;
+        	} else {
+	        	cStart.add(Calendar.DAY_OF_MONTH, ((int) xSeries1[j])*granularity);
+	        	series[j] = cStart.getTime();
+	        	cStart.setTime(start);
+        	}
         }
         
         //Plot symbols at timepoints for Evaluation
@@ -994,7 +1165,6 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         symSeries1.setVisibleInLegend(false);
         symSeries1.setXDateSeries(series);
         
-        //symSeries1.setXSeries(xSeries1);
         symSeries1.setYSeries(ySeries1);
         symSeries1.setLineStyle(LineStyle.NONE);
         symSeries1.setSymbolType(PlotSymbolType.CROSS);
@@ -1011,6 +1181,8 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         symSeries2.setYSeries(ySeries2);
         symSeries2.setLineStyle(LineStyle.NONE);
         symSeries2.setSymbolType(PlotSymbolType.CROSS);
+        
+        //For importance, display the activated crosses in purple instead of blue
         for (int j = 0; j < symColors.length; j++) {
         	if (symColors[j].equals(ColorManager.BLUE)) {
         		symColors[j] = ColorManager.PURPLE;
@@ -1019,17 +1191,14 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         symSeries2.setSymbolColors(symColors);
         symSeries2.setLineWidth(2);
         symSeries2.setXAxisId(0);
-        //chart.setLocation(5, evalBar[evalBar.length - 1][0].getLocation().y + 20);
-        //chart.setSize(700, 700);
+        
         // adjust the axis range
         Range range = new Range(-110, 110);
         chart.getAxisSet().getYAxis(0).setRange(range);
         cStart.setTime(start);
-        //cStart.set(Calendar.YEAR, 1969);
         Calendar cEnd = Calendar.getInstance();
         cEnd.setTime(dynViewObject.endRange());
-        cEnd.add(Calendar.DAY_OF_MONTH, 1);
-        //cEnd.set(Calendar.YEAR, 1969);
+        cEnd.add(Calendar.DAY_OF_MONTH, granularity);
         Range xRange = new Range(cEnd.getTimeInMillis(),cStart.getTimeInMillis());
         chart.getAxisSet().getXAxis(0).setRange(xRange);
         IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
@@ -1043,6 +1212,10 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         shell.open();
     }
     
+    /**
+     * Chart to display System Evaluation
+     * 
+     */
     private void drawSystemEvaluation() {
     	double[][] evalLevels = dynViewObject.getEvaluationValues();
     	Display display = Display.getDefault();
@@ -1058,12 +1231,12 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         chart.getAxisSet().getXAxis(0).getTitle().setText("Timepoints");
         chart.getAxisSet().getYAxis(0).getTitle().setText("Values");
         
-        /*Create line graphs only for the parts that aren't deactivated as well as collect only those values which are at timepoints*/
+        /*Create line graphs only for the parts that aren't deactivated as well as collect only those values 
+         which are at timepoints*/
         //Lists to store only the values at timepoints to show as symbols
         List<Double> updXSeries = new ArrayList<Double>();
         List<Double> updYSeriesEval = new ArrayList<Double>();
         String[] tpNames = dynViewObject.getTimepointNames();
-        int legendCount = 0;
         for (int j = 0; j < evalLevels[0].length; j++) {
         	
         	//collect only those values which are at timepoints in order to plot as a scatter graph
@@ -1071,9 +1244,9 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         		updXSeries.add((double) j);
         		updYSeriesEval.add(evalLevels[0][j]);
         	}
-        	
-        	
         }
+        
+        //Put the collected values from the lists into double arrays to draw the line graph
         double[] xSeries1 = new double[updXSeries.size()];
         double[] ySeries1 = new double[updYSeriesEval.size()];
         for (int j = 0; j < updXSeries.size(); j++) {
@@ -1081,15 +1254,23 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         	ySeries1[j] = ((Double) (updYSeriesEval.get(j))).doubleValue();
         }
         
+        // Get the dates for x-axis to plot the line graph
         Date start = dynViewObject.startRange();
+        Date end = dynViewObject.endRange();
         Calendar cStart = Calendar.getInstance();
         cStart.setTime(start);
         Date[] series = new Date[tpNames.length];
         for (int i = 0; i < tpNames.length; i++) {
-        	if (i != 0) {
-        		cStart.add(Calendar.DAY_OF_MONTH, 1);
+        	
+        	//Last date should always correspond to last timepoint
+        	if (i == tpNames.length - 1) {
+        		series[i] = end;
+        	} else {
+	        	if (i != 0) {
+	        		cStart.add(Calendar.DAY_OF_MONTH, granularity);
+	        	} 
+	        	series[i] = cStart.getTime();
         	}
-        	series[i] = cStart.getTime();	
         }
         
         // create line series for Evaluation
@@ -1103,11 +1284,19 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         lineSeries2.setSymbolType(PlotSymbolType.NONE);
              
         cStart.setTime(start);
+        
+        // Get the dates for x-axis to plot symbols (crosses) at timepoints
         Date[] series1 = new Date[xSeries1.length];
         for (int j = 0; j < xSeries1.length; j++) {
-        	cStart.add(Calendar.DAY_OF_MONTH, (int) xSeries1[j]);
-        	series1[j] = cStart.getTime();
-        	cStart.setTime(start);
+        	
+        	//Last date should always correspond to last timepoint
+        	if (j == xSeries1.length - 1) {
+        		series1[j] = end;
+        	} else {
+	        	cStart.add(Calendar.DAY_OF_MONTH, ((int) xSeries1[j])*granularity);
+	        	series1[j] = cStart.getTime();
+	        	cStart.setTime(start);
+        	}
         }
         
         //Plot symbols at timepoints for Evaluation
@@ -1127,12 +1316,10 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         Range range = new Range(-110, 110);
         chart.getAxisSet().getYAxis(0).setRange(range);
         cStart.setTime(start);
-        //cStart.set(Calendar.YEAR, 1969);
         Calendar cEnd = Calendar.getInstance();
         cEnd.setTime(dynViewObject.endRange());
-        cEnd.add(Calendar.DAY_OF_MONTH, 1);
-        //cEnd.set(Calendar.YEAR, 1969);
-        Range xRange = new Range(cEnd.getTimeInMillis(),cStart.getTimeInMillis());
+        cEnd.add(Calendar.DAY_OF_MONTH, granularity);
+         Range xRange = new Range(cEnd.getTimeInMillis(),cStart.getTimeInMillis());
         chart.getAxisSet().getXAxis(0).setRange(xRange);
         IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
         DateFormat format = new SimpleDateFormat("dd/MM/yy");
@@ -1145,9 +1332,16 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         shell.open();
     }
     
+    /**
+     * Plot the line graph on the incoming chart according to the provided values (Evaluation and Importance)
+     * 
+     */
     private void createLineGraph(Chart chart, double[] xLineSeries1, double[] yLineSeries1, double[] yLineSeries2, int legendCount) {
     	
     	String st = null;
+    	
+    	//Parts of lines (because of deactivation are created as new lines. They all represent the same element,
+    	//but we need different names to create different lines and this variable will be used for that purpose.
     	if (legendCount == 0)
     		st = "";
     	else
@@ -1160,23 +1354,34 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     	} else {
     		// create line series for overall Evaluation due to decomposition links
     		lineSeries = (ILineSeries) chart.getSeriesSet()
-                    .createSeries(SeriesType.LINE, "Overall Eval" + st);
+                    .createSeries(SeriesType.LINE, "Overall Evaluation" + st);
     	}
+    	
+    	// Get the dates for x-axis
         Date start = dynViewObject.startRange();
+        Date end = dynViewObject.endRange();
         Calendar cStart = Calendar.getInstance();
         cStart.setTime(start);
-        cStart.add(Calendar.DAY_OF_MONTH, (int) xLineSeries1[0]); 
+        cStart.add(Calendar.DAY_OF_MONTH, ((int) xLineSeries1[0])*granularity); 
         
         Date[] series = new Date[xLineSeries1.length];
         for (int i = 0; i < xLineSeries1.length; i++) {
-        	if (i != 0) {
-        		cStart.add(Calendar.DAY_OF_MONTH, 1);
+        	
+        	//Last date should always correspond to last timepoint
+        	if (i == xLineSeries1.length - 1) {
+        		series[i] = end;
+        	} else {
+	        	if (i != 0) {
+	        		cStart.add(Calendar.DAY_OF_MONTH, granularity);
+	        	}
+	        	series[i] = cStart.getTime();	
         	}
-        	series[i] = cStart.getTime();	
         }
         lineSeries.setXDateSeries(series);
         
         lineSeries.setYSeries(yLineSeries1);
+        
+        //In case of overall evaluation due to decomposition link, draw a dashed line chart. Else, a solid one.
         if (yLineSeries2 == null) {
         	lineSeries.setLineStyle(LineStyle.DASH);
             lineSeries.setLineColor(linkColors[10]);
@@ -1189,30 +1394,44 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
         
         lineSeries.setSymbolType(PlotSymbolType.NONE);
         
+        //Should only appear in legend once for one element's importance, even if number of parts are more.
+        //Hence, switch off legend for all other parts except the first one
+        if (legendCount > 0) {
+        	lineSeries.setVisibleInLegend(false);
+        }
+        
+        //If data for importance line also received
         if (yLineSeries2 != null) {
 	        // create line series for Importance
 	        ILineSeries lineSeries2 = (ILineSeries) chart.getSeriesSet()
 	                .createSeries(SeriesType.LINE, "Importance" + st);
 	        lineSeries2.setXDateSeries(series);
-	        //lineSeries2.setXSeries(xLineSeries1);
 	        lineSeries2.setYSeries(yLineSeries2);
 	        lineSeries2.setLineStyle(LineStyle.DASH);
 	        lineSeries2.setLineColor(ColorManager.PURPLE);
 	        lineSeries2.setLineWidth(2);
 	        lineSeries2.setSymbolType(PlotSymbolType.NONE);
+	        
+	        //Should only appear in legend once for one element's importance, even if number of parts are more.
+	        //Hence, switch off legend for all other parts except the first one
 	        if (legendCount > 0) {
 	        	lineSeries2.setVisibleInLegend(false);
 	        }
         }
-        if (legendCount > 0) {
-        	lineSeries.setVisibleInLegend(false);
-        }
+        
         chart.getAxisSet().getXAxis(0).adjustRange();
     }
-    
-  private void createLineGraph(Chart chart, double[] xLineSeries1, double[] yLineSeries1, int legendCount, int count, ElementLink link, Color color, ArrayList<LineSeries> series) {
+  
+    /**
+     * Plot the line graph on the incoming chart according to the provided values (Evaluation due to individual links)
+     * 
+     */
+    private void createLineGraph(Chart chart, double[] xLineSeries1, double[] yLineSeries1, int legendCount, int count, ElementLink link, Color color, ArrayList<LineSeries> series) {
     	
     	String st = null;
+    	
+    	//Parts of lines (because of deactivation are created as new lines. They all represent the same element,
+    	//but we need different names to create different lines and this variable will be used for that purpose.
     	if (legendCount == 0)
     		st = "";
     	else
@@ -1222,36 +1441,50 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     			series.add(null);
     		}
     	}
-    	if (link != null)
-    		series.add(count,(LineSeries) chart.getSeriesSet()
-                .createSeries(SeriesType.LINE, link.getName() + " " + st));
-    	else
-    		series.add(count,(LineSeries) chart.getSeriesSet()
-                    .createSeries(SeriesType.LINE, "Overall" + " " + st));
-    	// create line series for Evaluation
+    	
+    	//The name in the legend should be the link's source name with its id
+    	String linkSrcRefNum = link.getSrc().getId();
+    	String srcName = link.getSrc().getName() + "(" + linkSrcRefNum + ")";
+    	
+    	//If the name is too long, only show first 16 characters
+    	if (srcName.length() > 20) 
+    		srcName = srcName.substring(0, 16) + ".." + "(" + linkSrcRefNum + ")";
+    	
+    	// create line series for Evaluation due to links
+    	series.add(count,(LineSeries) chart.getSeriesSet()
+                .createSeries(SeriesType.LINE, srcName + " " + st));
+    	
+    	// Get the dates for x-axis
         Date start = dynViewObject.startRange();
+        Date end = dynViewObject.endRange();
         Calendar cStart = Calendar.getInstance();
         cStart.setTime(start);
-        cStart.add(Calendar.DAY_OF_MONTH, (int) xLineSeries1[0]); 
+        cStart.add(Calendar.DAY_OF_MONTH, ((int) xLineSeries1[0])*granularity); 
         
         Date[] dates = new Date[xLineSeries1.length];
         for (int i = 0; i < xLineSeries1.length; i++) {
-        	if (i != 0) {
-        		cStart.add(Calendar.DAY_OF_MONTH, 1);
+        	
+        	//Last date should always correspond to last timepoint
+        	if (i == xLineSeries1.length - 1) {
+        		dates[i] = end;
+        	} else {
+	        	if (i != 0) {
+	        		cStart.add(Calendar.DAY_OF_MONTH, granularity);
+	        	}
+	        	dates[i] = cStart.getTime();	
         	}
-        	dates[i] = cStart.getTime();	
         }
         series.get(count).setXDateSeries(dates);
         series.get(count).setYSeries(yLineSeries1);
-        if (link != null) {
-        	series.get(count).setLineStyle(LineStyle.SOLID);
-        	series.get(count).setLineWidth(2);
-        } else {
-        	series.get(count).setLineStyle(LineStyle.DASH);
-        	series.get(count).setLineWidth(3);
-        }
+        
+        series.get(count).setLineStyle(LineStyle.SOLID);
+        series.get(count).setLineWidth(2);
+        
         series.get(count).setLineColor(color);
         series.get(count).setSymbolType(PlotSymbolType.NONE);
+        
+        //Should only appear in legend once for one element's importance, even if number of parts are more.
+        //Hence, switch off legend for all other parts except the first one
         if (legendCount > 0) {
         	series.get(count).setVisibleInLegend(false);
         }

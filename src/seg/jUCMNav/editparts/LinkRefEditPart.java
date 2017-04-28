@@ -20,6 +20,7 @@ import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionEndpointLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -30,6 +31,8 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
 import seg.jUCMNav.editpolicies.element.LinkRefBendpointEditPolicy;
 import seg.jUCMNav.editpolicies.element.LinkRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
@@ -39,6 +42,7 @@ import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
 import urncore.Metadata;
@@ -57,7 +61,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
     protected IPropertySource propertySource = null;
 
     private Image img;
-    private Label decompLabel, contributionLabel, stereotypeLabel;
+    private Label decompLabel, contributionLabel, stereotypeLabel, changeLabel;
 
     /**
      * The Edit Part for LinkRefs
@@ -182,6 +186,16 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
         stereotypeLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         connection.add(stereotypeLabel, stereotypece);
         stereotypeLabel.setVisible(false);
+        
+        // Create the change label
+        ConnectionEndpointLocator depce = new ConnectionEndpointLocator(connection, false);
+        depce.setUDistance(25);
+        depce.setVDistance(0);
+
+        changeLabel = new Label();
+        changeLabel.setForegroundColor(ColorManager.LINKREFLABEL);
+        connection.add(changeLabel, depce);
+        changeLabel.setVisible(false);
 
         return connection;
     }
@@ -291,6 +305,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
         decompLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         contributionLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         stereotypeLabel.setForegroundColor(ColorManager.LINKREFLABEL);
+        changeLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         getLinkRefFigure().setForegroundColor(ColorManager.LINE);
         
         int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
@@ -306,7 +321,9 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
             if (decompLabel.getText() != elem.getDecompositionType().getName()) {
                 decompLabel.setText(elem.getDecompositionType().getName());
                 decompLabel.setVisible(true);
+                
             }
+           
         } else if (getLinkRef().getLink() instanceof Contribution) {
             Contribution contrib = (Contribution) getLinkRef().getLink();
             if (contrib.isCorrelation()) {
@@ -333,6 +350,21 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
             // Dependency depend = (Dependency)getLinkRef().getLink();
             getLinkRefFigure().setType(LinkRefConnection.TYPE_DEPENDENCY);
         }
+        
+        //If TimedGRL algorithm selected and design view is active, then add change label if required
+        if (StrategyEvaluationPreferences.getAlgorithm().equals(StrategyEvaluationPreferences.TIMED_GRL_ALGORITHM + "") && 
+        		getRoot()!= null && !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
+        	
+        	//Add change label if link is of suitable type and at least one change exists for the link
+        	if ((getLinkRef().getLink() instanceof Decomposition || getLinkRef().getLink() instanceof Contribution || 
+        			getLinkRef().getLink() instanceof Dependency) && DynamicContextsUtils.changeExistsFor(getLinkRef().getLink(), getLinkRef().getLink().getGrlspec().getUrnspec())) {
+        		changeLabel.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
+            	changeLabel.setText("");
+            	changeLabel.setVisible(true);
+        	} else 
+            	changeLabel.setVisible(false);
+        } else 
+        	changeLabel.setVisible(false);
         
         // Check if link should be grayed out in strategy view
         if( getRoot()!=null && ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView() ) {

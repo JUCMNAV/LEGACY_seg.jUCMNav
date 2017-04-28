@@ -11,11 +11,14 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
 import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveActorCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
 import seg.jUCMNav.views.preferences.DeletePreferences;
 import urn.URNlink;
+import urn.dyncontext.Change;
+import urn.dyncontext.DynamicContext;
 
 /**
  * Delete an actor definition.
@@ -63,6 +66,21 @@ public class DeleteActorCommand extends CompoundCommand {
         build();
         super.execute();
     }
+    
+    /**
+     * Deletes all the changes associated with the selected Actor
+     */
+    private void deleteChanges() {
+    	for (Iterator it = (actor.getGrlspec().getUrnspec().getDynamicContexts().iterator()); it.hasNext();) {
+            DynamicContext dyn = (DynamicContext) it.next();
+            
+            //Delete Actor Changes
+            for (Iterator itEval = DynamicContextsUtils.getAllAvailableChanges(actor, dyn, actor.getGrlspec().getUrnspec()).iterator(); itEval.hasNext();) {
+                Change change = (Change) itEval.next();
+                add(new DeleteChangeCommand(change));                
+            }
+        }
+    }
 
     /**
      * Build the compound command.
@@ -87,6 +105,10 @@ public class DeleteActorCommand extends CompoundCommand {
                 URNlink link = (URNlink) it.next();
                 add(new DeleteURNlinkCommand(link));
             }
+            
+            //Remove the changes
+            deleteChanges();
+            
             add(new RemoveActorCommand(actor));
         }
     }

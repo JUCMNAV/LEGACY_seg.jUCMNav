@@ -2161,7 +2161,7 @@ public class EvaluationStrategyManager {
     	if (changes.size() != 0) {
 	    	for (Iterator j = changes.iterator(); j.hasNext();){ 
 	    		Change change = (Change) j.next();
-	    		if (change.getElement() instanceof ActorRef)
+	    		if (change.getElement() instanceof Actor)
 	    			actorChanges.add(change);
 	    		else if (change.getElement() instanceof IntentionalElement)
 	    			intEltsChanges.add(change);
@@ -2218,40 +2218,40 @@ public class EvaluationStrategyManager {
 	    		}
 	    		
 	    	} else if (tp.getTimepoint().equals(change.getEnd())) {
-	    		boolean consecutiveChangeExists = false;
-	    		Change consecutiveChange = null;
-	    		//Check if there is a consecutive change (The change directly following takes preference)
-	    		for (Iterator j2 = dynContext.getChanges().iterator(); j2.hasNext();){
-	        		Change change1 = (Change) j2.next();
-	        		if (change1.getStart().equals(change.getEnd()) && change1.getElement() == change.getElement()) {
-	        			consecutiveChangeExists = true;
-	        			consecutiveChange = change1;
-	        			break;
-	        		}	        		
-	    		}
 	    		String affectedProp = change.getElement().toString();
 	    		
+	    		//If change is a DeactivationChange, the consecutive change can only be 
+	    		//another DeactivationChange
 	    		if (change instanceof DeactivationChange) {
 	    			affectedProp = affectedProp + ".deactivate";
 	    		} else if (change instanceof PropertyChange) {
+	    			boolean consecutiveChangeExists = false;
+		    		Change consecutiveChange = null;
+		    		
+		    		//Check if there is a consecutive change (The change directly following takes preference)
+		    		for (Iterator j2 = dynContext.getChanges().iterator(); j2.hasNext();){
+		        		Change change1 = (Change) j2.next();
+		        		if (change1.getStart().equals(change.getEnd()) && change1.getElement() == change.getElement() && 
+		        				change1 instanceof PropertyChange) {
+		        			consecutiveChangeExists = true;
+		        			consecutiveChange = change1;
+		        			break;
+		        		}	        		
+		    		}
 	    			PropertyChange propChange = (PropertyChange) change;
-	    			if (consecutiveChangeExists && consecutiveChange instanceof PropertyChange && 
+	    			
+	    			//No need to add the change if a consecutive change exists for the same element property
+	    			if (consecutiveChangeExists && 
 	    					((PropertyChange) consecutiveChange).getAffectedProperty().equals(propChange.getAffectedProperty())) {
-	    				if (!(consecutiveChange instanceof LinearChange))
-	    					continue;
-	    				else {
-	    					//In case of linear changes, we need the previous change
-	    					affectedProp = affectedProp + propChange.getAffectedProperty() + "1";
-	    				}
+	    				continue;
+	    				
 	    			} else
 		    			affectedProp = affectedProp + propChange.getAffectedProperty();
 	    		}
-	    		if (affected == null || !affected.contains(affectedProp)) {
+	    		if (!affected.contains(affectedProp)) {
 	    			changes.add(change);
 	    			affected.add(affectedProp);
 	    		}
-
-	    		
 	    	}
     	}
     	
@@ -2269,9 +2269,7 @@ public class EvaluationStrategyManager {
      */
     private GRLspec applyChange(GRLspec grl, Change change, Timepoint tp) {
     	if (change instanceof DeactivationChange){
-    		if (change.getElement() instanceof ActorRef)
-    			MetadataHelper.addMetaData(grl.getUrnspec(), (Actor) ((ActorRef) change.getElement()).getContDef(), METADATA_DEACTSTATUS, "true");
-    		else if (change.getElement() instanceof GRLmodelElement)
+    		if (change.getElement() instanceof GRLmodelElement)
     			MetadataHelper.addMetaData(grl.getUrnspec(), change.getElement(), METADATA_DEACTSTATUS, "true");
     		
     	} else if (change instanceof PropertyChange) {
@@ -2341,6 +2339,7 @@ public class EvaluationStrategyManager {
 		    		else if (newVal > 100)
 		    			newVal = 100;
 		    		eval.setEvaluation(newVal);
+		    		eval.setIntElement(element);
 		    	} 
 	    	} else if (change.getElement() instanceof Contribution) {
 	    		Contribution link = (Contribution) change.getElement();
@@ -2431,6 +2430,7 @@ public class EvaluationStrategyManager {
 	    		else if (valueAtTp > 100)
 	    			valueAtTp = 100;
             	eval.setEvaluation(Math.round(valueAtTp));
+            	eval.setIntElement(element);
 
     		}
     	} else if (linChange.getElement() instanceof Contribution) {
@@ -2500,8 +2500,10 @@ public class EvaluationStrategyManager {
     		} else if (change.getElement() instanceof IntentionalElement) {
     			if (affProperty.equals("Quantitative Importance"))
     				startValue = (float) ((IntentionalElement) change.getElement()).getImportanceQuantitative();
-    			else if (affProperty.equals("Element's Evaluation"))
-    				startValue = 0;
+    			else if (affProperty.equals("Element's Evaluation")) {
+    				Evaluation eval = (Evaluation) evaluations.get(change.getElement());
+    				startValue = eval.getEvaluation();
+    			}
     		}  
     	}
     	return startValue;
