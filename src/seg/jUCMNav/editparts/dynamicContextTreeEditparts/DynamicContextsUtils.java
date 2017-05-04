@@ -17,8 +17,12 @@ import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
 import seg.jUCMNav.editparts.ActorRefEditPart;
+import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
+import seg.jUCMNav.editparts.RespRefEditPart;
+import ucm.map.ComponentRef;
+import ucm.map.RespRef;
 import ucm.scenario.ScenarioDef;
 import urn.URNspec;
 import urn.dyncontext.Change;
@@ -36,6 +40,8 @@ import urn.dyncontext.impl.EnumChangeImpl;
 import urn.dyncontext.impl.FormulaChangeImpl;
 import urn.dyncontext.impl.LinearChangeImpl;
 import urn.dyncontext.impl.QuadraticChangeImpl;
+import urncore.Component;
+import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 /**
@@ -252,6 +258,14 @@ public class DynamicContextsUtils {
 	    		elt = (Actor) ((ActorRef)((ActorRefEditPart) parent).getModel()).getContDef();
 	    	else if (parent instanceof Actor)
 	    		elt = (Actor) parent;
+            else if (parent instanceof RespRefEditPart)
+    	    	elt = ((RespRef)((RespRefEditPart) parent).getModel()).getRespDef();
+    	    else if (parent instanceof Responsibility)
+    	    	elt = (Responsibility) parent;
+    	    else if (parent instanceof ComponentRefEditPart)
+    	    	elt = (Component)((ComponentRef)((ComponentRefEditPart) parent).getModel()).getContDef();
+    	    else if (parent instanceof Component)
+    	    	elt = (Component) parent;
 	    	for (Iterator iter = allChanges.iterator(); iter.hasNext();) {
 	    		Change change = null;
 	    		Object nextIter = iter.next();

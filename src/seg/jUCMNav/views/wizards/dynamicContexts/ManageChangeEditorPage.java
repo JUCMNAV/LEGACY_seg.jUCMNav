@@ -63,7 +63,6 @@ import org.eclipse.ui.PlatformUI;
 import org.mariuszgromada.math.mxparser.*;
 
 import grl.Actor;
-import grl.ActorRef;
 import grl.Contribution;
 import grl.Decomposition;
 import grl.Dependency;
@@ -75,8 +74,10 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.ActorRefEditPart;
+import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
+import seg.jUCMNav.editparts.RespRefEditPart;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.ChangeTreeEditPart;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
 import seg.jUCMNav.figures.ColorManager;
@@ -101,6 +102,8 @@ import urn.dyncontext.FormulaChange;
 import urn.dyncontext.LinearChange;
 import urn.dyncontext.PropertyChange;
 import urn.dyncontext.QuadraticChange;
+import urncore.Component;
+import urncore.Responsibility;
 
 /**
  * The ManageChangeEditorPage contains the UI code for managing changes.
@@ -1088,6 +1091,12 @@ public class ManageChangeEditorPage extends WizardPage {
     		possibleAffProps[0] = "Selected Actor";
     		possibleAffProps[1] = "Count";
     		possibleAffProps[2] = "Quantitative Importance";
+    	} else if(this.parent instanceof RespRefEditPart || this.parent instanceof Responsibility) {
+    		possibleAffProps = new String[1];
+     		possibleAffProps[0] = "Selected Element";
+     	} else if(this.parent instanceof ComponentRefEditPart || this.parent instanceof Component) {
+      		possibleAffProps = new String[1];
+     		possibleAffProps[0] = "Selected Element";
     	} else if (this.parent instanceof IntentionalElementEditPart || this.parent instanceof IntentionalElement){
     		if (activateDecomp) {
 	    		possibleAffProps = new String[4];
@@ -1324,7 +1333,8 @@ public class ManageChangeEditorPage extends WizardPage {
                 return;
             Object obj = ssel.getFirstElement();
             if ((obj instanceof LinkRefEditPart) || (obj instanceof IntentionalElementEditPart) ||
-            		(obj instanceof ActorRefEditPart)) {
+            		(obj instanceof ActorRefEditPart) || (obj instanceof RespRefEditPart) 
+            		|| (obj instanceof ComponentRefEditPart)) {
                 parent = obj;
                 
             } else if (obj instanceof ChangeTreeEditPart) {

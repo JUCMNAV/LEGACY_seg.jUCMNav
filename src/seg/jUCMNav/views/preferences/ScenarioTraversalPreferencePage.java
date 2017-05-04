@@ -51,6 +51,10 @@ public class ScenarioTraversalPreferencePage extends FieldEditorPreferencePage i
                 .getString("ScenarioTraversalPreferencePage.IsDeterministic"), getFieldEditorParent()); //$NON-NLS-1$
         addField(deterministic);
 
+        BooleanFieldEditor timedUcmEnabled = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISTIMEDUCMENABLED, Messages
+                .getString("ScenarioTraversalPreferencePage.IsTimedUcmEnabled"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(timedUcmEnabled);
+
     }
 
     public void init(IWorkbench workbench) {

@@ -15,11 +15,13 @@ public class ScenarioTraversalPreferences {
     public final static int DEFAULT_MAXHITCOUNT = 1000;
     public final static boolean DEFAULT_ISPATIENTONPRECONDITIONS = true;
     public final static boolean DEFAULT_DETERMINISTIC = true;
+    public final static boolean DEFAULT_ISTIMEDUCMENABLED = false;
     public final static boolean DEFAULT_INTEGRATESTRATEGYVARIABLES = false;
 
     public final static String PREF_MAXHITCOUNT = "seg.jUCMNav.ScenarioTraversal.MaxHitCount"; //$NON-NLS-1$
     public final static String PREF_ISPATIENTONPRECONDITIONS = "seg.jUCMNav.ScenarioTraversal.IsPatientOnPreconditions"; //$NON-NLS-1$
     public final static String PREF_ISDETERMINISTIC = "seg.jUCMNav.ScenarioTraversal.Deterministic"; // $NON-NLS-1$ //$NON-NLS-1$
+    public final static String PREF_ISTIMEDUCMENABLED = "seg.jUCMNav.ScenarioTraversal.TimedUCMEnabled"; // $NON-NLS-1$ //$NON-NLS-1$
     public final static String PREF_INTEGRATESTRATEGYVARIABLES = "seg.jUCMNav.ScenarioExport.IntegrateStrategyVariables"; // $NON-NLS-1$ //$NON-NLS-1$
 
     /**
@@ -38,6 +40,7 @@ public class ScenarioTraversalPreferences {
         getPreferenceStore().setDefault(ScenarioTraversalPreferences.PREF_ISPATIENTONPRECONDITIONS,
                 ScenarioTraversalPreferences.DEFAULT_ISPATIENTONPRECONDITIONS);
         getPreferenceStore().setDefault(ScenarioTraversalPreferences.PREF_ISDETERMINISTIC, ScenarioTraversalPreferences.DEFAULT_DETERMINISTIC);
+        getPreferenceStore().setToDefault(ScenarioTraversalPreferences.PREF_ISTIMEDUCMENABLED);
         getPreferenceStore().setDefault(ScenarioTraversalPreferences.PREF_INTEGRATESTRATEGYVARIABLES,
                 ScenarioTraversalPreferences.DEFAULT_INTEGRATESTRATEGYVARIABLES);
     }
@@ -64,6 +67,14 @@ public class ScenarioTraversalPreferences {
      */
     public static boolean getIsDeterministic() {
         return getPreferenceStore().getBoolean(PREF_ISDETERMINISTIC);
+    }
+
+    /**
+     * 
+     * @return is the algorithm enable
+     */
+    public static boolean getIsTimedUcmEnabled() {
+        return getPreferenceStore().getBoolean(PREF_ISTIMEDUCMENABLED);
     }
 
     /**
@@ -99,6 +110,15 @@ public class ScenarioTraversalPreferences {
      */
     public static void setIsDeterministic(boolean b) {
         getPreferenceStore().setValue(PREF_ISDETERMINISTIC, b);
+    }
+
+    /**
+     * 
+     * @param b
+     *            is the algorithm enable
+     */
+    public static void setIsTimedUcmEnabled(boolean c) {
+        getPreferenceStore().setValue(PREF_ISTIMEDUCMENABLED, c);
     }
 
     /**

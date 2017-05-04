@@ -40,6 +40,9 @@ public abstract class PathNodeFigure extends Figure {
     // is the point traversed by a scenario.
     protected boolean traversed;
 
+    // is the point deactivated by a change.
+    protected boolean deactivated;
+
     // is the path node the border of a pointcut expression
     protected boolean isPointcutBorder;
 
@@ -161,6 +164,13 @@ public abstract class PathNodeFigure extends Figure {
 
     }
 
+    public void setDeactivated(boolean deactivated) {
+        this.deactivated = deactivated;
+
+        setColors();
+
+    }
+
     /**
      * sets the color scheme to use depending on whether the path node is used as a border on a pointcut map or not (only selected subclasses of
      * {@link PathNodeFigure} will override setColors() so that isPointcutBorder is taken into account)
@@ -182,6 +192,9 @@ public abstract class PathNodeFigure extends Figure {
          }else if (selected) {
             setForegroundColor(ColorManager.LINE);
             setColor(ColorManager.SELECTED);
+		} else if (deactivated) {
+             setForegroundColor(ColorManager.DEACTIVATED);
+             setColor(ColorManager.DEACTIVATED);
         } else if (traversed) {
             setForegroundColor(ColorManager.TRAVERSAL);
             setColor(ColorManager.TRAVERSAL);

@@ -6,12 +6,14 @@ import java.util.Vector;
 import org.eclipse.core.resources.IMarker;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -502,6 +504,9 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
      * @throws TraversalException
      */
     protected void processRespRef(UcmEnvironment env, RespRef resp) throws TraversalException {
+
+		String deactStatus = MetadataHelper.getMetaData(resp.getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+		if (!(deactStatus != null && deactStatus.equalsIgnoreCase("true") && ScenarioTraversalPreferences.getIsTimedUcmEnabled())) {
         try {
             // First convert the repetitionCount String attribute to an int.
             int repCount;
@@ -525,7 +530,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
             // throw new TraversalException(e.getMessage(), e);
             _warnings.add(new TraversalWarning(e.getMessage(), resp, IMarker.SEVERITY_ERROR));
         }
-
+	}
         _traversalData.visitOnlySucc(resp);
     }
 

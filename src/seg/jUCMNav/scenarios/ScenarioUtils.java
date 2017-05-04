@@ -12,6 +12,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.scenarios.algorithmInterfaces.IScenarioTraversalAlgorithm;
 import seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener;
 import seg.jUCMNav.scenarios.evaluator.UcmExpressionEvaluator;
@@ -23,6 +24,8 @@ import seg.jUCMNav.scenarios.model.jUCMNavType;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParser;
 import seg.jUCMNav.scenarios.parser.jUCMNavTypeChecker;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.UCMspec;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
@@ -36,6 +39,12 @@ import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.URNspec;
+import urn.dyncontext.Change;
+import urn.dyncontext.DeactivationChange;
+import urn.dyncontext.DynamicContext;
+import urn.dyncontext.PropertyChange;
+import urn.dyncontext.Timepoint;
+import urncore.Component;
 import urncore.Condition;
 import urncore.Responsibility;
 
@@ -48,6 +57,8 @@ import urncore.Responsibility;
 public class ScenarioUtils {
     private static HashMap activeScenario = new HashMap();
     private static HashMap environments;
+    private static DynamicContext dynContext;
+    private static Timepoint tp = null;
     // static reference to jUCMNavParser. can't have more than one reference to
     // the parser in the whole application.
     public static final jUCMNavParser parser = new jUCMNavParser(new StringReader("true")); //$NON-NLS-1$
@@ -59,6 +70,22 @@ public class ScenarioUtils {
 
     private static HashMap traversals = new HashMap();
 
+	public static DynamicContext getDynContext() {
+        return dynContext;
+    }
+
+    public static void setDynContext(DynamicContext dynContext) {
+        ScenarioUtils.dynContext = dynContext;
+    }
+    
+    public static Timepoint getTp() {
+        return tp;
+    }
+
+	public static void setTp(Timepoint tp) {
+		ScenarioUtils.tp = tp;
+	}
+
     /**
      * Flush any traversal results associated with this element.
      * 
@@ -69,7 +96,10 @@ public class ScenarioUtils {
         UcmEnvironment initial = getEnvironment(obj);
         if (activeScenario.containsKey(initial))
             clearTraversalResults(initial);
-        activeScenario.remove(initial);
+
+        URNspec urn = initial.getUrn();
+        MetadataHelper.cleanTimedUCMMetadata(urn);
+        activeScenario.remove(initial);        
 
     }
 
@@ -862,6 +892,20 @@ public class ScenarioUtils {
                 clearActiveScenario(scenario);
                 return; 
             }
+            
+            URNspec urn = initial.getUrn();
+            
+            if(urn!= null)
+            {
+              MetadataHelper.cleanTimedUCMMetadata(urn);
+                
+                if(ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+                {
+                    UCMspec ucm = urn.getUcmspec();
+                    ucm = preProcessTimedUCM(ucm ,dynContext,tp);
+                }         
+            }
+            
             if (activeScenario.containsKey(initial))
                 clearTraversalResults(initial);
             activeScenario.put(initial, scenario);
@@ -891,6 +935,96 @@ public class ScenarioUtils {
         } catch (TraversalException e) {
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", e.getMessage()); //$NON-NLS-1$
         }
+    }
+    
+    protected static UCMspec applychange(UCMspec ucm, Change change, Timepoint tp) {
+    	if (change instanceof DeactivationChange){
+    		if (change.getElement() instanceof Responsibility || change.getElement() instanceof Component)
+    			MetadataHelper.addMetaData(ucm.getUrnspec(), change.getElement(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
+    	}
+    
+    	return ucm;
+    }     	
+    
+    protected static List<Change> collectChanges (DynamicContext dynContext, Timepoint tp, List affected) {
+    	List<Change> changes = new ArrayList<Change>();
+    	try {
+    		if(dynContext!= null){
+    			for (Iterator j = dynContext.getChanges().iterator(); j.hasNext();){
+    				Change change = (Change) j.next();
+    				String affectedProp = change.getElement().toString();
+    				if ((tp.getTimepoint().after(change.getStart()) || tp.getTimepoint().equals(change.getStart())) && tp.getTimepoint().before(change.getEnd())) {
+    					  					
+    					if (change instanceof DeactivationChange) {
+    						affectedProp = affectedProp + ".deactivate";
+    					} 
+    					if (!affected.contains(affectedProp)) {
+    						changes.add(change);
+    						affected.add(affectedProp);
+    					}
+    				} else if (tp.getTimepoint().equals(change.getEnd())) {
+    					if (change instanceof DeactivationChange) {
+    						affectedProp = affectedProp + ".deactivate";
+    					} else if (change instanceof PropertyChange) {
+    		    			PropertyChange propChange = (PropertyChange) change;
+    		    			boolean consecutiveChangeExists = false;
+        					Change consecutiveChange = null;
+        					//Check if there is a consecutive change (The change directly following takes preference)
+        					for (Iterator j2 = dynContext.getChanges().iterator(); j2.hasNext();){
+        						Change change1 = (Change) j2.next();
+        						if (change1.getStart().equals(change.getEnd()) && change1.getElement() == change.getElement()) {
+        							consecutiveChangeExists = true;
+        							consecutiveChange = change1;
+        							break;
+        						}	        		
+        					}
+    		    			if (consecutiveChangeExists && consecutiveChange instanceof PropertyChange && 
+    		    					((PropertyChange) consecutiveChange).getAffectedProperty().equals(propChange.getAffectedProperty()))
+    		    				continue;
+    		    			else
+    			    			affectedProp = affectedProp + propChange.getAffectedProperty();
+    		    		}
+    					if (!affected.contains(affectedProp)) {
+    						changes.add(change);
+    						affected.add(affectedProp);
+    					}
+    				}
+    			}
+  
+    			// handle included contexts
+    			for (Iterator j1 = dynContext.getIncludedContexts().iterator(); j1.hasNext();){
+    				DynamicContext incDynContext = (DynamicContext) j1.next();
+    				changes.addAll(collectChanges(incDynContext, tp, affected));
+    			}
+    		}
+    	}catch(NullPointerException e) {
+    	}
+    	
+    	return changes;
+    }
+    
+    protected static UCMspec preProcessTimedUCM(UCMspec ucm, DynamicContext dynContext, Timepoint tp) {
+    	UCMspec updatedUCMmodel = ucm;
+    	List<String> affected = new ArrayList<String>();
+    	
+    	List<Change> changes = collectChanges(dynContext, tp, affected);
+       	    
+    	if (changes.size() != 0) {
+        	List<Change> respCompChanges = new ArrayList<Change>();
+    		for (Iterator j = changes.iterator(); j.hasNext();){ 
+    			Change change = (Change) j.next();
+    			if (change.getElement() instanceof Responsibility || change.getElement() instanceof Component)
+    				respCompChanges.add(change);
+    		}
+    		if (respCompChanges.size() != 0) {
+    			for (Iterator j = respCompChanges.iterator(); j.hasNext();){ 
+    				Change change = (Change) j.next();
+    				updatedUCMmodel = applychange(updatedUCMmodel, change, tp);
+    			}
+    		}
+    	}
+    
+    	return updatedUCMmodel;
     }
     
     public static Vector traverseWarn(EObject scenario, Vector listeners) {//**************

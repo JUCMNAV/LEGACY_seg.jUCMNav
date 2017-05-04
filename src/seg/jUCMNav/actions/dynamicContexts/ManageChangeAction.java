@@ -11,8 +11,11 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.editparts.ActorRefEditPart;
+import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
+import seg.jUCMNav.editparts.PathNodeEditPart;
+import seg.jUCMNav.editparts.RespRefEditPart;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.ChangeTreeEditPart;
 import seg.jUCMNav.views.wizards.dynamicContexts.ManageChangeCustomDialog;
 import seg.jUCMNav.views.wizards.dynamicContexts.ManageChangeEditor;
@@ -50,7 +53,8 @@ public class ManageChangeAction extends URNSelectionAction {
     	for (Iterator iter = getSelectedObjects().iterator(); iter.hasNext();) {
             Object obj = iter.next();
             if (!(obj instanceof LinkRefEditPart) && !(obj instanceof IntentionalElementEditPart) &&
-            		!(obj instanceof ActorRefEditPart) && !(obj instanceof ChangeTreeEditPart))
+            		!(obj instanceof ActorRefEditPart) && !(obj instanceof ChangeTreeEditPart) &&
+            		!(obj instanceof RespRefEditPart) && !(obj instanceof ComponentRefEditPart))
                 return false;
             else
                 countElt += 1;

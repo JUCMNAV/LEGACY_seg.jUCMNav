@@ -19,8 +19,10 @@ import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.Component;
 import urncore.IURNDiagram;
 import urncore.Metadata;
+import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 public class MetadataHelper {
@@ -391,6 +393,30 @@ public class MetadataHelper {
                  if (link instanceof Contribution)
                 	 MetadataHelper.removeMetaData(link, EvaluationStrategyManager.METADATA_ORIGCONTRIB); //$NON-NLS-1$
              }
+        }
+    }
+    
+    /**
+     * Removes the run-time TimedUCM metadata elements created during UCM execution
+     * 
+     * @param model
+     *            the URNspec instance
+     */
+    
+    public static synchronized void cleanTimedUCMMetadata(URNspec model) {
+        if (model != null) {
+        	
+        	// Remove run-time TimedUCM related metadata attached to responsibilities
+            for (Iterator iter = model.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
+                Responsibility responsibility = (Responsibility) iter.next();
+                MetadataHelper.removeMetaData(responsibility, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+            }
+     
+            // Remove run-time TimedUCM related metadata attached to components
+            for (Iterator iter = model.getUrndef().getComponents().iterator(); iter.hasNext();) {
+                Component component = (Component) iter.next();
+                MetadataHelper.removeMetaData(component, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+            }
         }
     }
     

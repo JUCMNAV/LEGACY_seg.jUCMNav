@@ -33,6 +33,7 @@ public class ColorManager {
     public static Color LINE;
     public static Color SELECTED;
     public static Color HOVER;
+    public static Color DEACTIVATED = GRAY;
     public static Color TRAVERSAL;
     public static Color POINTCUTBORDER;
     public static Color FILL = WHITE;

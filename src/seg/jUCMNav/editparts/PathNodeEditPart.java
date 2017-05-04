@@ -54,7 +54,9 @@ import seg.jUCMNav.model.commands.Slicing.ColorUtils;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.PointcutBorderDetector;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import seg.jUCMNav.views.stub.PluginListDialog;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
@@ -627,6 +629,13 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         }
         boolean scenariosActive = ScenarioUtils.getActiveScenario(node) != null && ScenarioUtils.getTraversalHitCount(node) > 0;
         nodeFigure.setTraversed(scenariosActive);
+        if(node instanceof RespRef){
+            String deactStatus = MetadataHelper.getMetaData(((RespRef) node).getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+            if (deactStatus != null && deactStatus.equalsIgnoreCase("true") && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+                nodeFigure.setDeactivated(scenariosActive);
+            else
+                nodeFigure.setDeactivated(false);
+        }
         // Set tool tip or hit count.
         if (ScenarioUtils.getActiveScenario(node) != null) {
             String hits = Integer.toString(ScenarioUtils.getTraversalHitCount(node));

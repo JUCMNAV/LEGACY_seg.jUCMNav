@@ -12,14 +12,20 @@ import grl.IntentionalElementRef;
 import grl.LinkRef;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.ActorRefEditPart;
+import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
+import seg.jUCMNav.editparts.RespRefEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import ucm.map.ComponentRef;
+import ucm.map.RespRef;
 import urn.URNspec;
 import urn.dyncontext.Change;
 import urn.dyncontext.DeactivationChange;
 import urn.dyncontext.DynamicContext;
+import urncore.Component;
+import urncore.Responsibility;
 
 /**
  * This command adds a DeactivationChange to the selected URNModelElement and Dynamic Context
@@ -108,6 +114,14 @@ public class AddDeactivationChangeCommand extends Command implements JUCMNavComm
         		elt = (Actor) ((ActorRef)((ActorRefEditPart) this.parent).getModel()).getContDef();
         	else if (parent instanceof ActorRef)
         		elt = (Actor) ((ActorRef) this.parent).getContDef();
+        	else if (parent instanceof RespRefEditPart)
+           		elt = ((RespRef)((RespRefEditPart) this.parent).getModel()).getRespDef();
+        	else if (parent instanceof Responsibility)
+        		elt = (Responsibility) this.parent;
+        	else if (parent instanceof ComponentRefEditPart)
+           		elt = (Component)((ComponentRef)((ComponentRefEditPart) this.parent).getModel()).getContDef();
+        	else if (parent instanceof Component)
+        		elt = (Component) this.parent;
         	newChange.setElement(elt);
         	newChange.setStart(startDate);
         	newChange.setEnd(endDate);

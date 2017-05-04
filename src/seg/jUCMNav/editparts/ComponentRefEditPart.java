@@ -14,6 +14,9 @@ import seg.jUCMNav.editpolicies.element.ComponentRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
 import seg.jUCMNav.figures.ComponentRefFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
+import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.UCMmap;
@@ -135,6 +138,14 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
             ((ComponentRefFigure) figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
             // Set the tool tip
             UrnMetadata.setToolTip(comp, figure);
+
+            //For TimedUCM
+            String deactStatus = MetadataHelper.getMetaData(comp, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+            if (deactStatus != null && deactStatus.equalsIgnoreCase("true")&& ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+                    ((ComponentRefFigure) figure).setColors("169,169,169", comp.getLineColor(), comp.isFilled());
+            else
+                    ((ComponentRefFigure) figure).setColors("25,25,25", comp.getLineColor(), comp.isFilled());
+            
         }
 
         // Make the label recenter itself.

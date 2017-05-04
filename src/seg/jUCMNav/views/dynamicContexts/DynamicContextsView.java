@@ -548,6 +548,8 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
                     (EvaluationStrategyManager.getInstance(multieditor)).setDynamicContext(dyn);
                     (EvaluationStrategyManager.getInstance(multieditor)).setTimepoint(currentTimepoint);
                     if (currentView == ID_STRATEGY) {
+                    	 ScenarioUtils.setDynContext(currentContext);
+                    	 ScenarioUtils.setTp(currentTimepoint);
                     	 ScenarioUtils.setActiveScenario(currentScenario);
                          for (int i = 0; i < multieditor.getPageCount(); i++) {
                              UrnEditor u = (UrnEditor) multieditor.getEditor(i);
@@ -567,11 +569,18 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
                         currentTimepointSelection.setSelected(false);
                     }
                     currentTimepointSelection = (TimepointTreeEditPart) obj;
-                    if (currentView == ID_STRATEGY) {
-                        currentTimepointSelection.setSelected(true);
-                    }
                     Timepoint tp = ((TimepointTreeEditPart) obj).getTimepoint();
                     currentTimepoint = tp;
+                    ScenarioUtils.setDynContext(currentContext);
+                	ScenarioUtils.setTp(currentTimepoint);
+                    if (currentView == ID_STRATEGY) {
+                    	ScenarioUtils.setActiveScenario(currentScenario);
+                    	for (int i = 0; i < multieditor.getPageCount(); i++) {
+                            UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
+                        }
+                        currentTimepointSelection.setSelected(true);
+                    }
                     (EvaluationStrategyManager.getInstance(multieditor)).setTimepoint(tp);
                     (EvaluationStrategyManager.getInstance(multieditor)).setDynamicContext(currentContext);
                     (EvaluationStrategyManager.getInstance(multieditor)).setStrategy(currentStrategy);
@@ -586,6 +595,10 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
                     }
                     currentTpGroupSelection = (TimepointGroupTreeEditPart) obj;
                     if (currentView == ID_STRATEGY) {
+                    	for (int i = 0; i < multieditor.getPageCount(); i++) {
+                            UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
+                        }
                         currentTpGroupSelection.setSelected(true);
                     }
                     TimepointGroup tpGroup = ((TimepointGroupTreeEditPart) obj).getTimepointGroup();
@@ -616,6 +629,7 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
         for (int i = 0; i < multieditor.getPageCount(); i++) {
             UrnEditor u = (UrnEditor) multieditor.getEditor(i);
             ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);
+            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
 
             if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()
                     && ScenarioUtils.getActiveScenario(multieditor.getModel()) != null) {
@@ -666,6 +680,7 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
             currentView = ID_DESIGN;
             if (currentContext != null) {
             	EvaluationStrategyManager.getInstance(multieditor).setDynamicContext(null);
+            	ScenarioUtils.setDynContext(null);
                 disableStrategyView();
                 currentContext  = null; // forget it so that we can start anew
             }
@@ -687,6 +702,7 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
             }
             if (currentTimepoint != null) {
                 EvaluationStrategyManager.getInstance(multieditor).setTimepoint(null);
+                ScenarioUtils.setTp(null);
                 disableStrategyView();
                 currentTimepoint = null; // forget it so that we can start anew
             }
@@ -738,10 +754,12 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
             //Currently timepoint must be set first
             if (currentTimepoint != null) {
             	EvaluationStrategyManager.getInstance(multieditor).setTimepoint(currentTimepoint);
+            	ScenarioUtils.setTp(currentTimepoint);
             }
             
             if (currentContext != null) {
             	EvaluationStrategyManager.getInstance(multieditor).setDynamicContext(currentContext);
+            	ScenarioUtils.setDynContext(currentContext);
             	
             	if (currentContributionContext != null && (currentContributionContext.getGroups().size()==0 || ((ContributionContextGroup)currentContributionContext.getGroups().get(0)).getGrlspec() == null)
                 		&& currentContributionContext != currentContext.getContributionContext()) {
@@ -785,6 +803,7 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
             for (int i = 0; i < multieditor.getPageCount(); i++) {
                 UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                 ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);
+                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
             }
         }
         
