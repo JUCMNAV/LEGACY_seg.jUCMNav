@@ -19,9 +19,23 @@ import seg.jUCMNav.views.wizards.AutoLayoutWizard;
 public class GeneralPreferencesActionDelegate implements IEditorActionDelegate {
 
     protected IAction action;
+    private String [] PreferencesPagesToBeShown;
 
     public GeneralPreferencesActionDelegate() {
         super();
+        
+        PreferencesPagesToBeShown = new String[]{
+			"seg.jUCMNav.views.preferences.GeneralPreferencePage", 
+			"seg.jUCMNav.views.preferences.AutoLayoutPreferencePage",
+			"seg.jUCMNav.views.preferences.ScenarioExportPreferencePage",
+			"seg.jUCMNav.views.preferences.KPIMonitoringPreferencePage",
+			"seg.jUCMNav.views.preferences.ReportGeneratorPreferencePage",
+			"seg.jUCMNav.views.preferences.StaticSemanticPreferencesPage",
+			"seg.jUCMNav.views.preferences.DisplayPreferencesPage",
+			"seg.jUCMNav.views.preferences.metrics.MetricsPreferencePage",
+			"seg.jUCMNav.views.preferences.DefinitionReferencePreferencePage",
+			"seg.jUCMNav.views.preferences.ColorManagementPreferencePage"
+        };
     }
 
     public void setActiveEditor(final IAction action, IEditorPart targetEditor) {
@@ -37,7 +51,7 @@ public class GeneralPreferencesActionDelegate implements IEditorActionDelegate {
      */
     public void run(IAction action) {
         PreferenceDialog pref = PreferencesUtil.createPreferenceDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                "seg.jUCMNav.views.preferences.GeneralPreferencePage", new String[] { "seg.jUCMNav.views.preferences.GeneralPreferencePage" }, null); //$NON-NLS-1$ //$NON-NLS-2$
+                "seg.jUCMNav.views.preferences.GeneralPreferencePage", PreferencesPagesToBeShown, null); //$NON-NLS-1$ //$NON-NLS-2$
         if (pref != null)
             pref.open();
     }
