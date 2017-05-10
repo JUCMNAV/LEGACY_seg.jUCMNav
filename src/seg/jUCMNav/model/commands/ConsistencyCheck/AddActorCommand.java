@@ -3,9 +3,6 @@ package seg.jUCMNav.model.commands.ConsistencyCheck;
 import org.eclipse.gef.commands.Command;
 
 import grl.Actor;
-import grl.IntentionalElement;
-import grl.IntentionalElementType;
-import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
@@ -17,72 +14,72 @@ import urn.URNspec;
  * 
  */
 public class AddActorCommand extends Command implements JUCMNavCommand {
-    private URNspec urnspec;
-    Actor grlActor;
-    
-    /**
-     * 
-     * @param urnspec
-     *            The URNspec to which to add the IntentionalElement         
-     */
-    public AddActorCommand(URNspec urnspec) {
-        this.urnspec = urnspec;
-        grlActor = (Actor)ModelCreationFactory.getNewObject(urnspec, Actor.class, 0);
+	private URNspec urnspec;
+	Actor grlActor;
 
-        setLabel("Add Actor"); //$NON-NLS-1$
-    }
-    
-    public Actor getActor() {
-    	return grlActor;
-    }
+	/**
+	 * 
+	 * @param urnspec
+	 *            The URNspec to which to add the Actor         
+	 */
+	public AddActorCommand(URNspec urnspec) {
+		this.urnspec = urnspec;
+		grlActor = (Actor)ModelCreationFactory.getNewObject(urnspec, Actor.class, 0);
 
-    /**
-     * 
-     * @see org.eclipse.gef.commands.Command#execute()
-     */
-    public void execute() {
-        redo();
-    }
+		setLabel("Add Actor"); //$NON-NLS-1$
+	}
 
-    /**
-     * 
-     * @see org.eclipse.gef.commands.Command#redo()
-     */
-    public void redo() {
-        testPreConditions();
+	public Actor getActor() {
+		return grlActor;
+	}
 
-        urnspec.getGrlspec().getActors().add(grlActor);
-        
-        testPostConditions();
-    }
+	/**
+	 * 
+	 * @see org.eclipse.gef.commands.Command#execute()
+	 */
+	public void execute() {
+		redo();
+	}
 
-    /**
-     * 
-     * @see org.eclipse.gef.commands.Command#undo()
-     */
-    public void undo() {
-        testPostConditions();
+	/**
+	 * 
+	 * @see org.eclipse.gef.commands.Command#redo()
+	 */
+	public void redo() {
+		testPreConditions();
 
-        urnspec.getGrlspec().getActors().remove(grlActor);
+		urnspec.getGrlspec().getActors().add(grlActor);
 
-        testPreConditions();
-    }
+		testPostConditions();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
-     */
-    public void testPreConditions() {
-        assert urnspec != null : "pre urnspec"; //$NON-NLS-1$
-    }
+	/**
+	 * 
+	 * @see org.eclipse.gef.commands.Command#undo()
+	 */
+	public void undo() {
+		testPostConditions();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
-     */
-    public void testPostConditions() {
-        assert urnspec != null : "post urnspec"; //$NON-NLS-1$
-    }
+		urnspec.getGrlspec().getActors().remove(grlActor);
+
+		testPreConditions();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
+	 */
+	public void testPreConditions() {
+		assert urnspec != null : "pre urnspec"; //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
+	 */
+	public void testPostConditions() {
+		assert urnspec != null : "post urnspec"; //$NON-NLS-1$
+	}
 }

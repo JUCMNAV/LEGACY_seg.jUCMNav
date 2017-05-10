@@ -16,75 +16,75 @@ import urn.URNspec;
  * 
  */
 public class AddIntentionalElementCommand extends Command implements JUCMNavCommand {
-    private URNspec urnspec;
-    private IntentionalElement grlIE;
-    
-    /**
-     * 
-     * @param urnspec
-     *            The URNspec to which to add the IntentionalElement
-     * @param type
-     *            The type of the IntentionalElement           
-     */
-    public AddIntentionalElementCommand(URNspec urnspec, int type) {
-        this.urnspec = urnspec;
+	private URNspec urnspec;
+	private IntentionalElement grlIE;
+
+	/**
+	 * 
+	 * @param urnspec
+	 *            The URNspec to which to add the IntentionalElement
+	 * @param type
+	 *            The type of the IntentionalElement           
+	 */
+	public AddIntentionalElementCommand(URNspec urnspec, int type) {
+		this.urnspec = urnspec;
 		grlIE = (IntentionalElement) ModelCreationFactory.getNewObject(urnspec, IntentionalElement.class, 0);
 		grlIE.setType(IntentionalElementType.get(type));
 
-        setLabel(Messages.getString("AddIntentionalElementRefCommand.CreateIntentionalElements")); //$NON-NLS-1$
-    }
-    
-    public IntentionalElement getIntentionalElement() {
-    	return grlIE;
-    }
+		setLabel(Messages.getString("AddIntentionalElementRefCommand.CreateIntentionalElements")); //$NON-NLS-1$
+	}
 
-    /**
-     * 
-     * @see org.eclipse.gef.commands.Command#execute()
-     */
-    public void execute() {
-        redo();
-    }
+	public IntentionalElement getIntentionalElement() {
+		return grlIE;
+	}
 
-    /**
-     * 
-     * @see org.eclipse.gef.commands.Command#redo()
-     */
-    public void redo() {
-        testPreConditions();
+	/**
+	 * 
+	 * @see org.eclipse.gef.commands.Command#execute()
+	 */
+	public void execute() {
+		redo();
+	}
 
-        urnspec.getGrlspec().getIntElements().add(grlIE);
-        
-        testPostConditions();
-    }
+	/**
+	 * 
+	 * @see org.eclipse.gef.commands.Command#redo()
+	 */
+	public void redo() {
+		testPreConditions();
 
-    /**
-     * 
-     * @see org.eclipse.gef.commands.Command#undo()
-     */
-    public void undo() {
-        testPostConditions();
+		urnspec.getGrlspec().getIntElements().add(grlIE);
 
-        urnspec.getGrlspec().getIntElements().remove(grlIE);
+		testPostConditions();
+	}
 
-        testPreConditions();
-    }
+	/**
+	 * 
+	 * @see org.eclipse.gef.commands.Command#undo()
+	 */
+	public void undo() {
+		testPostConditions();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
-     */
-    public void testPreConditions() {
-        assert urnspec != null : "pre urnspec"; //$NON-NLS-1$
-    }
+		urnspec.getGrlspec().getIntElements().remove(grlIE);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
-     */
-    public void testPostConditions() {
-        assert urnspec != null : "post urnspec"; //$NON-NLS-1$
-    }
+		testPreConditions();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
+	 */
+	public void testPreConditions() {
+		assert urnspec != null : "pre urnspec"; //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
+	 */
+	public void testPostConditions() {
+		assert urnspec != null : "post urnspec"; //$NON-NLS-1$
+	}
 }

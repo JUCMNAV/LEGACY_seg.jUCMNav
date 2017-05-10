@@ -14,76 +14,76 @@ import urncore.URNmodelElement;
  * @author kshen
  */
 public class ChangeTracesCommand extends Command implements JUCMNavCommand {
-    private URNspec urnspec;
-    private URNmodelElement urnelem;
-    private String oldTraces;
-    private String newTraces;
-    private static String traces = "Traces";
+	private URNspec urnspec;
+	private URNmodelElement urnelem;
+	private String oldTraces;
+	private String newTraces;
+	private static String traces = "Traces";
 
-    public ChangeTracesCommand(URNspec spec, EObject obj, String traces) {
-        urnspec = spec;
-        if (obj instanceof URNmodelElement) {
-            this.urnelem = (URNmodelElement) obj;
-            this.newTraces = traces;
-            setLabel("Change metadata Traces"); //$NON-NLS-1$
-        }
-    }
+	public ChangeTracesCommand(URNspec spec, EObject obj, String traces) {
+		urnspec = spec;
+		if (obj instanceof URNmodelElement) {
+			this.urnelem = (URNmodelElement) obj;
+			this.newTraces = traces;
+			setLabel("Change metadata Traces"); //$NON-NLS-1$
+		}
+	}
 
-    /**
-     * @see org.eclipse.gef.commands.Command#execute()
-     */
-    public void execute() {
-        oldTraces = MetadataHelper.getMetaData(urnelem, traces);
-        redo();
-    }
+	/**
+	 * @see org.eclipse.gef.commands.Command#execute()
+	 */
+	public void execute() {
+		oldTraces = MetadataHelper.getMetaData(urnelem, traces);
+		redo();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.commands.Command#redo()
-     */
-    public void redo() {
-        testPreConditions();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.commands.Command#redo()
+	 */
+	public void redo() {
+		testPreConditions();
 
-        if (newTraces != null && newTraces != "")
-            MetadataHelper.addMetaData(urnspec, urnelem, traces, newTraces);
-        else
-            MetadataHelper.removeMetaData(urnelem, traces);
+		if (newTraces != null && newTraces != "")
+			MetadataHelper.addMetaData(urnspec, urnelem, traces, newTraces);
+		else
+			MetadataHelper.removeMetaData(urnelem, traces);
 
-        testPostConditions();
-    }
+		testPostConditions();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
-     */
-    public void testPostConditions() {
-        assert urnelem != null : "post no elemement to modify!"; //$NON-NLS-1$
-        assert urnspec != null : "post no URN specification to modify!"; //$NON-NLS-1$
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
+	 */
+	public void testPostConditions() {
+		assert urnelem != null : "post no elemement to modify!"; //$NON-NLS-1$
+		assert urnspec != null : "post no URN specification to modify!"; //$NON-NLS-1$
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
-     */
-    public void testPreConditions() {
-        assert urnelem != null : "post no elemement to modify!"; //$NON-NLS-1$
-        assert urnspec != null : "post no URN specification to modify!"; //$NON-NLS-1$
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
+	 */
+	public void testPreConditions() {
+		assert urnelem != null : "post no elemement to modify!"; //$NON-NLS-1$
+		assert urnspec != null : "post no URN specification to modify!"; //$NON-NLS-1$
+	}
 
-    /**
-     * @see org.eclipse.gef.commands.Command#undo()
-     */
-    public void undo() {
-        testPostConditions();
+	/**
+	 * @see org.eclipse.gef.commands.Command#undo()
+	 */
+	public void undo() {
+		testPostConditions();
 
-        if (oldTraces != null && oldTraces != "")
-            MetadataHelper.addMetaData(urnspec, urnelem, traces, oldTraces);
-        else
-            MetadataHelper.removeMetaData(urnelem, traces);
+		if (oldTraces != null && oldTraces != "")
+			MetadataHelper.addMetaData(urnspec, urnelem, traces, oldTraces);
+		else
+			MetadataHelper.removeMetaData(urnelem, traces);
 
-        testPreConditions();
-    }
+		testPreConditions();
+	}
 }

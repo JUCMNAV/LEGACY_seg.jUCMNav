@@ -24,24 +24,24 @@ import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
 public class FixByCreateAndLinkToNewElement extends AbstractHandler implements IHandler {
-    private URNspec urnspec;
-    private URNmodelElement urnelem;
-    private CommandStack cmdStack;
+	private URNspec urnspec;
+	private URNmodelElement urnelem;
+	private CommandStack cmdStack;
 	public static String metadataName="Traces";
 	public static String metadataValue="No";
-	
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		urnspec = ((UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).getModel();
 		cmdStack = ((UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
-			getActiveEditor()).getDelegatingCommandStack();
+				getActiveEditor()).getDelegatingCommandStack();
 		System.out.println("FixByCreateAndLinkToNewElement");
-		
+
 		// get the selected items in problem view
 		IWorkbenchWindow window =  PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IStructuredSelection selection = (IStructuredSelection)window.getSelectionService().getSelection("org.eclipse.ui.views.ProblemView");
-		
-		// Go through the selected items, find which Element it points to, then mark as no.
+
+		// Go through the selected items, find which Element it points to, then then create corresponding element and link to it.
 		Set<URNmodelElement> elemSet = new HashSet<URNmodelElement>();
 		for (Object markerEntry : selection.toArray()) {
 			if (markerEntry instanceof IAdaptable) {
@@ -57,7 +57,7 @@ public class FixByCreateAndLinkToNewElement extends AbstractHandler implements I
 					elemSet.add(urnelem);
 				} catch (CoreException e) {
 					System.out.println(e);
-			    }
+				}
 			}
 		}
 
@@ -69,9 +69,10 @@ public class FixByCreateAndLinkToNewElement extends AbstractHandler implements I
 		}
 		editor.setActivePage((IURNDiagram)urnspec.getUrndef().getSpecDiagrams().get(oldActivePage));
 		cmdStack.execute(createCmd);
-		
+
 		Set<URNmodelElement> linkedElements = createCmd.getLinkedElements();
 		// remove the problems that have been fixed from problem view;
+		// problems are fixed if the element in in linkedElements.
 		for (Object markerEntry : selection.toArray()) {
 			if (markerEntry instanceof IAdaptable) {
 				IAdaptable adaptable = (IAdaptable)markerEntry;
@@ -88,20 +89,20 @@ public class FixByCreateAndLinkToNewElement extends AbstractHandler implements I
 					}
 				} catch (CoreException e) {
 					System.out.println(e);
-			    }
+				}
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void setEnabled(Object evaluationContext) {	
 	}
-	
-	
+
+
 	@Override
 	public boolean isEnabled() {
-		
+
 		return true;
 	}
 }

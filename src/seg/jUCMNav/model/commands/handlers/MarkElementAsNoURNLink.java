@@ -24,44 +24,42 @@ import urn.URNspec;
 import urncore.URNmodelElement;
 
 public class MarkElementAsNoURNLink extends AbstractHandler implements IHandler {
-    private URNspec urnspec;
-    private URNmodelElement urnelem;
+	private URNspec urnspec;
+	private URNmodelElement urnelem;
 	public static String metadataName="Traces";
 	public static String metadataValue="No";
-	
-	public static URNmodelElement findURNmodelElement(URNmodelElement refElement) {
-        URNmodelElement element = refElement;
-        
-        // Other types are not transformed, only transform these elements. If definition were chosen, they will be directly modified.
-        // This means that all selected elements will be modified.
-        if (refElement instanceof IntentionalElementRef) {
-            element = ((IntentionalElementRef)refElement).getDef();
-        } else if (refElement instanceof ActorRef) {
-        	element = (URNmodelElement) ((ActorRef)refElement).getContDef();
-        } else if (refElement instanceof RespRef) {
-        	element = (URNmodelElement) ((RespRef)refElement).getRespDef();
-        } else if (refElement instanceof ComponentRef) {
-        	element = (URNmodelElement) ((ComponentRef)refElement).getContDef();
-        }
 
-        return element;
-    }
+	public static URNmodelElement findURNmodelElement(URNmodelElement refElement) {
+		URNmodelElement element = refElement;
+		if (refElement instanceof IntentionalElementRef) {
+			element = ((IntentionalElementRef)refElement).getDef();
+		} else if (refElement instanceof ActorRef) {
+			element = (URNmodelElement) ((ActorRef)refElement).getContDef();
+		} else if (refElement instanceof RespRef) {
+			element = (URNmodelElement) ((RespRef)refElement).getRespDef();
+		} else if (refElement instanceof ComponentRef) {
+			element = (URNmodelElement) ((ComponentRef)refElement).getContDef();
+		}
+
+		return element;
+	}
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		urnspec = ((UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).getModel();
 		CommandStack cmdStack = ((UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
 				getActiveEditor()).getDelegatingCommandStack();
-		
-		// get the selected items in problem view
+
+		// get the selected items from editor
 		IWorkbenchWindow window =  PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		IStructuredSelection selection = (IStructuredSelection)window.getSelectionService().getSelection(); // ---debug, needs more validation.
-		
+		IStructuredSelection selection = (IStructuredSelection)window.getSelectionService().getSelection();
+
 		String markType = event.getParameter("seg.jUCMNav.commandParameter.quickfix.markType");
+		// when we choose to check a element, we simply remove the "Traces" metadata.
 		if (markType.equals("Yes")) {
 			markType = "";
 		}
-		
+
 		// Go through the selected items, find which Element it points to, then mark as No/Yes.  
 		CompoundCommand cpdCmd = new CompoundCommand();
 		Set<URNmodelElement> markedAlready = new HashSet<URNmodelElement>();
@@ -83,11 +81,11 @@ public class MarkElementAsNoURNLink extends AbstractHandler implements IHandler 
 		cmdStack.execute(cpdCmd);
 		return null;
 	}
-	
+
 	@Override
 	public void setEnabled(Object evaluationContext) {	
 	}
-	
+
 	@Override
 	public boolean isEnabled() {
 		return true;

@@ -32,8 +32,8 @@ import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 public class FixByDeleteElement extends AbstractHandler implements IHandler {
-    private URNspec urnspec;
-    private URNmodelElement urnelem;
+	private URNspec urnspec;
+	private URNmodelElement urnelem;
 	public static String metadataName="Traces";
 	public static String metadataValue="No";
 
@@ -42,12 +42,12 @@ public class FixByDeleteElement extends AbstractHandler implements IHandler {
 		urnspec = ((UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).getModel();
 		CommandStack cmdStack = ((UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
 				getActiveEditor()).getDelegatingCommandStack();
-		
+
 		// get the selected items in problem view
 		IWorkbenchWindow window =  PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IStructuredSelection selection = (IStructuredSelection)window.getSelectionService().getSelection("org.eclipse.ui.views.ProblemView");
-		
-		// Go through the selected items, find which Element it points to, then mark as no.	
+
+		// Go through the selected items, find which Element it points to, then delete it.	
 		CompoundCommand cpdCmd = new CompoundCommand();
 		Set<URNmodelElement> deletedAlready = new HashSet<URNmodelElement>();
 		for (Object markerEntry : selection.toArray()) {
@@ -62,7 +62,7 @@ public class FixByDeleteElement extends AbstractHandler implements IHandler {
 						marker.delete();
 						continue;
 					}
-					
+
 					if (urnelem instanceof IntentionalElement) {
 						cpdCmd.add(new DeleteIntentionalElementCommand((IntentionalElement)urnelem));
 					} else if (urnelem instanceof Actor ) {
@@ -78,18 +78,18 @@ public class FixByDeleteElement extends AbstractHandler implements IHandler {
 					deletedAlready.add(urnelem);
 				} catch (CoreException e) {
 					System.out.println(e);
-			    }
+				}
 			}
 		}
 		cmdStack.execute(cpdCmd);
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public void setEnabled(Object evaluationContext) {	
 	}
-	
+
 	@Override
 	public boolean isEnabled() {
 		return true;

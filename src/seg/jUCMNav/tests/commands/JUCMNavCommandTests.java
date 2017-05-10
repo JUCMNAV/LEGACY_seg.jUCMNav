@@ -8,8 +8,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -26,11 +24,10 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
-import com.lowagie.text.List;
-
 import grl.Actor;
 import grl.IntentionalElement;
 import grl.IntentionalElementType;
+import junit.framework.TestCase;
 import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;

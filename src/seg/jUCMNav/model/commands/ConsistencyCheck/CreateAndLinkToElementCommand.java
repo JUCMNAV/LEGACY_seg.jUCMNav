@@ -26,7 +26,7 @@ import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 /**
- * Command to Create And Make URN link to New Element.
+ * Command to Create And Make URN link to New Elements.
  * 
  * @author kshen
  * 
@@ -37,14 +37,14 @@ public class CreateAndLinkToElementCommand extends CompoundCommand {
 	private Set<URNmodelElement> elemSet;
 	private Set<URNmodelElement> linkedElementsSet;			// Used to track which elements are fixed, so that corresponding problems can be deleted;
 	private List<CreateMapCommand> createMapCommandLists;
-	
+
 	public CreateAndLinkToElementCommand(URNspec urnspec, Set<URNmodelElement> elemSet) {
 		this.urnspec = urnspec;
 		this.elemSet = elemSet;
 		this.linkedElementsSet = new HashSet<URNmodelElement>();
 		this.createMapCommandLists = new ArrayList<CreateMapCommand>();
 		build();
-		
+
 		setLabel("Create And Link To Element"); //$NON-NLS-1$
 	}
 
@@ -73,18 +73,24 @@ public class CreateAndLinkToElementCommand extends CompoundCommand {
 	public Set<URNmodelElement> getLinkedElements() {
 		return linkedElementsSet;
 	}
-	
+
 	/**
 	 * Late building
 	 */
 	public void execute() {
 		super.execute();
 	}
-	
+
+	/** 
+	 * Execute these commands separately because multiple CreateMapCommand can't be incorporated into a CompoundCommand.
+	 * And once a newly created map changes, it can't be undo.
+	 * See http://jucmnav.softwareengineering.ca/foswiki/ProjetSEG/DevDocCommandStack 
+	 * @return A list of CreateMapCommand created within this command.
+	 */
 	public List<CreateMapCommand> getCreateMapCommands() {
 		return this.createMapCommandLists;
 	}
-	
+
 	/**
 	 * Builds a sequence of CreateAndLinkToElementCommand
 	 * 
@@ -100,8 +106,8 @@ public class CreateAndLinkToElementCommand extends CompoundCommand {
 			if (urnelem instanceof IntentionalElement) { // 1, GRL IE -> New UCM Map
 				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 				MessageDialog dialog = new MessageDialog(shell, "", null,
-					    "Create and Link Intentional Element [" + urnelem.getName() + "] to a:", MessageDialog.NONE, new String[] { "Map",
-					        "Responsibility"}, 2);
+						"Create and Link Intentional Element [" + urnelem.getName() + "] to a:", MessageDialog.NONE, new String[] { "Map",
+				"Responsibility"}, 2);
 				int result = dialog.open();
 				switch (result) {
 				case -1:
@@ -145,8 +151,8 @@ public class CreateAndLinkToElementCommand extends CompoundCommand {
 			} else if (urnelem instanceof UCMmap || urnelem instanceof Responsibility) {// 4, UCM Map -> New GRL IE
 				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 				MessageDialog dialog = new MessageDialog(shell, "", null,
-					    "Create and Link Element [" + urnelem.getName() + "] to a:", MessageDialog.NONE, new String[] { "Goal",
-					        "SoftGoal", "Task"}, 3);
+						"Create and Link Element [" + urnelem.getName() + "] to a:", MessageDialog.NONE, new String[] { "Goal",
+								"SoftGoal", "Task"}, 3);
 				int result = dialog.open();
 				switch (result) {
 				case -1:
