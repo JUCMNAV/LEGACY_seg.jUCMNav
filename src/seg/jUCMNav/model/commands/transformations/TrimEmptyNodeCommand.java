@@ -67,6 +67,13 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
         else
             return super.canUndo();
     }
+    
+    public boolean canRedo() {
+        if (getCommands().size() == 0)
+            return true;
+        else
+            return super.canRedo();
+    }
 
     /**
      * Adds a DeleteNodeCommand to the compound command if this is an empty point that hasn't been named, that has no label and isn't connected to anything..

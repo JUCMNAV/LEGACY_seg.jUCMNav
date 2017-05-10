@@ -70,15 +70,15 @@ public class CreateAndLinkToElementCommand extends CompoundCommand {
 			return super.canUndo();
 	}
 	
-	/**
+/*	*//**
 	 * Returns true even if no commands exist.
-	 */
+	 *//*
 	public boolean canRedo() {
 		if (getCommands().size() == 0)
 			return true;
 		else
 			return super.canRedo();
-	}
+	}*/
 
 	public Set<URNmodelElement> getLinkedElements() {
 		return linkedElementsSet;

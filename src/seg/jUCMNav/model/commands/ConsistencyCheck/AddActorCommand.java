@@ -9,6 +9,7 @@ import urn.URNspec;
 
 /**
  * This command create a Actor object in the model
+ * This command differs from AddContainerRefCommand in that it does not create an Actor Reference.
  * 
  * @author kshen
  * 

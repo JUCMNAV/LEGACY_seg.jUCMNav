@@ -48,7 +48,7 @@ public class FixByMarkAsNoURNLink extends AbstractHandler implements IHandler {
 				try {
 					String elementID = (String)marker.getAttribute("EObject");
 					urnelem = (URNmodelElement) URNElementFinder.find(urnspec, elementID);
-					if (markedAlready.contains(urnelem)) {
+					if (markedAlready.contains(urnelem) || null == urnelem) {
 						marker.delete();
 						continue;
 					}

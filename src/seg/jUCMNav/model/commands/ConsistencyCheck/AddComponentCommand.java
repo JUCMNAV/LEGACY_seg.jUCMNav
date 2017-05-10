@@ -9,7 +9,7 @@ import urncore.Component;
 
 /**
  * This command create a Component object in the model
- * 
+ * This command differs from AddContainerRefCommand in that it does not create a Component Reference.
  * @author kshen
  * 
  */

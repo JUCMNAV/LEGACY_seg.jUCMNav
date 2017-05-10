@@ -1899,7 +1899,7 @@ public class JUCMNavCommandTests extends TestCase {
 		int afterSize = urnspec.getGrlspec().getActors().size();
 		assertEquals("Add actor failed, size doen't match.", beforeSize+1, afterSize);
 
-		// test getAcotr; 
+		// test getActor; 
 		assertTrue("Add actor failed, null actor.", cmd.getActor() != null);
 		
 		// test undo
@@ -1935,7 +1935,6 @@ public class JUCMNavCommandTests extends TestCase {
 		
 		// test component type
 		assertTrue("Add component failed, wrong type.", cmd.getComponent().getKind().getValue() == ComponentKind.ACTOR);
-		assertFalse("Add component failed, wrong type.", cmd.getComponent().getKind().getValue() == ComponentKind.AGENT);
 		
 		// test undo
 		Component component = cmd.getComponent();
@@ -2020,7 +2019,7 @@ public class JUCMNavCommandTests extends TestCase {
 		Set<URNmodelElement> elemSet = new HashSet<URNmodelElement>();
 		elemSet.add(addActorCmd.getActor());
 		
-		// test can excute
+		// test can execute
 		CreateAndLinkToElementCommand creatLinkCmd = new CreateAndLinkToElementCommand(urnspec, elemSet);
 		assertTrue("Can't execute CreateAndLinkToElementCommand for actor.", creatLinkCmd.canExecute()); //$NON-NLS-1$
 		
