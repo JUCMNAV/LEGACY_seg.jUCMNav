@@ -1086,7 +1086,7 @@
                   icon="icons/TracesYes.png"
                   label="MarkElementAsYes"
                   style="push"
-                  tooltip="Apply Consistency Check On This Element">
+                  tooltip="Apply Consistency Check on this Element">
                <parameter
                      name="seg.jUCMNav.commandParameter.quickfix.markType"
                      value="Yes">
@@ -1101,7 +1101,7 @@
                   icon="icons/TracesNo.png"
                   label="MarkElementAsNo"
                   style="push"
-                  tooltip="Don&apos;t Apply Consistency Check On This Element">
+                  tooltip="Do not Apply Consistency Check on this Element">
                <parameter
                      name="seg.jUCMNav.commandParameter.quickfix.markType"
                      value="No">
