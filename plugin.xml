@@ -1064,6 +1064,88 @@
             </parameter>
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.views.ProblemView?after=additions">
+         <command
+               commandId="seg.jUCMNav.command.quickfix.markno"
+               id="seg.jUCMNav.menu.quickfix.markno"
+               label="Ignore This Element"
+               style="push"
+               tooltip="Don&apos;t Apply Consistency Check On This Element">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?before=PerspectiveSpacer">
+         <toolbar
+               id="seg.jUCMNav.toolbar.quickfix.markasyes"
+               label="MarkAsYes">
+            <command
+                  commandId="seg.jUCMNav.command.quickfix.markElementNo"
+                  icon="icons/TracesYes.png"
+                  label="MarkElementAsYes"
+                  style="push"
+                  tooltip="Apply Consistency Check On This Element">
+               <parameter
+                     name="seg.jUCMNav.commandParameter.quickfix.markType"
+                     value="Yes">
+               </parameter>
+            </command>
+         </toolbar>
+         <toolbar
+               id="seg.jUCMNav.toolbar.quickfix.markasno"
+               label="MarkAsNo">
+            <command
+                  commandId="seg.jUCMNav.command.quickfix.markElementNo"
+                  icon="icons/TracesNo.png"
+                  label="MarkElementAsNo"
+                  style="push"
+                  tooltip="Don&apos;t Apply Consistency Check On This Element">
+               <parameter
+                     name="seg.jUCMNav.commandParameter.quickfix.markType"
+                     value="No">
+               </parameter>
+            </command>
+         </toolbar>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.views.ProblemView?after=additions">
+         <command
+               commandId="seg.jUCMNav.command.quickfix.createNew"
+               id="seg.jUCMNav.menu.quickfix.createNew"
+               label="Create New Element"
+               style="push"
+               tooltip="Create New Element And Link To It">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.views.ProblemView?after=additions">
+         <command
+               commandId="seg.jUCMNav.command.quickfix.deleteElement"
+               id="seg.jUCMNav.menu.quickfix.deleteElement"
+               label="Delete Element"
+               style="push"
+               tooltip="Delete This Element">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?before=PerspectiveSpacer">
+         <toolbar
+               id="seg.jUCMNav.toolbar.createNew"
+               label="CreateNew">
+            <command
+                  commandId="seg.jUCMNav.command.editor.createNew"
+                  icon="src/seg/jUCMNav/icons/urnlink-bidir.gif"
+                  label="EditorCreateNew"
+                  style="push"
+                  tooltip="Create And Link to New Element">
+            </command>
+         </toolbar>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -1090,6 +1172,39 @@
                optional="true"
                values="seg.jUCMNav.model.commands.parameters.DistributeTypeCommandParameter">
          </commandParameter>
+      </command>
+      <category
+            id="seg.jUCMNav.ConsistencyQuickFix"
+            name="ConsistencyQuickFix">
+      </category>
+      <command
+            categoryId="seg.jUCMNav.ConsistencyQuickFix"
+            id="seg.jUCMNav.command.quickfix.markno"
+            name="FixMarkAsNo">
+      </command>
+      <command
+            categoryId="seg.jUCMNav.ConsistencyQuickFix"
+            id="seg.jUCMNav.command.quickfix.markElementNo"
+            name="MarkElementAsNo">
+         <commandParameter
+               id="seg.jUCMNav.commandParameter.quickfix.markType"
+               name="markType"
+               optional="true">
+         </commandParameter>
+      </command>
+      <command
+            categoryId="seg.jUCMNav.ConsistencyQuickFix"
+            id="seg.jUCMNav.command.quickfix.createNew"
+            name="FixCreateNew">
+      </command>
+      <command
+            id="seg.jUCMNav.command.quickfix.deleteElement"
+            name="FixDeleteElement">
+      </command>
+      <command
+            defaultHandler="seg.jUCMNav.model.commands.handlers.CreateAndLinkToNewElement"
+            id="seg.jUCMNav.command.editor.createNew"
+            name="EditorCreateNew">
       </command>
    </extension>
    <extension
@@ -1137,6 +1252,25 @@
                </and>
             </with>
          </enabledWhen>
+      </handler>
+      <handler
+            class="seg.jUCMNav.model.commands.handlers.FixByMarkAsNoURNLink"
+            commandId="seg.jUCMNav.command.quickfix.markno">
+      </handler>
+      <handler
+            class="seg.jUCMNav.model.commands.handlers.MarkElementAsNoURNLink"
+            commandId="seg.jUCMNav.command.quickfix.markElementNo">
+      </handler>
+      <handler
+            class="seg.jUCMNav.model.commands.handlers.FixByCreateAndLinkToNewElement"
+            commandId="seg.jUCMNav.command.quickfix.createNew">
+      </handler>
+      <handler
+            class="seg.jUCMNav.model.commands.handlers.FixByDeleteElement"
+            commandId="seg.jUCMNav.command.quickfix.deleteElement">
+      </handler>
+      <handler
+            commandId="seg.jUCMNav.command.editor.createNew">
       </handler>
    </extension>
    <extension
