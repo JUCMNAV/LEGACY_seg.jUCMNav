@@ -3,17 +3,18 @@
  */
 package seg.jUCMNav.model.commands.create;
 
-import grl.Dependency;
-import grl.ElementLink;
-import grl.GRLGraph;
-import grl.GRLNode;
-import grl.IntentionalElementRef;
-
 import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import fm.Feature;
+import fm.FeatureDiagram;
+import grl.Dependency;
+import grl.ElementLink;
+import grl.GRLGraph;
+import grl.GRLNode;
+import grl.IntentionalElementRef;
 import seg.jUCMNav.Messages;
 
 /**
@@ -74,6 +75,11 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
     }
     
     public boolean canExecute() {
+//    	.element.eAdapters(). if drag directly what will happen Goal and Softgoal is dragged directly into Goalgraph 
+//    	or feature is dragged directly into Goalgraph with some features which current feature associated to,containing in the same Goalgraph 
+//    	if( !(graph instanceof FeatureDiagram) ){
+//    		return false;
+//    	}
         return true;
     }
 
@@ -123,16 +129,24 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
             if (current.getDef().getLinksSrc().contains(element.getDef().getLinksDest().get(i))) {
                 if ((ElementLink) element.getDef().getLinksDest().get(i) instanceof Dependency)
                     add(new AddLinkRefCommand(graph, element, current, (ElementLink) element.getDef().getLinksDest().get(i)));
-                else
-                    add(new AddLinkRefCommand(graph, current, element, (ElementLink) element.getDef().getLinksDest().get(i)));
+                else{
+                	// if the LinkRef is to be added between two refs of different Features which are in GRLGraph
+                    // the ref will not be created 
+                	if( !(element.getDef() instanceof Feature && current.getDef() instanceof Feature && !(graph instanceof FeatureDiagram)))
+                       add(new AddLinkRefCommand(graph, current, element, (ElementLink) element.getDef().getLinksDest().get(i)));
+                }
             }
         }
         for (int i = 0; i < element.getDef().getLinksSrc().size(); i++) {
             if (current.getDef().getLinksDest().contains(element.getDef().getLinksSrc().get(i))) {
                 if ((ElementLink) element.getDef().getLinksSrc().get(i) instanceof Dependency)
                     add(new AddLinkRefCommand(graph, current, element, (ElementLink) element.getDef().getLinksSrc().get(i)));
-                else
-                    add(new AddLinkRefCommand(graph, element, current, (ElementLink) element.getDef().getLinksSrc().get(i)));
+                else{
+                	// if the LinkRef is to be added between two refs of different Features which are in GRLGraph
+                    // the ref will not be created 
+                	if( !(element.getDef() instanceof Feature && current.getDef() instanceof Feature && !(graph instanceof FeatureDiagram)))
+                       add(new AddLinkRefCommand(graph, element, current, (ElementLink) element.getDef().getLinksSrc().get(i)));           
+                }
             }
         }
     }

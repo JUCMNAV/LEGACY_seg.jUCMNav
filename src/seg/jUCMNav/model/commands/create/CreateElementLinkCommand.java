@@ -3,20 +3,22 @@
  */
 package seg.jUCMNav.model.commands.create;
 
-import fm.Feature;
-import fm.ReuseLink;
-import grl.Dependency;
-import grl.ElementLink;
-import grl.GRLspec;
-import grl.IntentionalElement;
-import grl.IntentionalElementRef;
-
 import java.util.Iterator;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import fm.Feature;
+import fm.FeatureDiagram;
+import fm.ReuseLink;
+import grl.Contribution;
+import grl.Decomposition;
+import grl.Dependency;
+import grl.ElementLink;
+import grl.GRLspec;
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.util.ReusedElementUtil;
@@ -86,10 +88,37 @@ public class CreateElementLinkCommand extends CompoundCommand {
         // Links to reused elements cannot be created
         if (grl != null && dest != null && ReusedElementUtil.isReusedElement(grl, dest))
         	return false;
-     // Links of root feature(IntentioanlElementRef) as source cannot be created
+        // Links of root feature(IntentioanlElementRef) as source cannot be created
         String value = MetadataHelper.getMetaData(src, "CoURN");
         if (grl != null && dest != null && (dest instanceof Feature) && value !=null && value.equalsIgnoreCase("root feature"))
         	return false;
+        //do not allow a feature to have two or more parent features
+        if (grl != null && (src instanceof Feature) && (dest instanceof Feature) ){
+        	for(ElementLink link : (EList<ElementLink>)src.getLinksSrc()){
+        		if( link.getDest() instanceof Feature && !link.getDest().equals(dest) )
+        			return false;
+        	}
+        }
+        if( dest == null){
+        	return false;
+        }
+        // don't allow the Contribution and Decomposition appear together as LinkDests of same Feature
+        if(grl != null && (src instanceof Feature) && (dest instanceof Feature) ){
+        	if( link instanceof Contribution){
+        		for( Iterator iter = dest.getLinksDest().iterator(); iter.hasNext(); ){
+        			ElementLink link = (ElementLink)iter.next();
+        			if( link instanceof Decomposition )
+        				return false;
+        		}
+        	}
+        	if( link instanceof Decomposition){
+        		for( Iterator iter = dest.getLinksDest().iterator(); iter.hasNext(); ){
+        			ElementLink link = (ElementLink)iter.next();
+        			if( link instanceof Contribution && link.getSrc() instanceof Feature)
+        				return false;
+        		}
+        	}
+        }
         return super.canExecute();
     }
 
@@ -126,6 +155,13 @@ public class CreateElementLinkCommand extends CompoundCommand {
     public void execute() {
         addLinkRefCommand();
         super.execute();
+    }
+    
+    /**
+     * get the IntentionalElement Source which is startpoint of the connection
+     */
+    public IntentionalElement getSource(){
+    	return src;
     }
 
     /**
@@ -169,7 +205,10 @@ public class CreateElementLinkCommand extends CompoundCommand {
     				for (Iterator destiter = dest.getRefs().iterator(); destiter.hasNext();) {
     					IntentionalElementRef destRef = (IntentionalElementRef) destiter.next();
     					if (srcRef.getDiagram().equals(destRef.getDiagram())) {
-    						add(new AddLinkRefCommand(destRef.getDiagram(), srcRef, destRef, link));
+    						// if the LinkRef is to be added between two refs of different Features which are in GRLGraph
+    	                    // the ref will not be created 
+    						if( !(src instanceof Feature && dest instanceof Feature && !(srcRef.getDiagram() instanceof FeatureDiagram)))
+    						    add(new AddLinkRefCommand(destRef.getDiagram(), srcRef, destRef, link));
     					}
     				}
     			}

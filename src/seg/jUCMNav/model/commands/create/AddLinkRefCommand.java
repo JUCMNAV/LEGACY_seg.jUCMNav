@@ -3,13 +3,12 @@
  */
 package seg.jUCMNav.model.commands.create;
 
+import org.eclipse.gef.commands.Command;
+
 import grl.Contribution;
 import grl.ElementLink;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
-
-import org.eclipse.gef.commands.Command;
-
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
@@ -49,6 +48,10 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
+//    	if( source.getDef() instanceof Feature && destination.getDef() instanceof Feature){
+//    		if(graph instanceof GRLGraph)
+//    			return false;
+//    	}
         return (source != null && destination != null);
     }
 

@@ -5,12 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
-import seg.jUCMNav.model.util.MetadataHelper;
-import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import urn.URNspec;
-import urncore.GRLmodelElement;
-import urncore.Metadata;
 import fm.Feature;
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
@@ -20,6 +14,11 @@ import grl.ElementLink;
 import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import urncore.GRLmodelElement;
+import urncore.Metadata;
 
 public class FeatureUtil {
     
@@ -120,7 +119,29 @@ public class FeatureUtil {
         }
         return true;
     }
-    
+    /**
+	 * Returns true if elem only has one mandatory source link to other feature
+	 * (only considers links to other features, may have other links to IntentionalElements that are not Features)
+	 * @param elem
+	 * @return
+	 */
+    public static boolean containsOnlyMandatorySrcLinkToFeature(Feature elem, GRLspec grl) {
+    	if (FeatureUtil.isRootFeature(elem, grl))
+    		return false;
+    	if (ReusedElementUtil.isReusedElement(grl, elem))
+    		return false;
+        Iterator it = elem.getLinksSrc().iterator();
+        if (!it.hasNext()) {
+            return false;
+        }
+        while (it.hasNext()) {
+            ElementLink link = (ElementLink) it.next();
+            if (link.getDest() instanceof Feature && !(link instanceof MandatoryFMLink)) {
+                return false;
+            }
+        }
+        return true;
+    }
 	/**
 	 * Returns true if elem only has src links to other features with an evaluation of 0
 	 * (only considers links to other features, may have other links to IntentionalElements that are not Features)

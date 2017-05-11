@@ -3,6 +3,8 @@
  */
 package seg.jUCMNav.editpolicies.directEditPolicy;
 
+import fm.Feature;
+import fm.FeatureDiagram;
 import fm.ReuseLink;
 import grl.ElementLink;
 import grl.IntentionalElementRef;
@@ -44,7 +46,13 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
         } else if (cmd instanceof CreateKPIModelLinkCommand) {
             ((CreateKPIModelLinkCommand) cmd).setTarget(((IntentionalElementRef) getHost().getModel()).getDef());
         } else {
-            ((CreateElementLinkCommand) cmd).setTarget(((IntentionalElementRef) getHost().getModel()).getDef());     
+        	// to avoid create the ElementLink between two Features in GRLGraph
+         	if(((CreateElementLinkCommand) cmd).getSource() instanceof Feature && ((IntentionalElementRef) getHost().getModel()).getDef() instanceof Feature
+        			&& !(((IntentionalElementRef) getHost().getModel()).getDiagram() instanceof FeatureDiagram)){
+        		((CreateElementLinkCommand) cmd).setTarget( null );
+        	}else{
+              ((CreateElementLinkCommand) cmd).setTarget(((IntentionalElementRef) getHost().getModel()).getDef()); 
+        	}
         }
         return cmd;
     }

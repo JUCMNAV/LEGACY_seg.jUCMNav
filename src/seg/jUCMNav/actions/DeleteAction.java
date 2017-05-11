@@ -61,7 +61,7 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
 				}
 				if (felement != null) {
 					String metaValue = MetadataHelper.getMetaData(felement, "CoURN"); //$NON-NLS-1$
-					if (metaValue != null && metaValue.equalsIgnoreCase("root feature")) //$NON-NLS-1$
+					if (metaValue != null && metaValue.equalsIgnoreCase("root feature") && felement.getRefs().size() <= 1) //$NON-NLS-1$
 						return false;
 				}
 			}

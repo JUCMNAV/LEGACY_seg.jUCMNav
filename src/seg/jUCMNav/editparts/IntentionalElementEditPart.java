@@ -695,6 +695,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 				FeatureUtil.checkSelectionStatus((Feature) elem, false) && 
 				(FeatureUtil.containsOnlySrcLinkToNotSelectedFeature((Feature) elem, urn.getGrlspec()) || 
 						FeatureUtil.containsOnlyOptionalSrcLinkToFeature((Feature) elem, urn.getGrlspec()) 
+						|| FeatureUtil.containsOnlyMandatorySrcLinkToFeature((Feature)elem, urn.getGrlspec())
 						|| FeatureUtil.hasOrXorBrother((Feature)elem)) && !FeatureUtil.isReexposed(elem)){
 					//	|| FeatureUtil.hasSelectedOrXorBrother((Feature) elem, true, true)) ) {
 		    	// if feature model algorithm and own evaluation is 0 and is Un-reexposed, check if need to set to light gray color
