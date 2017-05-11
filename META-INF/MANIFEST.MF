@@ -145,7 +145,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.swt,
  org.eclipse.ui.workbench,
  org.eclipse.ui,
- org.eclipse.ui.navigator
+ org.eclipse.ui.navigator,
+ org.apache.log4j,
+ ca.mcgill.sel.commons;bundle-version="1.0.0",
+ ca.mcgill.sel.core;bundle-version="1.1.0",
+ ca.mcgill.sel.ram
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
 
