@@ -83,6 +83,7 @@ import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urncore.Metadata;
+import urncore.Responsibility;
 
 /**
  * EditPart associated with PathNodes. All model elements that extend PathNode should be associated with this EditPart.
@@ -630,8 +631,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         boolean scenariosActive = ScenarioUtils.getActiveScenario(node) != null && ScenarioUtils.getTraversalHitCount(node) > 0;
         nodeFigure.setTraversed(scenariosActive);
         if(node instanceof RespRef){
-            String deactStatus = MetadataHelper.getMetaData(((RespRef) node).getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
-            if (deactStatus != null && deactStatus.equalsIgnoreCase("true") && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+        	String deactStatus = MetadataHelper.getMetaData(((RespRef) node).getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+        	String deactStatusRef = MetadataHelper.getMetaData(node, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+        	if (((deactStatus != null && deactStatus.equalsIgnoreCase("true")) || (deactStatusRef != null && deactStatusRef.equalsIgnoreCase("true"))) && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
                 nodeFigure.setDeactivated(scenariosActive);
             else
                 nodeFigure.setDeactivated(false);

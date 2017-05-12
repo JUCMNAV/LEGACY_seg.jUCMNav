@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
+import grl.Actor;
+import grl.ActorRef;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.scenarios.algorithmInterfaces.IScenarioTraversalAlgorithm;
@@ -27,8 +29,10 @@ import seg.jUCMNav.scenarios.parser.jUCMNavTypeChecker;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.UCMspec;
+import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
+import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.Stub;
@@ -46,7 +50,9 @@ import urn.dyncontext.PropertyChange;
 import urn.dyncontext.Timepoint;
 import urncore.Component;
 import urncore.Condition;
+import urncore.Metadata;
 import urncore.Responsibility;
+import urncore.URNmodelElement;
 
 /**
  * Utility class for UCM Scenarios.
@@ -939,8 +945,22 @@ public class ScenarioUtils {
     
     protected static UCMspec applychange(UCMspec ucm, Change change, Timepoint tp) {
     	if (change instanceof DeactivationChange){
-    		if (change.getElement() instanceof Responsibility || change.getElement() instanceof Component)
+    		if (change.getElement() instanceof Responsibility)
     			MetadataHelper.addMetaData(ucm.getUrnspec(), change.getElement(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
+    		if (change.getElement() instanceof Component){
+    			MetadataHelper.addMetaData(ucm.getUrnspec(), change.getElement(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
+    			
+    			List<ComponentRef> includedComponentReferences = getComponentReferencesRecursively((Component)change.getElement());
+    			for (ComponentRef cr : includedComponentReferences) {
+  					MetadataHelper.addMetaData(ucm.getUrnspec(), (Component) cr.getContDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
+    				
+  					List<PathNode> nodes = (List<PathNode>) cr.getNodes();
+    				for (PathNode p : nodes) {
+    					if (p instanceof RespRef)
+    						MetadataHelper.addMetaData(ucm.getUrnspec(), p, EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
+    					}
+    			}
+    		}      		
     	}
     
     	return ucm;
@@ -1027,6 +1047,31 @@ public class ScenarioUtils {
     	return updatedUCMmodel;
     }
     
+    protected static List<ComponentRef> getComponentReferencesRecursively(Component c) {
+    	List<ComponentRef> componentRefs = c.getContRefs();
+    	List<ComponentRef> finalComponentReferences = new ArrayList<ComponentRef>();
+    	finalComponentReferences.addAll(componentRefs);
+    	List<ComponentRef> includedComponentReferences = new ArrayList<ComponentRef>();
+    	
+    	for (ComponentRef componentReference : componentRefs){
+    		List<ComponentRef> candidates = componentReference.getChildren();
+    		for(ComponentRef candidate: candidates){
+    			if(!(includedComponentReferences.contains(candidate)))
+        			includedComponentReferences.add(candidate);
+    		}    		
+    	}
+    	
+    	for (ComponentRef componentRef: includedComponentReferences){
+    		List<ComponentRef> candidates = getComponentReferencesRecursively((Component) componentRef.getContDef());
+    		for(ComponentRef candidate: candidates){
+    			if(!(finalComponentReferences.contains(candidate)))
+        			finalComponentReferences.add(candidate);
+    		}
+    	}
+
+    	return finalComponentReferences;
+    }
+        
     public static Vector traverseWarn(EObject scenario, Vector listeners) {//**************
         try {
             if (scenario == null) {

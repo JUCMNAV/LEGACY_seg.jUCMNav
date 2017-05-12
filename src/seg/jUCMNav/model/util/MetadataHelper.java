@@ -6,6 +6,7 @@ import grl.ElementLink;
 import grl.IntentionalElement;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -17,6 +18,7 @@ import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.Component;
@@ -410,6 +412,10 @@ public class MetadataHelper {
             for (Iterator iter = model.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
                 Responsibility responsibility = (Responsibility) iter.next();
                 MetadataHelper.removeMetaData(responsibility, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+                List<RespRef> respRefs = responsibility.getRespRefs(); 
+                for (RespRef respRef: respRefs){
+                	MetadataHelper.removeMetaData(respRef, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+                }
             }
      
             // Remove run-time TimedUCM related metadata attached to components

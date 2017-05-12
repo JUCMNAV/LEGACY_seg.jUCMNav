@@ -506,7 +506,8 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
     protected void processRespRef(UcmEnvironment env, RespRef resp) throws TraversalException {
 
 		String deactStatus = MetadataHelper.getMetaData(resp.getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
-		if (!(deactStatus != null && deactStatus.equalsIgnoreCase("true") && ScenarioTraversalPreferences.getIsTimedUcmEnabled())) {
+		String deactStatusRef = MetadataHelper.getMetaData(resp, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+		if (!(((deactStatus != null && deactStatus.equalsIgnoreCase("true")) || (deactStatusRef != null && deactStatusRef.equalsIgnoreCase("true"))) && ScenarioTraversalPreferences.getIsTimedUcmEnabled())) {
         try {
             // First convert the repetitionCount String attribute to an int.
             int repCount;
