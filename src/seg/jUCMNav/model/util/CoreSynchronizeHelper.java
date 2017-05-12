@@ -19,7 +19,7 @@ import ca.mcgill.sel.core.COREFeatureRelationshipType;
 import ca.mcgill.sel.core.CoreFactory;
 import ca.mcgill.sel.core.util.COREModelUtil;
 import ca.mcgill.sel.core.util.CoreResourceFactoryImpl;
-import ca.mcgill.sel.ram.util.Constants;
+
 import fm.Feature;
 import fm.FeatureDiagram;
 import fm.MandatoryFMLink;
@@ -40,6 +40,8 @@ import urncore.Concern;
 import urncore.IURNDiagram;
 
 public class CoreSynchronizeHelper {
+	
+	public static final String CORE_FILE_EXTENSION = "core"; //$NON-NLS-1$
 
 	public static HashMap<COREFeature, Feature> oldmappedCoreFeatureAndFeature = new HashMap<COREFeature, Feature>();
 	public static HashMap<COREFeature, Feature> newmappedCoreFeatureAndFeature = new HashMap<COREFeature, Feature>();
@@ -88,7 +90,7 @@ public class CoreSynchronizeHelper {
 			Feature rootFeature = findRootFeature(urn);
 			if (rootFeature == null) {
 				// define the name of root Feature
-				String fileName = fullPath.substring(fullPath.lastIndexOf("\\") + 1);
+				String fileName = fullPath.substring(fullPath.lastIndexOf("\\") + 1); //$NON-NLS-1$
 				String rootFeatureName = fileName.substring(0, 1).toUpperCase() + fileName.substring(1);
 
 				createRootFeature(urn, rootFeatureName);
@@ -158,7 +160,7 @@ public class CoreSynchronizeHelper {
 			// rootfeature and rootCoreFeature
 			if (rootFeature == null) {
 				// root feature doesn't exist
-				String fileName = fullPath.substring(fullPath.lastIndexOf("\\") + 1);
+				String fileName = fullPath.substring(fullPath.lastIndexOf("\\") + 1); //$NON-NLS-1$
 				String rootFeatureName = fileName.substring(0, 1).toUpperCase() + fileName.substring(1);
 
 				createRootFeature(urn, rootFeatureName);
@@ -677,7 +679,7 @@ public class CoreSynchronizeHelper {
 		// CorePackage.eINSTANCE.eClass();
 		// RamPackage.eINSTANCE.eClass();
 		// Register resource factories.
-		ResourceManager.registerExtensionFactory(Constants.CORE_FILE_EXTENSION, new CoreResourceFactoryImpl());
+		ResourceManager.registerExtensionFactory(CORE_FILE_EXTENSION, new CoreResourceFactoryImpl());
 
 		// Initialize adapter factories.
 		// AdapterFactoryRegistry.INSTANCE.addAdapterFactory(RamItemProviderAdapterFactory.class);
@@ -685,7 +687,7 @@ public class CoreSynchronizeHelper {
 		COREConcern concern = null;
 
 		try {
-			concern = (COREConcern) ResourceManager.loadModel(filePath + "." + Constants.CORE_FILE_EXTENSION);
+			concern = (COREConcern) ResourceManager.loadModel(filePath + "." + CORE_FILE_EXTENSION);
 			// concern = (COREConcern) (new UrnModelManager()).loadModel(filePath + "." +Constants.CORE_FILE_EXTENSION);
 			
 			if (concern != null) {
@@ -702,7 +704,7 @@ public class CoreSynchronizeHelper {
 			e1.printStackTrace();
 			System.out.println("the corresponding model is not created, doesn't exist");
 
-			File file = new File(filePath.concat(".core"));
+			File file = new File(filePath.concat(".core")); //$NON-NLS-1$
 
 			if (!file.exists()) {
 				try {
@@ -711,10 +713,10 @@ public class CoreSynchronizeHelper {
 
 				} catch (Exception e2) {
 					e2.printStackTrace();
-					System.out.println("The core file is not created successfully");
+					System.out.println("The core file is not created successfully");  //$NON-NLS-1$
 				}
-				String fileName = filePath.substring(filePath.lastIndexOf("\\") + 1);
-				concern = COREModelUtil.createConcern(fileName + "." + Constants.CORE_FILE_EXTENSION);
+				String fileName = filePath.substring(filePath.lastIndexOf("\\") + 1);      //$NON-NLS-1$
+				concern = COREModelUtil.createConcern(fileName + "." + CORE_FILE_EXTENSION); //$NON-NLS-1$
 				String rootFeatureName = fileName.substring(0, 1).toUpperCase() + fileName.substring(1);
 
 				concern.getFeatureModel().getRoot().setName(rootFeatureName);
@@ -728,7 +730,7 @@ public class CoreSynchronizeHelper {
 							IntentionalElementRef.class, ModelCreationFactory.FEATURE);
 					Feature rootFeature = (Feature) featureRef.getDef();
 					rootFeature.setName(rootFeatureName);
-					MetadataHelper.addMetaData(urn, rootFeature, "CoURN", "rootFeature");
+					MetadataHelper.addMetaData(urn, rootFeature, "CoURN", "rootFeature"); //$NON-NLS-1$ //$NON-NLS-1$
 					urn.getGrlspec().getIntElements().add(rootFeature);
 					boolean addFeatureRef = false;
 					for (IURNDiagram diagram : (List<IURNDiagram>) urn.getUrndef().getSpecDiagrams()) {
@@ -748,7 +750,7 @@ public class CoreSynchronizeHelper {
 
 				}
 				intElement.setCoreFeature(concern.getFeatureModel().getRoot());
-				doSave(concern, filePath.concat(".core"));
+				doSave(concern, filePath.concat(".core")); //$NON-NLS-1$
 			} else {
 				System.out.println("The file is created but not catched by resourcemanager");
 			}
