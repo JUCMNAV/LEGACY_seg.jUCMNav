@@ -172,7 +172,7 @@ public class CoreSynchronizeHelper {
 					} else {
 
 						COREFeature oldCoreFeature = rootFeature.getCoreFeature();
-						newmappedCoreFeatureAndFeature.remove(oldCoreFeature, rootFeature);
+						newmappedCoreFeatureAndFeature.remove(oldCoreFeature);
 						rootFeature.setCoreFeature(rootCoreFeature);
 					}
 				}
