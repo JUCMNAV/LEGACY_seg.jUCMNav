@@ -33,6 +33,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.CoreSynchronizeHelper;
+import seg.jUCMNav.model.util.MetadataHelper;
 import urn.URNspec;
 
 /**
@@ -170,7 +171,11 @@ public class MultiPageFileManager {
 					String corefilename = file.getName().substring(0, file.getName().lastIndexOf("."));
 					// editor.getModel() --> model
 					URNspec urnspec = editor.getModel();
-					CoreSynchronizeHelper.setUp(urnspec, corefilename, filePathName, false);
+
+					String value = MetadataHelper.getMetaData(urnspec, "CoURN");
+			        if (value!=null && value.equals("true")) {
+						CoreSynchronizeHelper.setUp(urnspec, corefilename, filePathName, false);			        	
+			        }
 				}
 
 				// MetadataHelper.cleanRunTimeMetadata(getEditor().getModel());
