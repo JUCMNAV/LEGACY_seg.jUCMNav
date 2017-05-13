@@ -145,8 +145,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.swt,
  org.eclipse.ui.workbench,
  org.eclipse.ui,
- org.eclipse.ui.navigator,
- org.apache.log4j
+ org.eclipse.ui.navigator
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
 

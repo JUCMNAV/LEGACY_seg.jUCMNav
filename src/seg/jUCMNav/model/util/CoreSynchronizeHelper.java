@@ -19,7 +19,6 @@ import ca.mcgill.sel.core.COREFeatureRelationshipType;
 import ca.mcgill.sel.core.CoreFactory;
 import ca.mcgill.sel.core.util.COREModelUtil;
 import ca.mcgill.sel.core.util.CoreResourceFactoryImpl;
-import ca.mcgill.sel.ram.util.Constants;
 import fm.Feature;
 import fm.FeatureDiagram;
 import fm.MandatoryFMLink;
@@ -31,6 +30,7 @@ import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editors.resourceManagement.EmfModelManager;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteElementLinkCommand;
@@ -677,7 +677,7 @@ public class CoreSynchronizeHelper {
 		// CorePackage.eINSTANCE.eClass();
 		// RamPackage.eINSTANCE.eClass();
 		// Register resource factories.
-		ResourceManager.registerExtensionFactory(Constants.CORE_FILE_EXTENSION, new CoreResourceFactoryImpl());
+		ResourceManager.registerExtensionFactory(EmfModelManager.CORE_FILE_EXTENSION, new CoreResourceFactoryImpl());
 
 		// Initialize adapter factories.
 		// AdapterFactoryRegistry.INSTANCE.addAdapterFactory(RamItemProviderAdapterFactory.class);
@@ -685,7 +685,7 @@ public class CoreSynchronizeHelper {
 		COREConcern concern = null;
 
 		try {
-			concern = (COREConcern) ResourceManager.loadModel(filePath + "." + Constants.CORE_FILE_EXTENSION);
+			concern = (COREConcern) ResourceManager.loadModel(filePath + "." + EmfModelManager.CORE_FILE_EXTENSION);
 			// concern = (COREConcern) (new UrnModelManager()).loadModel(filePath + "." +Constants.CORE_FILE_EXTENSION);
 			
 			if (concern != null) {
@@ -714,7 +714,7 @@ public class CoreSynchronizeHelper {
 					System.out.println("The core file is not created successfully");  //$NON-NLS-1$
 				}
 				String fileName = filePath.substring(filePath.lastIndexOf("\\") + 1);      //$NON-NLS-1$
-				concern = COREModelUtil.createConcern(fileName + "." + Constants.CORE_FILE_EXTENSION); //$NON-NLS-1$
+				concern = COREModelUtil.createConcern(fileName + "." + EmfModelManager.CORE_FILE_EXTENSION); //$NON-NLS-1$
 				String rootFeatureName = fileName.substring(0, 1).toUpperCase() + fileName.substring(1);
 
 				concern.getFeatureModel().getRoot().setName(rootFeatureName);

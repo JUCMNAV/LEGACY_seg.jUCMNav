@@ -1,7 +1,6 @@
 package seg.jUCMNav.model.commands.handlers;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -20,26 +19,20 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorDescriptor;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 
-import ca.mcgill.sel.ram.util.Constants;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
-import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.commands.concerns.SynchronizeJUCMNavWithCoreCommand;
 import seg.jUCMNav.model.util.MetadataHelper;
 import urn.URNspec;
-
-
 
 public class SynchronizationHandler extends AbstractHandler implements IHandler{
 

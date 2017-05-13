@@ -20,12 +20,10 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import ca.mcgill.sel.core.COREConcern;
 import ca.mcgill.sel.core.util.CoreResourceFactoryImpl;
-import ca.mcgill.sel.ram.util.Constants;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.URNReferencerChecker;
 import urn.URNspec;
 
-import org.eclipse.emf.ecore.*;
 /**
  * This class is used to load and save the model from the file system.
  * 
@@ -46,6 +44,10 @@ public abstract class EmfModelManager {
      * In EMF, a resource provides the way to have access to the model content.
      */
     protected Resource resource = null;
+    /**
+     * The extension of the CORE file with which a concern-oriented jucm file is synchronized.
+     */    
+    public static String CORE_FILE_EXTENSION = "core";
 
     /**
      * Creates a resource to contain the model. The resource file does not exist yet.
@@ -125,7 +127,7 @@ public abstract class EmfModelManager {
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map m = reg.getExtensionToFactoryMap();
         m.put(getFileExtension(), new XMIResourceFactoryImpl());
-        m.put( Constants.CORE_FILE_EXTENSION , new CoreResourceFactoryImpl());
+        m.put(CORE_FILE_EXTENSION , new CoreResourceFactoryImpl());
         // Obtain a new resource set
         return new ResourceSetImpl();
     }
