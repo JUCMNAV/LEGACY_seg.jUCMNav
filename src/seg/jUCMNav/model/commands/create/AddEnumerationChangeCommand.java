@@ -12,14 +12,21 @@ import grl.IntentionalElementRef;
 import grl.LinkRef;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.ActorRefEditPart;
+import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
+import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import ucm.map.ComponentRef;
+import ucm.map.StartPoint;
+import ucm.map.Timer;
+import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urn.dyncontext.Change;
 import urn.dyncontext.DynamicContext;
 import urn.dyncontext.EnumChange;
+import urncore.Component;
 import urncore.URNmodelElement;
 
 /**
@@ -53,7 +60,7 @@ public class AddEnumerationChangeCommand extends Command implements JUCMNavComma
         this.startDate = startDate;
         this.endDate = endDate;
         this.newValue = newValue;
-        setLabel(Messages.getString("AddNumericChangeCommand.AddNumericChange")); //$NON-NLS-1$
+        setLabel(Messages.getString("AddEnumChangeCommand.AddEnumChange")); //$NON-NLS-1$
     }
 
     /**
@@ -114,6 +121,24 @@ public class AddEnumerationChangeCommand extends Command implements JUCMNavComma
         		elt = (Actor) ((ActorRef)((ActorRefEditPart) this.parent).getModel()).getContDef();
         	else if (parent instanceof ActorRef)
         		elt = (Actor) ((ActorRef) this.parent).getContDef();
+        	else if (parent instanceof ComponentRefEditPart)
+           		elt = (Component)((ComponentRef)((ComponentRefEditPart) this.parent).getModel()).getContDef();
+        	else if (parent instanceof Component)
+        		elt = (Component) this.parent;
+        	else if (parent instanceof PathNodeEditPart) {
+    	    	if ((((PathNodeEditPart) parent).getModel()) instanceof StartPoint)
+    	    		elt = (StartPoint)((PathNodeEditPart) parent).getModel();
+    	    	else if ((((PathNodeEditPart) parent).getModel()) instanceof Timer)
+    	    		elt = (Timer)((PathNodeEditPart) parent).getModel();
+    	    	else if ((((PathNodeEditPart) parent).getModel()) instanceof WaitingPlace)
+    	    		elt = (WaitingPlace)((PathNodeEditPart) parent).getModel();
+    	    }
+        	else if (parent instanceof StartPoint)
+        		elt = (StartPoint) this.parent;
+        	else if (parent instanceof Timer)
+        		elt = (Timer) this.parent;
+        	else if (parent instanceof WaitingPlace)
+        		elt = (WaitingPlace) this.parent;
         	newChange.setElement(elt);
         	newChange.setAffectedProperty(affectedProperty);
         	newChange.setStart(startDate);
@@ -125,6 +150,37 @@ public class AddEnumerationChangeCommand extends Command implements JUCMNavComma
     				newChange.setNewValue("OR");
         		else if (newValue.equals("2"))
     				newChange.setNewValue("XOR");
+        		else
+        			newChange.setNewValue(newValue);
+        	} else if (affectedProperty.equals("Failure Kind")) {
+        		if (newValue.equals("0"))
+        			newChange.setNewValue("FAILURE");
+        		else if (newValue.equals("1"))
+    				newChange.setNewValue("ABORT");
+        		else if (newValue.equals("2"))
+    				newChange.setNewValue("NONE");
+        		else
+        			newChange.setNewValue(newValue);
+        	} else if (affectedProperty.equals("Wait Kind")) {
+        		if (newValue.equals("0"))
+        			newChange.setNewValue("TRANSIENT");
+        		else if (newValue.equals("1"))
+    				newChange.setNewValue("PERSISTENT");
+        		else
+        			newChange.setNewValue(newValue);
+        	} else if (affectedProperty.equals("Component Kind")) {
+        		if (newValue.equals("0"))
+        			newChange.setNewValue("TEAM");
+        		else if (newValue.equals("1"))
+    				newChange.setNewValue("OBJECT");
+        		else if (newValue.equals("2"))
+    				newChange.setNewValue("PROCESS");
+        		else if (newValue.equals("3"))
+    				newChange.setNewValue("AGENT");
+        		else if (newValue.equals("4"))
+    				newChange.setNewValue("ACTOR");
+        		else if (newValue.equals("5"))
+    				newChange.setNewValue("OTHER");
         		else
         			newChange.setNewValue(newValue);
         	} else
