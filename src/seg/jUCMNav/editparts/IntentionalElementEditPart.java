@@ -2,7 +2,6 @@ package seg.jUCMNav.editparts;
 
 import fm.Feature;
 import fm.FeatureDiagram;
-import grl.ActorRef;
 import grl.Decomposition;
 import grl.DecompositionType;
 import grl.ElementLink;
