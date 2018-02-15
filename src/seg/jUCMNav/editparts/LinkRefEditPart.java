@@ -20,7 +20,6 @@ import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionEndpointLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -39,13 +38,13 @@ import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.figures.util.UrnMetadata;
-import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
 import urncore.Metadata;
+import urncore.URNmodelElement;
 import urncore.UrncorePackage;
 
 /**
@@ -357,7 +356,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
         	
         	//Add change label if link is of suitable type and at least one change exists for the link
         	if ((getLinkRef().getLink() instanceof Decomposition || getLinkRef().getLink() instanceof Contribution || 
-        			getLinkRef().getLink() instanceof Dependency) && DynamicContextsUtils.changeExistsFor(getLinkRef().getLink(), getLinkRef().getLink().getGrlspec().getUrnspec())) {
+        			getLinkRef().getLink() instanceof Dependency) && DynamicContextsUtils.changeExistsFor((URNmodelElement)getLinkRef().getLink(), getLinkRef().getLink().getGrlspec().getUrnspec())) {
         		changeLabel.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
             	changeLabel.setText("");
             	changeLabel.setVisible(true);
