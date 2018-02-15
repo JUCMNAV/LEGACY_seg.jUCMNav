@@ -38,7 +38,7 @@ public class AddDynamicContextStrategyAction extends URNSelectionAction {
     public AddDynamicContextStrategyAction(IWorkbenchPart part) {
         super(part);
         setId(ADDCONTEXTSTRATEGY);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucmscen16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grlstrat16.gif")); //$NON-NLS-1$
     }
 
     /**
