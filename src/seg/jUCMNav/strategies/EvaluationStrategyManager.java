@@ -39,27 +39,18 @@ import grl.Evaluation;
 import grl.EvaluationRange;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
-import grl.GrlPackage;
-import grl.ImpactModel;
 import grl.ImportanceType;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 import grl.QualitativeLabel;
 import grl.StrategiesGroup;
-import grl.impl.GRLspecImpl;
-import grl.impl.GrlFactoryImpl;
 import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPINewEvalValue;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -69,54 +60,24 @@ import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
-import javax.management.loading.PrivateClassLoader;
-import javax.swing.plaf.multi.MultiViewportUI;
-
 import java.util.Date;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
-import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorDescriptor;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.FileEditorInput;
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
 
 import fm.Feature;
-import fm.FeatureModel;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
-import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
-import seg.jUCMNav.editparts.ActorRefEditPart;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
-import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
 import seg.jUCMNav.editparts.kpiTreeEditparts.KPIRootEditPart;
@@ -129,13 +90,9 @@ import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.strategies.util.FeatureUtil;
-import seg.jUCMNav.views.UCMPerspectiveFactory;
-import seg.jUCMNav.views.dynamicContexts.DynamicContextsView;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import seg.jUCMNav.views.strategies.StrategiesView;
-import seg.jUCMNav.views.wizards.dynamicContexts.ManageChangeEditorPage;
-import ucmscenarios.impl.InstanceImpl;
 import urn.URNspec;
 import urn.dyncontext.Change;
 import urn.dyncontext.ConstantChange;
@@ -148,10 +105,8 @@ import urn.dyncontext.NumericChange;
 import urn.dyncontext.PropertyChange;
 import urn.dyncontext.QuadraticChange;
 import urn.dyncontext.Timepoint;
-import urn.dyncontext.TimepointGroup;
 import urncore.GRLmodelElement;
 import urncore.Metadata;
-import urncore.URNmodelElement;
 
 /**
  * This class is a singleton responsible to manage the current strategy. It does the evaluation calculation for IntentionalElement, create the Evaluation and
@@ -2356,7 +2311,7 @@ public class EvaluationStrategyManager {
 		    		link.setQuantitativeContribution(newVal);
 	    		}
 	    	}    	 
-	    } else if (change instanceof EnumChange) {
+	    } else if (change instanceof EnumChange && (change.getElement() instanceof IntentionalElement || change.getElement() instanceof IntentionalElementEditPart)) {
     		EnumChange enumChange = (EnumChange) change;
     		strategySave = strategy;
     		
