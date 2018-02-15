@@ -1190,7 +1190,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         if (pluginBinding != null) {
             try {
                 Integer repFactor = new Integer(txtRepFactor.getText());
-                if (pluginBinding.getProbability() != repFactor.intValue()) {
+                if (pluginBinding.getReplicationFactor() != repFactor.intValue()) {
                     ChangePluginBindingRepFactorCommand changeRepFactor = new ChangePluginBindingRepFactorCommand(pluginBinding, repFactor.intValue());
                     execute(changeRepFactor, false);
                 }
