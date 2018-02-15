@@ -32,7 +32,7 @@ public class AddTimepointAction extends URNSelectionAction {
         super(part);
 
         setId(ADDTIMEPOINT);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grlstrat16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timepoint.gif")); //$NON-NLS-1$
     }
 
     /**
