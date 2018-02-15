@@ -257,7 +257,7 @@ public class ChangePropertySource extends URNElementPropertySource {
      */
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
         if (getFeatureType(feature).getInstanceClass() == URNmodelElement.class && getEditableValue() instanceof Change) {
-        	result = ((Change) getEditableValue()).getElement().getName();
+        	result = ((URNmodelElement) ((Change) getEditableValue()).getElement()).getName();
 
         } else if (getFeatureType(feature).getInstanceClass() == DynamicContext.class && getEditableValue() instanceof Change) {
         	result = EObjectClassNameComparator.getSortableElementName(((Change) getEditableValue()).getContext());
