@@ -26,6 +26,7 @@ public class ColorManager {
     public static final Color PURPLE = new Color(null, 150, 0, 150);
     public static final Color VERYDARKGRAY = new Color(null, 48, 48, 48);
     public static final Color RED = new Color(null, 255, 0, 0);
+    public static final Color GREEN = new Color(null, 0, 255, 0);
     public static final Color WHITE = new Color(null, 255, 255, 255);
     public static final Color YELLOW = new Color(null, 255, 255, 0);
     public static final Color AQUA = new Color(null, 0, 100, 100);
