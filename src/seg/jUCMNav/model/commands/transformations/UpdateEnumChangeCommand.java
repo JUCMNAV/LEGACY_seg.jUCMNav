@@ -14,7 +14,7 @@ import urn.dyncontext.EnumChange;
 /**
  * Command to update the selected Enum Change
  * 
- * @author aprajita
+ * @author aprajita, sluthra
  */
 public class UpdateEnumChangeCommand extends Command implements JUCMNavCommand {
 	
@@ -95,6 +95,35 @@ public class UpdateEnumChangeCommand extends Command implements JUCMNavCommand {
     			changeToUpdate.setNewValue("XOR");
     		else
     			changeToUpdate.setNewValue(newValue);
+		} else if (changeToUpdate.getAffectedProperty().equals("Failure Kind")) {
+			if (newValue.equals("0"))
+				changeToUpdate.setNewValue("FAILURE");
+			else if (newValue.equals("1"))
+				changeToUpdate.setNewValue("ABORT");
+			else if (newValue.equals("2"))
+				changeToUpdate.setNewValue("NONE");
+			else
+				changeToUpdate.setNewValue(newValue);
+		} else if (changeToUpdate.getAffectedProperty().equals("Wait Kind")) {
+			if (newValue.equals("0"))
+				changeToUpdate.setNewValue("TRANSIENT");
+			else if (newValue.equals("1"))
+				changeToUpdate.setNewValue("PERSISTENT");
+			else
+				changeToUpdate.setNewValue(newValue);
+		} else if (changeToUpdate.getAffectedProperty().equals("Component Kind")) {
+			if (newValue.equals("0"))
+				changeToUpdate.setNewValue("TEAM");
+			else if (newValue.equals("1"))
+				changeToUpdate.setNewValue("OBJECT");
+			else if (newValue.equals("2"))
+				changeToUpdate.setNewValue("PROCESS");
+			else if (newValue.equals("3"))
+				changeToUpdate.setNewValue("AGENT");
+			else if (newValue.equals("4"))
+				changeToUpdate.setNewValue("ACTOR");
+			else if (newValue.equals("5"))
+				changeToUpdate.setNewValue("OTHER");
     	} else
     		changeToUpdate.setNewValue(newValue);
         	
