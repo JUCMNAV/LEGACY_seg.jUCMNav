@@ -747,7 +747,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             for (int i = 0; i < multieditor.getPageCount(); i++) {
                 UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                 ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(false);
-                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
+                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);
             }
         }
         
