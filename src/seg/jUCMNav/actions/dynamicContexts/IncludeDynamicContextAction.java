@@ -37,7 +37,7 @@ public class IncludeDynamicContextAction extends URNSelectionAction {
     public IncludeDynamicContextAction(IWorkbenchPart part) {
         super(part);
         setId(INCLUDEDYNAMICCONTEXT);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucmscen16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnstratscenon16.gif")); //$NON-NLS-1$
     }
 
     /**
