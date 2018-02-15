@@ -15,22 +15,26 @@ import seg.jUCMNav.editparts.ActorRefEditPart;
 import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
+import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.editparts.RespRefEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
+import ucm.map.FailurePoint;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import urn.URNspec;
 import urn.dyncontext.Change;
+import urn.dyncontext.Changeable;
 import urn.dyncontext.DeactivationChange;
 import urn.dyncontext.DynamicContext;
 import urncore.Component;
 import urncore.Responsibility;
 
 /**
- * This command adds a DeactivationChange to the selected URNModelElement and Dynamic Context
+ * This command adds a DeactivationChange to the selected Changeable element and Dynamic Context
  * 
- * @author aprajita
+ * @author aprajita, sluthra
  * 
  */
 public class AddDeactivationChangeCommand extends Command implements JUCMNavCommand {
@@ -101,7 +105,7 @@ public class AddDeactivationChangeCommand extends Command implements JUCMNavComm
         //Add the new Deactivation Change
         if (selectedChange.equals("Deactivation Change")){
         	newChange = (DeactivationChange) ModelCreationFactory.getNewObject(urn, DeactivationChange.class);
-        	urncore.URNmodelElement elt = null;
+			Changeable elt = null;
         	if (parent instanceof LinkRefEditPart)
         		elt = ((LinkRef)((LinkRefEditPart) this.parent).getModel()).getLink();
         	else if (parent instanceof ElementLink)
@@ -122,6 +126,14 @@ public class AddDeactivationChangeCommand extends Command implements JUCMNavComm
            		elt = (Component)((ComponentRef)((ComponentRefEditPart) this.parent).getModel()).getContDef();
         	else if (parent instanceof Component)
         		elt = (Component) this.parent;
+			else if (parent instanceof FailurePoint)
+				elt = (FailurePoint) this.parent;
+			else if (parent instanceof PluginBinding)
+				elt = (PluginBinding) this.parent;
+			else if (parent instanceof PathNodeEditPart) {
+				if ((((PathNodeEditPart)this.parent).getModel()) instanceof FailurePoint)
+					elt = (FailurePoint)((PathNodeEditPart) this.parent).getModel();
+			}
         	newChange.setElement(elt);
         	newChange.setStart(startDate);
         	newChange.setEnd(endDate);
