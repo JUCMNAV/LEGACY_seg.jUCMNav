@@ -29,7 +29,7 @@ public class AddDynamicContextAction extends URNSelectionAction {
         super(part);
 
         setId(ADDDYNAMICCONTEXT);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grlstrat16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnstratscenon16.gif")); //$NON-NLS-1$
     }
 
     /**
