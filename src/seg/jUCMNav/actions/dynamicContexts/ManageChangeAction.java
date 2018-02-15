@@ -23,7 +23,7 @@ import seg.jUCMNav.views.wizards.dynamicContexts.ManageChangeEditor;
 /**
  * Manages Change.
  * 
- * @author aprajita
+ * @author aprajita, sluthra
  * 
  */
 public class ManageChangeAction extends URNSelectionAction {
@@ -54,7 +54,8 @@ public class ManageChangeAction extends URNSelectionAction {
             Object obj = iter.next();
             if (!(obj instanceof LinkRefEditPart) && !(obj instanceof IntentionalElementEditPart) &&
             		!(obj instanceof ActorRefEditPart) && !(obj instanceof ChangeTreeEditPart) &&
-            		!(obj instanceof RespRefEditPart) && !(obj instanceof ComponentRefEditPart))
+            		!(obj instanceof RespRefEditPart) && !(obj instanceof ComponentRefEditPart) &&
+            		!(obj instanceof PathNodeEditPart))
                 return false;
             else
                 countElt += 1;
