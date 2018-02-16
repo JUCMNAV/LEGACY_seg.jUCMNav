@@ -40,6 +40,15 @@ public abstract class PathNodeFigure extends Figure {
     // is the point traversed by a scenario.
     protected boolean traversed;
 
+	// is the point traversed by a scenario when Timed UCM is enabled and color it Green
+	protected boolean traversedTimedUcmHitCountOne;
+
+	// is the point traversed by a scenario when Timed UCM is enabled and color it Red
+	protected boolean traversedTimedUcmHitCountMax;
+
+	// is the point traversed by a scenario when Timed UCM is enabled and color it as per its hits from Green to Yellow & Yellow to Red
+	protected boolean traversedTimedUcmHitCountEitherHalfHitCount;
+	
     // is the point deactivated by a change.
     protected boolean deactivated;
 
@@ -51,6 +60,9 @@ public abstract class PathNodeFigure extends Figure {
     // @author: nikiforov
     // use to highlight path by user color
     protected Color userColor;
+
+	protected Color actualColor;
+
 
     /**
      * Creates the figure and initializes anchors.
@@ -164,6 +176,25 @@ public abstract class PathNodeFigure extends Figure {
 
     }
 
+	public void setTraversedTimedUcmHitCountOne(boolean traversedTimedUcmHitCountOne) {
+		this.traversedTimedUcmHitCountOne = traversedTimedUcmHitCountOne;
+
+		setColors();
+	}
+
+	public void setTraversedTimedUcmHitCountMax(boolean traversedTimedUcmHitCountMax) {
+		this.traversedTimedUcmHitCountMax = traversedTimedUcmHitCountMax;
+
+		setColors();
+	}
+
+	public void settraversedTimedUcmHitCountEitherHalfHitCount(boolean scenariosActiveTimedUcmHitCountEitherHalfHitCount, Color actualColor) {
+		this.traversedTimedUcmHitCountEitherHalfHitCount = scenariosActiveTimedUcmHitCountEitherHalfHitCount;
+		this.actualColor = actualColor;
+
+		setColors();
+	}
+
     public void setDeactivated(boolean deactivated) {
         this.deactivated = deactivated;
 
@@ -195,6 +226,15 @@ public abstract class PathNodeFigure extends Figure {
 		} else if (deactivated) {
              setForegroundColor(ColorManager.DEACTIVATED);
              setColor(ColorManager.DEACTIVATED);
+		} else if (traversedTimedUcmHitCountOne) {
+			setForegroundColor(ColorManager.GREEN);
+			setColor(ColorManager.GREEN);
+		} else if (traversedTimedUcmHitCountMax) {
+			setForegroundColor(ColorManager.RED);
+			setColor(ColorManager.RED);
+		} else if (traversedTimedUcmHitCountEitherHalfHitCount) {
+			setForegroundColor(actualColor);
+			setColor(actualColor);
         } else if (traversed) {
             setForegroundColor(ColorManager.TRAVERSAL);
             setColor(ColorManager.TRAVERSAL);
