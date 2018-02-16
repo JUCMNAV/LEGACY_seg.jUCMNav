@@ -73,6 +73,24 @@ public class TimerFigure extends PathNodeFigure {
         if (selected) {
             ellipse.setForegroundColor(ColorManager.LINE);
             setColor(ColorManager.SELECTED);
+		} else if (traversedTimedUcmHitCountOne) {
+			ellipse.setForegroundColor(ColorManager.GREEN);
+			if (hover)
+				setColor(ColorManager.HOVER);
+			else
+				setColor(ColorManager.FILL);
+		} else if (traversedTimedUcmHitCountMax) {
+			ellipse.setForegroundColor(ColorManager.RED);
+			if (hover)
+				setColor(ColorManager.HOVER);
+			else
+				setColor(ColorManager.FILL);
+		} else if (traversedTimedUcmHitCountEitherHalfHitCount) {
+			ellipse.setForegroundColor(actualColor);
+			if (hover)
+				setColor(ColorManager.HOVER);
+			else
+				setColor(ColorManager.FILL);
         } else if (traversed) {
             ellipse.setForegroundColor(ColorManager.TRAVERSAL);
             if (hover)
