@@ -137,6 +137,15 @@ public class StartPointFigure extends PathNodeFigure {
    	 	}else if (selected) {
             setForegroundColor(ColorManager.LINE);
             setColor(ColorManager.SELECTED);
+		} else if (traversedTimedUcmHitCountOne) {
+			setForegroundColor(ColorManager.GREEN);
+			setColor(ColorManager.GREEN);
+		} else if (traversedTimedUcmHitCountMax) {
+			setForegroundColor(ColorManager.RED);
+			setColor(ColorManager.RED);
+		} else if (traversedTimedUcmHitCountEitherHalfHitCount) {
+			setForegroundColor(actualColor);
+			setColor(actualColor);
         } else if (traversed) {
             setForegroundColor(ColorManager.TRAVERSAL);
             setColor(ColorManager.TRAVERSAL);
