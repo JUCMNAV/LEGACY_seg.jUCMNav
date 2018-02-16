@@ -372,6 +372,30 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
    	 	}else if (selected) {
             mainFigure.setForegroundColor(ColorManager.LINE);
             setColor(ColorManager.SELECTED);
+		} else if (deactivated) {
+			mainFigure.setForegroundColor(ColorManager.DEACTIVATED);
+			if (hover)
+				setColor(ColorManager.HOVER);
+			else
+				setColor(ColorManager.FILL);
+		} else if (traversedTimedUcmHitCountOne) {
+			mainFigure.setForegroundColor(ColorManager.GREEN);
+			if (hover)
+				setColor(ColorManager.HOVER);
+			else
+				setColor(ColorManager.FILL);
+		} else if (traversedTimedUcmHitCountMax) {
+			mainFigure.setForegroundColor(ColorManager.RED);
+			if (hover)
+				setColor(ColorManager.HOVER);
+			else
+				setColor(ColorManager.FILL);
+		} else if (traversedTimedUcmHitCountEitherHalfHitCount) {
+			mainFigure.setForegroundColor(actualColor);
+			if (hover)
+				setColor(ColorManager.HOVER);
+			else
+				setColor(ColorManager.FILL);
         } else if (traversed) {
             mainFigure.setForegroundColor(ColorManager.TRAVERSAL);
             if (hover)
