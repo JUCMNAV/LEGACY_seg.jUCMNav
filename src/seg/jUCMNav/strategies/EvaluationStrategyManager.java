@@ -107,6 +107,7 @@ import urn.dyncontext.QuadraticChange;
 import urn.dyncontext.Timepoint;
 import urncore.GRLmodelElement;
 import urncore.Metadata;
+import urncore.URNmodelElement;
 
 /**
  * This class is a singleton responsible to manage the current strategy. It does the evaluation calculation for IntentionalElement, create the Evaluation and
@@ -2225,7 +2226,7 @@ public class EvaluationStrategyManager {
     private GRLspec applyChange(GRLspec grl, Change change, Timepoint tp) {
     	if (change instanceof DeactivationChange){
     		if (change.getElement() instanceof GRLmodelElement)
-    			MetadataHelper.addMetaData(grl.getUrnspec(), change.getElement(), METADATA_DEACTSTATUS, "true");
+    			MetadataHelper.addMetaData(grl.getUrnspec(), (URNmodelElement) change.getElement(), METADATA_DEACTSTATUS, "true");
     		
     	} else if (change instanceof PropertyChange) {
     		
