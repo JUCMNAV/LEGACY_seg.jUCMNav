@@ -52,7 +52,6 @@ import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.resource.StringConverter;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
@@ -104,6 +103,7 @@ import ucm.scenario.Variable;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
+import urn.dyncontext.BooleanChange;
 import urn.dyncontext.ConstantChange;
 import urn.dyncontext.DeactivationChange;
 import urn.dyncontext.DynamicContext;
@@ -113,6 +113,7 @@ import urn.dyncontext.EnumChange;
 import urn.dyncontext.FormulaChange;
 import urn.dyncontext.LinearChange;
 import urn.dyncontext.QuadraticChange;
+import urn.dyncontext.TextChange;
 import urn.dyncontext.Timepoint;
 import urn.dyncontext.TimepointGroup;
 import urncore.Comment;
@@ -499,6 +500,16 @@ public class ModelCreationFactory implements CreationFactory {
                 if (definition != null)
                     return definition; // drag & drop of existing
                 result = dynFactory.createDeactivationChange();
+				URNNamingHelper.setElementNameAndID(urn, result);
+			} else if (targetClass.equals(BooleanChange.class)) {
+				if (definition != null)
+					return definition; // drag & drop of existing
+				result = dynFactory.createBooleanChange();
+				URNNamingHelper.setElementNameAndID(urn, result);
+			} else if (targetClass.equals(TextChange.class)) {
+				if (definition != null)
+					return definition; // drag & drop of existing
+				result = dynFactory.createTextChange();
                 URNNamingHelper.setElementNameAndID(urn, result);
             } else if (targetClass.equals(EnumChange.class)) {
                 if (definition != null)
