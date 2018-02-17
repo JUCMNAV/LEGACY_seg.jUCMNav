@@ -1012,11 +1012,28 @@ public class URNNamingHelper {
     		property = ((PropertyChange) change).getAffectedProperty();
     	
     	if (change.getElement() instanceof Contribution)
-    		return change.getElement().getName() + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+			return ((URNmodelElement) change.getElement()).getName() + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+		else if (change.getElement() instanceof ContributionChange)
+			return getName((ContributionChange) change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+		else if (change.getElement() instanceof PluginBinding)
+			return getName((PluginBinding) change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+		else if (change.getElement() instanceof urncore.Condition)
+			return getName((Condition) change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
     	else
-    		return getName(change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+			return getName((URNmodelElement) change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
         
     }
+
+	public static String getName(PluginBinding plugin) {
+
+		String name = null;
+		if (plugin.getStub().getName() != null && plugin.getPlugin().getName() != null && plugin.getStub().getName().length() > 0
+				&& plugin.getPlugin().getName().length() > 0)
+			name = plugin.getStub().getName() + "." + plugin.getPlugin().getName();
+
+		return name;
+	}
+
     /**
      * Returns the name of the definition if this is a reference, and its direct name otherwise.
      * 
@@ -1097,6 +1114,11 @@ public class URNNamingHelper {
                 } else
                     name = getNameFromExpression(expression);
 
+			} else if (cond instanceof urncore.Condition) {
+				if (cond.eContainer() instanceof StartPoint)
+					name = cond.getStartPoint().getName();
+				else if (cond.eContainer() instanceof EndPoint)
+					name = cond.getEndPoint().getName();
             } else {
                 name = getNameFromExpression(expression);
             }
