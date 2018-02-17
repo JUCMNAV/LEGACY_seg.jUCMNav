@@ -1416,6 +1416,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		ScenarioPackage theScenarioPackage = (ScenarioPackage)EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI);
 		PerformancePackage thePerformancePackage = (PerformancePackage)EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI);
 		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
+		DyncontextPackage theDyncontextPackage = (DyncontextPackage)EPackage.Registry.INSTANCE.getEPackage(DyncontextPackage.eNS_URI);
 
 		// Add supertypes to classes
 		andJoinEClass.getESuperTypes().add(this.getPathNode());
@@ -1433,6 +1434,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		ucMmapEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
 		ucMmapEClass.getESuperTypes().add(theUrncorePackage.getIURNDiagram());
 		ucMmapEClass.getESuperTypes().add(theCorePackage.getCOREModel());
+		pluginBindingEClass.getESuperTypes().add(theDyncontextPackage.getChangeable());
 		componentRefEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
 		componentRefEClass.getESuperTypes().add(theUrncorePackage.getIURNContainerRef());
 		timerEClass.getESuperTypes().add(this.getWaitingPlace());
