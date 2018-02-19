@@ -13,7 +13,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -25,6 +24,7 @@ import ucm.map.PluginBinding;
 import ucm.map.ResponsibilityBinding;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
+import urn.dyncontext.impl.ChangeableImpl;
 import urncore.Condition;
 import urncore.UrncorePackage;
 
@@ -51,7 +51,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public class PluginBindingImpl extends MinimalEObjectImpl.Container implements PluginBinding {
+public class PluginBindingImpl extends ChangeableImpl implements PluginBinding {
     /**
 	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
