@@ -8,6 +8,7 @@ package urncore;
 
 import ca.mcgill.sel.core.CORENamedElement;
 import org.eclipse.emf.common.util.EList;
+import urn.dyncontext.Changeable;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,7 +31,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface URNmodelElement extends CORENamedElement {
+public interface URNmodelElement extends CORENamedElement, Changeable {
     /**
 	 * Returns the value of the '<em><b>From Links</b></em>' reference list.
 	 * The list contents are of type {@link urn.URNlink}.
