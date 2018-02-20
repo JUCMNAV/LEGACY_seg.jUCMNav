@@ -6,6 +6,8 @@
  */
 package ucm.map.util;
 
+import ca.mcgill.sel.core.COREModel;
+import ca.mcgill.sel.core.CORENamedElement;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
