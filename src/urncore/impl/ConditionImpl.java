@@ -20,8 +20,10 @@ import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioPackage;
+import urn.dyncontext.impl.ChangeableImpl;
 import urncore.Concern;
 import urncore.Condition;
+import urncore.Label;
 import urncore.UrncorePackage;
 
 /**
@@ -32,6 +34,8 @@ import urncore.UrncorePackage;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link urncore.impl.ConditionImpl#getDeltaX <em>Delta X</em>}</li>
+ *   <li>{@link urncore.impl.ConditionImpl#getDeltaY <em>Delta Y</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getExpression <em>Expression</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getDescription <em>Description</em>}</li>
@@ -46,7 +50,47 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public class ConditionImpl extends LabelImpl implements Condition {
+public class ConditionImpl extends ChangeableImpl implements Condition {
+	/**
+	 * The default value of the '{@link #getDeltaX() <em>Delta X</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDeltaX()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int DELTA_X_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getDeltaX() <em>Delta X</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDeltaX()
+	 * @generated
+	 * @ordered
+	 */
+	protected int deltaX = DELTA_X_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDeltaY() <em>Delta Y</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDeltaY()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int DELTA_Y_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getDeltaY() <em>Delta Y</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDeltaY()
+	 * @generated
+	 * @ordered
+	 */
+	protected int deltaY = DELTA_Y_EDEFAULT;
+
     /**
 	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -123,6 +167,48 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     protected EClass eStaticClass() {
 		return UrncorePackage.Literals.CONDITION;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getDeltaX() {
+		return deltaX;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDeltaX(int newDeltaX) {
+		int oldDeltaX = deltaX;
+		deltaX = newDeltaX;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.CONDITION__DELTA_X, oldDeltaX, deltaX));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getDeltaY() {
+		return deltaY;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDeltaY(int newDeltaY) {
+		int oldDeltaY = deltaY;
+		deltaY = newDeltaY;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.CONDITION__DELTA_Y, oldDeltaY, deltaY));
 	}
 
     /**
@@ -571,6 +657,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+		case UrncorePackage.CONDITION__DELTA_X:
+			return new Integer(getDeltaX());
+		case UrncorePackage.CONDITION__DELTA_Y:
+			return new Integer(getDeltaY());
 			case UrncorePackage.CONDITION__LABEL:
 				return getLabel();
 			case UrncorePackage.CONDITION__EXPRESSION:
@@ -602,6 +692,12 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+		case UrncorePackage.CONDITION__DELTA_X:
+			setDeltaX(((Integer)newValue).intValue());
+			return;
+		case UrncorePackage.CONDITION__DELTA_Y:
+			setDeltaY(((Integer)newValue).intValue());
+			return;
 			case UrncorePackage.CONDITION__LABEL:
 				setLabel((String)newValue);
 				return;
@@ -643,6 +739,12 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public void eUnset(int featureID) {
 		switch (featureID) {
+		case UrncorePackage.CONDITION__DELTA_X:
+			setDeltaX(DELTA_X_EDEFAULT);
+			return;
+		case UrncorePackage.CONDITION__DELTA_Y:
+			setDeltaY(DELTA_Y_EDEFAULT);
+			return;
 			case UrncorePackage.CONDITION__LABEL:
 				setLabel(LABEL_EDEFAULT);
 				return;
@@ -684,6 +786,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public boolean eIsSet(int featureID) {
 		switch (featureID) {
+		case UrncorePackage.CONDITION__DELTA_X:
+			return deltaX != DELTA_X_EDEFAULT;
+		case UrncorePackage.CONDITION__DELTA_Y:
+			return deltaY != DELTA_Y_EDEFAULT;
 			case UrncorePackage.CONDITION__LABEL:
 				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
 			case UrncorePackage.CONDITION__EXPRESSION:
@@ -713,11 +819,47 @@ public class ConditionImpl extends LabelImpl implements Condition {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
+		if (baseClass == Label.class) {
+			switch (derivedFeatureID) {
+			case UrncorePackage.CONDITION__DELTA_X: return UrncorePackage.LABEL__DELTA_X;
+			case UrncorePackage.CONDITION__DELTA_Y: return UrncorePackage.LABEL__DELTA_Y;
+			default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
+		if (baseClass == Label.class) {
+			switch (baseFeatureID) {
+			case UrncorePackage.LABEL__DELTA_X: return UrncorePackage.CONDITION__DELTA_X;
+			case UrncorePackage.LABEL__DELTA_Y: return UrncorePackage.CONDITION__DELTA_Y;
+			default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
     public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (label: ");
+		result.append(" (deltaX: ");
+		result.append(deltaX);
+		result.append(", deltaY: ");
+		result.append(deltaY);
+		result.append(", label: ");
 		result.append(label);
 		result.append(", expression: ");
 		result.append(expression);
