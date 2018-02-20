@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import urn.dyncontext.DyncontextPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -979,7 +980,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION__DELTA_X = LABEL__DELTA_X;
+	int CONDITION__DELTA_X = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 0;
 
     /**
 	 * The feature id for the '<em><b>Delta Y</b></em>' attribute.
@@ -988,7 +989,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION__DELTA_Y = LABEL__DELTA_Y;
+	int CONDITION__DELTA_Y = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 1;
 
     /**
 	 * The feature id for the '<em><b>Label</b></em>' attribute.
@@ -997,7 +998,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION__LABEL = LABEL_FEATURE_COUNT + 0;
+	int CONDITION__LABEL = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 2;
 
     /**
 	 * The feature id for the '<em><b>Expression</b></em>' attribute.
@@ -1006,7 +1007,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION__EXPRESSION = LABEL_FEATURE_COUNT + 1;
+	int CONDITION__EXPRESSION = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 3;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1015,7 +1016,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION__DESCRIPTION = LABEL_FEATURE_COUNT + 2;
+	int CONDITION__DESCRIPTION = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Start Point</b></em>' container reference.
@@ -1024,7 +1025,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION__START_POINT = LABEL_FEATURE_COUNT + 3;
+	int CONDITION__START_POINT = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 5;
 
     /**
 	 * The feature id for the '<em><b>End Point</b></em>' container reference.
@@ -1033,7 +1034,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION__END_POINT = LABEL_FEATURE_COUNT + 4;
+	int CONDITION__END_POINT = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 6;
 
     /**
 	 * The feature id for the '<em><b>Plugin Binding</b></em>' container reference.
@@ -1042,7 +1043,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION__PLUGIN_BINDING = LABEL_FEATURE_COUNT + 5;
+	int CONDITION__PLUGIN_BINDING = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 7;
 
     /**
 	 * The feature id for the '<em><b>Node Connection</b></em>' container reference.
@@ -1051,7 +1052,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION__NODE_CONNECTION = LABEL_FEATURE_COUNT + 6;
+	int CONDITION__NODE_CONNECTION = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 8;
 
     /**
 	 * The feature id for the '<em><b>Concern</b></em>' container reference.
@@ -1060,7 +1061,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITION__CONCERN = LABEL_FEATURE_COUNT + 7;
+	int CONDITION__CONCERN = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 9;
 
 				/**
 	 * The feature id for the '<em><b>Scenario Def Pre</b></em>' container reference.
@@ -1069,7 +1070,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITION__SCENARIO_DEF_PRE = LABEL_FEATURE_COUNT + 8;
+	int CONDITION__SCENARIO_DEF_PRE = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 10;
 
     /**
 	 * The feature id for the '<em><b>Scenario Def Post</b></em>' container reference.
@@ -1078,7 +1079,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITION__SCENARIO_DEF_POST = LABEL_FEATURE_COUNT + 9;
+	int CONDITION__SCENARIO_DEF_POST = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 11;
 
     /**
 	 * The number of structural features of the '<em>Condition</em>' class.
@@ -1087,7 +1088,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION_FEATURE_COUNT = LABEL_FEATURE_COUNT + 10;
+	int CONDITION_FEATURE_COUNT = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 12;
 
     /**
 	 * The meta object id for the '{@link urncore.IURNDiagram <em>IURN Diagram</em>}' class.
