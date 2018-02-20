@@ -11,6 +11,7 @@ import ucm.map.NodeConnection;
 import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
 import ucm.scenario.ScenarioDef;
+import urn.dyncontext.Changeable;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,7 +38,7 @@ import ucm.scenario.ScenarioDef;
  * @model
  * @generated
  */
-public interface Condition extends Label {
+public interface Condition extends Changeable, Label {
     /**
 	 * Returns the value of the '<em><b>Label</b></em>' attribute.
 	 * <!-- begin-user-doc -->
