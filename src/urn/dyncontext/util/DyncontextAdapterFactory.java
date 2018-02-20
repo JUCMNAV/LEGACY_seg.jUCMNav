@@ -109,6 +109,15 @@ public class DyncontextAdapterFactory extends AdapterFactoryImpl {
 			public Object caseChange(Change object) {
 				return createChangeAdapter();
 			}
+		public Object caseTextChange(TextChange object) {
+			return createTextChangeAdapter();
+		}
+		public Object caseBooleanChange(BooleanChange object) {
+			return createBooleanChangeAdapter();
+		}
+		public Object caseChangeable(Changeable object) {
+			return createChangeableAdapter();
+		}
 			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
@@ -312,6 +321,48 @@ public class DyncontextAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createChangeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.TextChange <em>Text Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.TextChange
+	 * @generated
+	 */
+	public Adapter createTextChangeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.BooleanChange <em>Boolean Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.BooleanChange
+	 * @generated
+	 */
+	public Adapter createBooleanChangeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.Changeable <em>Changeable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.Changeable
+	 * @generated
+	 */
+	public Adapter createChangeableAdapter() {
 		return null;
 	}
 
