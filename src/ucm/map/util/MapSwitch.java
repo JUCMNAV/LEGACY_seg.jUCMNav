@@ -9,6 +9,8 @@ package ucm.map.util;
 import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import ca.mcgill.sel.core.COREModel;
+import ca.mcgill.sel.core.CORENamedElement;
 import ucm.map.*;
 import urn.dyncontext.Changeable;
 import urncore.IURNConnection;
