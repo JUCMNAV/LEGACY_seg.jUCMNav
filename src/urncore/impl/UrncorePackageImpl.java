@@ -1515,6 +1515,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		UrnPackage theUrnPackage = (UrnPackage)EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI);
 		PerformancePackage thePerformancePackage = (PerformancePackage)EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI);
 		MapPackage theMapPackage = (MapPackage)EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI);
+		DyncontextPackage theDyncontextPackage = (DyncontextPackage)EPackage.Registry.INSTANCE.getEPackage(DyncontextPackage.eNS_URI);
 		ScenarioPackage theScenarioPackage = (ScenarioPackage)EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI);
 		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 
@@ -1527,8 +1528,10 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		grLmodelElementEClass.getESuperTypes().add(this.getURNmodelElement());
 		nodeLabelEClass.getESuperTypes().add(this.getLabel());
 		componentLabelEClass.getESuperTypes().add(this.getLabel());
+		conditionEClass.getESuperTypes().add(theDyncontextPackage.getChangeable());
 		conditionEClass.getESuperTypes().add(this.getLabel());
 		urNmodelElementEClass.getESuperTypes().add(theCorePackage.getCORENamedElement());
+		urNmodelElementEClass.getESuperTypes().add(theDyncontextPackage.getChangeable());
 		concernEClass.getESuperTypes().add(this.getURNmodelElement());
 		connectionLabelEClass.getESuperTypes().add(this.getLabel());
 
