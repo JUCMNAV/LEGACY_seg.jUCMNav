@@ -6,12 +6,11 @@
  */
 package ucm.map.util;
 
-import ca.mcgill.sel.core.COREModel;
-import ca.mcgill.sel.core.CORENamedElement;
 import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import ucm.map.*;
+import urn.dyncontext.Changeable;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
@@ -101,6 +100,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(andJoin);
 				if (result == null) result = caseURNmodelElement(andJoin);
 				if (result == null) result = caseCORENamedElement(andJoin);
+			if (result == null) result = caseChangeable(andJoin);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -124,6 +124,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(respRef);
 				if (result == null) result = caseURNmodelElement(respRef);
 				if (result == null) result = caseCORENamedElement(respRef);
+			if (result == null) result = caseChangeable(respRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -135,6 +136,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(orJoin);
 				if (result == null) result = caseURNmodelElement(orJoin);
 				if (result == null) result = caseCORENamedElement(orJoin);
+			if (result == null) result = caseChangeable(orJoin);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -146,6 +148,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(orFork);
 				if (result == null) result = caseURNmodelElement(orFork);
 				if (result == null) result = caseCORENamedElement(orFork);
+			if (result == null) result = caseChangeable(orFork);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -157,6 +160,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(connect);
 				if (result == null) result = caseURNmodelElement(connect);
 				if (result == null) result = caseCORENamedElement(connect);
+			if (result == null) result = caseChangeable(connect);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -175,6 +179,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(waitingPlace);
 				if (result == null) result = caseURNmodelElement(waitingPlace);
 				if (result == null) result = caseCORENamedElement(waitingPlace);
+			if (result == null) result = caseChangeable(waitingPlace);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -186,6 +191,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(stub);
 				if (result == null) result = caseURNmodelElement(stub);
 				if (result == null) result = caseCORENamedElement(stub);
+			if (result == null) result = caseChangeable(stub);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -196,6 +202,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(pathNode);
 				if (result == null) result = caseURNmodelElement(pathNode);
 				if (result == null) result = caseCORENamedElement(pathNode);
+			if (result == null) result = caseChangeable(pathNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -207,6 +214,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(endPoint);
 				if (result == null) result = caseURNmodelElement(endPoint);
 				if (result == null) result = caseCORENamedElement(endPoint);
+			if (result == null) result = caseChangeable(endPoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -218,6 +226,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(startPoint);
 				if (result == null) result = caseURNmodelElement(startPoint);
 				if (result == null) result = caseCORENamedElement(startPoint);
+			if (result == null) result = caseChangeable(startPoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -229,12 +238,14 @@ public class MapSwitch {
 				if (result == null) result = caseCOREModel(ucMmap);
 				if (result == null) result = caseURNmodelElement(ucMmap);
 				if (result == null) result = caseCORENamedElement(ucMmap);
+			if (result == null) result = caseChangeable(ucMmap);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case MapPackage.PLUGIN_BINDING: {
 				PluginBinding pluginBinding = (PluginBinding)theEObject;
 				Object result = casePluginBinding(pluginBinding);
+			if (result == null) result = caseChangeable(pluginBinding);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -245,6 +256,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNContainerRef(componentRef);
 				if (result == null) result = caseURNmodelElement(componentRef);
 				if (result == null) result = caseCORENamedElement(componentRef);
+			if (result == null) result = caseChangeable(componentRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -257,6 +269,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(timer);
 				if (result == null) result = caseURNmodelElement(timer);
 				if (result == null) result = caseCORENamedElement(timer);
+			if (result == null) result = caseChangeable(timer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -268,6 +281,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(andFork);
 				if (result == null) result = caseURNmodelElement(andFork);
 				if (result == null) result = caseCORENamedElement(andFork);
+			if (result == null) result = caseChangeable(andFork);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -279,6 +293,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(emptyPoint);
 				if (result == null) result = caseURNmodelElement(emptyPoint);
 				if (result == null) result = caseCORENamedElement(emptyPoint);
+			if (result == null) result = caseChangeable(emptyPoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -290,6 +305,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(directionArrow);
 				if (result == null) result = caseURNmodelElement(directionArrow);
 				if (result == null) result = caseCORENamedElement(directionArrow);
+			if (result == null) result = caseChangeable(directionArrow);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -307,6 +323,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(anything);
 				if (result == null) result = caseURNmodelElement(anything);
 				if (result == null) result = caseCORENamedElement(anything);
+			if (result == null) result = caseChangeable(anything);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -318,6 +335,7 @@ public class MapSwitch {
 				if (result == null) result = caseIURNNode(failurePoint);
 				if (result == null) result = caseURNmodelElement(failurePoint);
 				if (result == null) result = caseCORENamedElement(failurePoint);
+			if (result == null) result = caseChangeable(failurePoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -703,6 +721,21 @@ public class MapSwitch {
 	 * @generated
 	 */
 	public Object caseCORENamedElement(CORENamedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChangeable(Changeable object) {
 		return null;
 	}
 
