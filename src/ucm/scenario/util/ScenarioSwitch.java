@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import ucm.scenario.*;
+import urn.dyncontext.Changeable;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -94,6 +95,7 @@ public class ScenarioSwitch {
 				if (result == null) result = caseUCMmodelElement(variable);
 				if (result == null) result = caseURNmodelElement(variable);
 				if (result == null) result = caseCORENamedElement(variable);
+			if (result == null) result = caseChangeable(variable);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -103,6 +105,7 @@ public class ScenarioSwitch {
 				if (result == null) result = caseUCMmodelElement(scenarioDef);
 				if (result == null) result = caseURNmodelElement(scenarioDef);
 				if (result == null) result = caseCORENamedElement(scenarioDef);
+			if (result == null) result = caseChangeable(scenarioDef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -112,6 +115,7 @@ public class ScenarioSwitch {
 				if (result == null) result = caseUCMmodelElement(scenarioGroup);
 				if (result == null) result = caseURNmodelElement(scenarioGroup);
 				if (result == null) result = caseCORENamedElement(scenarioGroup);
+			if (result == null) result = caseChangeable(scenarioGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -121,6 +125,7 @@ public class ScenarioSwitch {
 				if (result == null) result = caseUCMmodelElement(enumerationType);
 				if (result == null) result = caseURNmodelElement(enumerationType);
 				if (result == null) result = caseCORENamedElement(enumerationType);
+			if (result == null) result = caseChangeable(enumerationType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -233,6 +238,21 @@ public class ScenarioSwitch {
 	 * @generated
 	 */
 	public Object caseCORENamedElement(CORENamedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChangeable(Changeable object) {
 		return null;
 	}
 
