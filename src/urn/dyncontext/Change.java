@@ -5,8 +5,6 @@ package urn.dyncontext;
 import java.util.Date;
 import org.eclipse.emf.ecore.EObject;
 
-import urncore.URNmodelElement;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Change</b></em>'.
@@ -116,12 +114,12 @@ public interface Change extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Element</em>' reference.
-	 * @see #setElement(URNmodelElement)
+	 * @see #setElement(Changeable)
 	 * @see urn.dyncontext.DyncontextPackage#getChange_Element()
 	 * @model required="true"
 	 * @generated
 	 */
-	URNmodelElement getElement();
+	Changeable getElement();
 
 	/**
 	 * Sets the value of the '{@link urn.dyncontext.Change#getElement <em>Element</em>}' reference.
@@ -131,6 +129,6 @@ public interface Change extends EObject {
 	 * @see #getElement()
 	 * @generated
 	 */
-	void setElement(URNmodelElement value);
+	void setElement(Changeable value);
 
 } // Change
