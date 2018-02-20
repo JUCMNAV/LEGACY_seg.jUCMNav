@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import urn.dyncontext.DyncontextPackage;
 import urncore.UrncorePackage;
 
 /**
@@ -2190,7 +2191,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__ID = 0;
+	int PLUGIN_BINDING__ID = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 0;
 
     /**
 	 * The feature id for the '<em><b>Probability</b></em>' attribute.
@@ -2199,7 +2200,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__PROBABILITY = 1;
+	int PLUGIN_BINDING__PROBABILITY = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 1;
 
     /**
 	 * The feature id for the '<em><b>Transaction</b></em>' attribute.
@@ -2208,7 +2209,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__TRANSACTION = 2;
+	int PLUGIN_BINDING__TRANSACTION = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 2;
 
     /**
 	 * The feature id for the '<em><b>Replication Factor</b></em>' attribute.
@@ -2217,7 +2218,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__REPLICATION_FACTOR = 3;
+	int PLUGIN_BINDING__REPLICATION_FACTOR = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 3;
 
     /**
 	 * The feature id for the '<em><b>In</b></em>' containment reference list.
@@ -2226,7 +2227,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__IN = 4;
+	int PLUGIN_BINDING__IN = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Out</b></em>' containment reference list.
@@ -2235,7 +2236,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__OUT = 5;
+	int PLUGIN_BINDING__OUT = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 5;
 
     /**
 	 * The feature id for the '<em><b>Stub</b></em>' container reference.
@@ -2244,7 +2245,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__STUB = 6;
+	int PLUGIN_BINDING__STUB = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 6;
 
     /**
 	 * The feature id for the '<em><b>Plugin</b></em>' reference.
@@ -2253,7 +2254,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__PLUGIN = 7;
+	int PLUGIN_BINDING__PLUGIN = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 7;
 
     /**
 	 * The feature id for the '<em><b>Precondition</b></em>' containment reference.
@@ -2262,7 +2263,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__PRECONDITION = 8;
+	int PLUGIN_BINDING__PRECONDITION = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 8;
 
     /**
 	 * The feature id for the '<em><b>Components</b></em>' containment reference list.
@@ -2271,7 +2272,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__COMPONENTS = 9;
+	int PLUGIN_BINDING__COMPONENTS = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 9;
 
     /**
 	 * The feature id for the '<em><b>Responsibilities</b></em>' containment reference list.
@@ -2280,7 +2281,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING__RESPONSIBILITIES = 10;
+	int PLUGIN_BINDING__RESPONSIBILITIES = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 10;
 
     /**
 	 * The number of structural features of the '<em>Plugin Binding</em>' class.
@@ -2289,7 +2290,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int PLUGIN_BINDING_FEATURE_COUNT = 11;
+	int PLUGIN_BINDING_FEATURE_COUNT = DyncontextPackage.CHANGEABLE_FEATURE_COUNT + 11;
 
     /**
 	 * The meta object id for the '{@link ucm.map.impl.ComponentRefImpl <em>Component Ref</em>}' class.
