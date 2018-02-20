@@ -112,6 +112,24 @@ public interface DyncontextFactory extends EFactory {
 	ConstantChange createConstantChange();
 
 	/**
+	 * Returns a new object of class '<em>Text Change</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Text Change</em>'.
+	 * @generated
+	 */
+	TextChange createTextChange();
+
+	/**
+	 * Returns a new object of class '<em>Boolean Change</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Boolean Change</em>'.
+	 * @generated
+	 */
+	BooleanChange createBooleanChange();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
