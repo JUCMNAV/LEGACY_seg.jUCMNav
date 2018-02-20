@@ -15,10 +15,9 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import urn.dyncontext.Change;
+import urn.dyncontext.Changeable;
 import urn.dyncontext.DynamicContext;
 import urn.dyncontext.DyncontextPackage;
-
-import urncore.URNmodelElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -85,7 +84,7 @@ public abstract class ChangeImpl extends MinimalEObjectImpl.Container implements
 	 * @generated
 	 * @ordered
 	 */
-	protected URNmodelElement element;
+	protected Changeable element;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -193,10 +192,10 @@ public abstract class ChangeImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public URNmodelElement getElement() {
+	public Changeable getElement() {
 		if (element != null && element.eIsProxy()) {
 			InternalEObject oldElement = (InternalEObject)element;
-			element = (URNmodelElement)eResolveProxy(oldElement);
+			element = (Changeable)eResolveProxy(oldElement);
 			if (element != oldElement) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, DyncontextPackage.CHANGE__ELEMENT, oldElement, element));
@@ -210,7 +209,7 @@ public abstract class ChangeImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public URNmodelElement basicGetElement() {
+	public Changeable basicGetElement() {
 		return element;
 	}
 
@@ -219,8 +218,8 @@ public abstract class ChangeImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setElement(URNmodelElement newElement) {
-		URNmodelElement oldElement = element;
+	public void setElement(Changeable newElement) {
+		Changeable oldElement = element;
 		element = newElement;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DyncontextPackage.CHANGE__ELEMENT, oldElement, element));
@@ -304,7 +303,7 @@ public abstract class ChangeImpl extends MinimalEObjectImpl.Container implements
 				setContext((DynamicContext)newValue);
 				return;
 			case DyncontextPackage.CHANGE__ELEMENT:
-				setElement((URNmodelElement)newValue);
+			setElement((Changeable)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -327,7 +326,7 @@ public abstract class ChangeImpl extends MinimalEObjectImpl.Container implements
 				setContext((DynamicContext)null);
 				return;
 			case DyncontextPackage.CHANGE__ELEMENT:
-				setElement((URNmodelElement)null);
+			setElement((Changeable)null);
 				return;
 		}
 		super.eUnset(featureID);
