@@ -1053,6 +1053,172 @@ public interface DyncontextPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link urn.dyncontext.impl.TextChangeImpl <em>Text Change</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see urn.dyncontext.impl.TextChangeImpl
+	 * @see urn.dyncontext.impl.DyncontextPackageImpl#getTextChange()
+	 * @generated
+	 */
+	int TEXT_CHANGE = 13;
+
+	/**
+	 * The feature id for the '<em><b>Start</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_CHANGE__START = PROPERTY_CHANGE__START;
+
+	/**
+	 * The feature id for the '<em><b>End</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_CHANGE__END = PROPERTY_CHANGE__END;
+
+	/**
+	 * The feature id for the '<em><b>Context</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_CHANGE__CONTEXT = PROPERTY_CHANGE__CONTEXT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_CHANGE__ELEMENT = PROPERTY_CHANGE__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Affected Property</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_CHANGE__AFFECTED_PROPERTY = PROPERTY_CHANGE__AFFECTED_PROPERTY;
+
+	/**
+	 * The feature id for the '<em><b>New Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_CHANGE__NEW_VALUE = PROPERTY_CHANGE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Text Change</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_CHANGE_FEATURE_COUNT = PROPERTY_CHANGE_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link urn.dyncontext.impl.BooleanChangeImpl <em>Boolean Change</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see urn.dyncontext.impl.BooleanChangeImpl
+	 * @see urn.dyncontext.impl.DyncontextPackageImpl#getBooleanChange()
+	 * @generated
+	 */
+	int BOOLEAN_CHANGE = 14;
+
+	/**
+	 * The feature id for the '<em><b>Start</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_CHANGE__START = PROPERTY_CHANGE__START;
+
+	/**
+	 * The feature id for the '<em><b>End</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_CHANGE__END = PROPERTY_CHANGE__END;
+
+	/**
+	 * The feature id for the '<em><b>Context</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_CHANGE__CONTEXT = PROPERTY_CHANGE__CONTEXT;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_CHANGE__ELEMENT = PROPERTY_CHANGE__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Affected Property</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_CHANGE__AFFECTED_PROPERTY = PROPERTY_CHANGE__AFFECTED_PROPERTY;
+
+	/**
+	 * The feature id for the '<em><b>New Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_CHANGE__NEW_VALUE = PROPERTY_CHANGE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Boolean Change</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_CHANGE_FEATURE_COUNT = PROPERTY_CHANGE_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link urn.dyncontext.impl.ChangeableImpl <em>Changeable</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see urn.dyncontext.impl.ChangeableImpl
+	 * @see urn.dyncontext.impl.DyncontextPackageImpl#getChangeable()
+	 * @generated
+	 */
+	int CHANGEABLE = 15;
+
+	/**
+	 * The number of structural features of the '<em>Changeable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGEABLE_FEATURE_COUNT = 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link urn.dyncontext.QuadraticChange <em>Quadratic Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1480,6 +1646,58 @@ public interface DyncontextPackage extends EPackage {
 	EReference getChange_Element();
 
 	/**
+	 * Returns the meta object for class '{@link urn.dyncontext.TextChange <em>Text Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Text Change</em>'.
+	 * @see urn.dyncontext.TextChange
+	 * @generated
+	 */
+	EClass getTextChange();
+
+	/**
+	 * Returns the meta object for the attribute '{@link urn.dyncontext.TextChange#getNewValue <em>New Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>New Value</em>'.
+	 * @see urn.dyncontext.TextChange#getNewValue()
+	 * @see #getTextChange()
+	 * @generated
+	 */
+	EAttribute getTextChange_NewValue();
+
+	/**
+	 * Returns the meta object for class '{@link urn.dyncontext.BooleanChange <em>Boolean Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Boolean Change</em>'.
+	 * @see urn.dyncontext.BooleanChange
+	 * @generated
+	 */
+	EClass getBooleanChange();
+
+	/**
+	 * Returns the meta object for the attribute '{@link urn.dyncontext.BooleanChange#isNewValue <em>New Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>New Value</em>'.
+	 * @see urn.dyncontext.BooleanChange#isNewValue()
+	 * @see #getBooleanChange()
+	 * @generated
+	 */
+	EAttribute getBooleanChange_NewValue();
+
+	/**
+	 * Returns the meta object for class '{@link urn.dyncontext.Changeable <em>Changeable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Changeable</em>'.
+	 * @see urn.dyncontext.Changeable
+	 * @generated
+	 */
+	EClass getChangeable();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1846,6 +2064,52 @@ public interface DyncontextPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CHANGE__ELEMENT = eINSTANCE.getChange_Element();
+
+		/**
+		 * The meta object literal for the '{@link urn.dyncontext.impl.TextChangeImpl <em>Text Change</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see urn.dyncontext.impl.TextChangeImpl
+		 * @see urn.dyncontext.impl.DyncontextPackageImpl#getTextChange()
+		 * @generated
+		 */
+		EClass TEXT_CHANGE = eINSTANCE.getTextChange();
+
+		/**
+		 * The meta object literal for the '<em><b>New Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEXT_CHANGE__NEW_VALUE = eINSTANCE.getTextChange_NewValue();
+
+		/**
+		 * The meta object literal for the '{@link urn.dyncontext.impl.BooleanChangeImpl <em>Boolean Change</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see urn.dyncontext.impl.BooleanChangeImpl
+		 * @see urn.dyncontext.impl.DyncontextPackageImpl#getBooleanChange()
+		 * @generated
+		 */
+		EClass BOOLEAN_CHANGE = eINSTANCE.getBooleanChange();
+
+		/**
+		 * The meta object literal for the '<em><b>New Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BOOLEAN_CHANGE__NEW_VALUE = eINSTANCE.getBooleanChange_NewValue();
+
+		/**
+		 * The meta object literal for the '{@link urn.dyncontext.impl.ChangeableImpl <em>Changeable</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see urn.dyncontext.impl.ChangeableImpl
+		 * @see urn.dyncontext.impl.DyncontextPackageImpl#getChangeable()
+		 * @generated
+		 */
+		EClass CHANGEABLE = eINSTANCE.getChangeable();
 
 	}
 
