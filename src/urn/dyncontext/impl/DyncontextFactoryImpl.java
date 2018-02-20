@@ -65,6 +65,8 @@ public class DyncontextFactoryImpl extends EFactoryImpl implements DyncontextFac
 			case DyncontextPackage.DYNAMIC_CONTEXT_GROUP: return createDynamicContextGroup();
 			case DyncontextPackage.DEACTIVATION_CHANGE: return createDeactivationChange();
 			case DyncontextPackage.CONSTANT_CHANGE: return createConstantChange();
+		case DyncontextPackage.TEXT_CHANGE: return createTextChange();
+		case DyncontextPackage.BOOLEAN_CHANGE: return createBooleanChange();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -168,6 +170,26 @@ public class DyncontextFactoryImpl extends EFactoryImpl implements DyncontextFac
 	public ConstantChange createConstantChange() {
 		ConstantChangeImpl constantChange = new ConstantChangeImpl();
 		return constantChange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TextChange createTextChange() {
+		TextChangeImpl textChange = new TextChangeImpl();
+		return textChange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BooleanChange createBooleanChange() {
+		BooleanChangeImpl booleanChange = new BooleanChangeImpl();
+		return booleanChange;
 	}
 
 	/**
