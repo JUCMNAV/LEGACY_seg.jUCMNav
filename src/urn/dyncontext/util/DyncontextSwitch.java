@@ -154,6 +154,7 @@ public class DyncontextSwitch {
 				Object result = caseDynamicContext(dynamicContext);
 				if (result == null) result = caseURNmodelElement(dynamicContext);
 				if (result == null) result = caseCORENamedElement(dynamicContext);
+			if (result == null) result = caseChangeable(dynamicContext);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -162,6 +163,7 @@ public class DyncontextSwitch {
 				Object result = caseDynamicContextGroup(dynamicContextGroup);
 				if (result == null) result = caseURNmodelElement(dynamicContextGroup);
 				if (result == null) result = caseCORENamedElement(dynamicContextGroup);
+			if (result == null) result = caseChangeable(dynamicContextGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -187,6 +189,28 @@ public class DyncontextSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+		case DyncontextPackage.TEXT_CHANGE: {
+			TextChange textChange = (TextChange)theEObject;
+			Object result = caseTextChange(textChange);
+			if (result == null) result = casePropertyChange(textChange);
+			if (result == null) result = caseChange(textChange);
+			if (result == null) result = defaultCase(theEObject);
+			return result;
+		}
+		case DyncontextPackage.BOOLEAN_CHANGE: {
+			BooleanChange booleanChange = (BooleanChange)theEObject;
+			Object result = caseBooleanChange(booleanChange);
+			if (result == null) result = casePropertyChange(booleanChange);
+			if (result == null) result = caseChange(booleanChange);
+			if (result == null) result = defaultCase(theEObject);
+			return result;
+		}
+		case DyncontextPackage.CHANGEABLE: {
+			Changeable changeable = (Changeable)theEObject;
+			Object result = caseChangeable(changeable);
+			if (result == null) result = defaultCase(theEObject);
+			return result;
+		}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -383,6 +407,51 @@ public class DyncontextSwitch {
 	 * @generated
 	 */
 	public Object caseChange(Change object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Text Change</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Text Change</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseTextChange(TextChange object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Boolean Change</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Boolean Change</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseBooleanChange(BooleanChange object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChangeable(Changeable object) {
 		return null;
 	}
 
