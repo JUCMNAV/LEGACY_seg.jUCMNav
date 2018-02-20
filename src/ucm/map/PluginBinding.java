@@ -7,8 +7,7 @@
 package ucm.map;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-
+import urn.dyncontext.Changeable;
 import urncore.Condition;
 
 /**
@@ -41,7 +40,7 @@ import urncore.Condition;
  * @model
  * @generated
  */
-public interface PluginBinding extends EObject {
+public interface PluginBinding extends Changeable {
     /**
 	 * Returns the value of the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
