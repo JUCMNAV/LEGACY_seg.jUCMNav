@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import ucm.performance.*;
+import urn.dyncontext.Changeable;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -94,6 +95,7 @@ public class PerformanceSwitch {
 				if (result == null) result = caseUCMmodelElement(workload);
 				if (result == null) result = caseURNmodelElement(workload);
 				if (result == null) result = caseCORENamedElement(workload);
+			if (result == null) result = caseChangeable(workload);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -103,6 +105,7 @@ public class PerformanceSwitch {
 				if (result == null) result = caseUCMmodelElement(generalResource);
 				if (result == null) result = caseURNmodelElement(generalResource);
 				if (result == null) result = caseCORENamedElement(generalResource);
+			if (result == null) result = caseChangeable(generalResource);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -113,6 +116,7 @@ public class PerformanceSwitch {
 				if (result == null) result = caseUCMmodelElement(activeResource);
 				if (result == null) result = caseURNmodelElement(activeResource);
 				if (result == null) result = caseCORENamedElement(activeResource);
+			if (result == null) result = caseChangeable(activeResource);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -123,6 +127,7 @@ public class PerformanceSwitch {
 				if (result == null) result = caseUCMmodelElement(passiveResource);
 				if (result == null) result = caseURNmodelElement(passiveResource);
 				if (result == null) result = caseCORENamedElement(passiveResource);
+			if (result == null) result = caseChangeable(passiveResource);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -134,6 +139,7 @@ public class PerformanceSwitch {
 				if (result == null) result = caseUCMmodelElement(externalOperation);
 				if (result == null) result = caseURNmodelElement(externalOperation);
 				if (result == null) result = caseCORENamedElement(externalOperation);
+			if (result == null) result = caseChangeable(externalOperation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -145,6 +151,7 @@ public class PerformanceSwitch {
 				if (result == null) result = caseUCMmodelElement(processingResource);
 				if (result == null) result = caseURNmodelElement(processingResource);
 				if (result == null) result = caseCORENamedElement(processingResource);
+			if (result == null) result = caseChangeable(processingResource);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -275,6 +282,21 @@ public class PerformanceSwitch {
 	 * @generated
 	 */
 	public Object caseCORENamedElement(CORENamedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChangeable(Changeable object) {
 		return null;
 	}
 
