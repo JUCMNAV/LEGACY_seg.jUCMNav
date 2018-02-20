@@ -12,6 +12,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import ucm.scenario.*;
+import urn.dyncontext.Changeable;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -94,6 +95,9 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
+		public Object caseChangeable(Changeable object) {
+			return createChangeableAdapter();
+		}
 			public Object caseURNmodelElement(URNmodelElement object) {
 				return createURNmodelElementAdapter();
 			}
@@ -199,6 +203,20 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCORENamedElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.Changeable <em>Changeable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.Changeable
+	 * @generated
+	 */
+	public Adapter createChangeableAdapter() {
 		return null;
 	}
 
