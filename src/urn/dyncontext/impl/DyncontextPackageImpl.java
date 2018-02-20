@@ -45,7 +45,9 @@ import ucm.scenario.impl.ScenarioPackageImpl;
 
 import urn.UrnPackage;
 
+import urn.dyncontext.BooleanChange;
 import urn.dyncontext.Change;
+import urn.dyncontext.Changeable;
 import urn.dyncontext.ConstantChange;
 import urn.dyncontext.DeactivationChange;
 import urn.dyncontext.DynamicContext;
@@ -58,6 +60,7 @@ import urn.dyncontext.LinearChange;
 import urn.dyncontext.NumericChange;
 import urn.dyncontext.PropertyChange;
 import urn.dyncontext.QuadraticChange;
+import urn.dyncontext.TextChange;
 import urn.dyncontext.Timepoint;
 import urn.dyncontext.TimepointGroup;
 
@@ -164,6 +167,27 @@ public class DyncontextPackageImpl extends EPackageImpl implements DyncontextPac
 	 * @generated
 	 */
 	private EClass changeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass textChangeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass booleanChangeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass changeableEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -626,6 +650,51 @@ public class DyncontextPackageImpl extends EPackageImpl implements DyncontextPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getTextChange() {
+		return textChangeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTextChange_NewValue() {
+		return (EAttribute)textChangeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBooleanChange() {
+		return booleanChangeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBooleanChange_NewValue() {
+		return (EAttribute)booleanChangeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getChangeable() {
+		return changeableEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public DyncontextFactory getDyncontextFactory() {
 		return (DyncontextFactory)getEFactoryInstance();
 	}
@@ -701,6 +770,14 @@ public class DyncontextPackageImpl extends EPackageImpl implements DyncontextPac
 		createEAttribute(changeEClass, CHANGE__END);
 		createEReference(changeEClass, CHANGE__CONTEXT);
 		createEReference(changeEClass, CHANGE__ELEMENT);
+
+		textChangeEClass = createEClass(TEXT_CHANGE);
+		createEAttribute(textChangeEClass, TEXT_CHANGE__NEW_VALUE);
+
+		booleanChangeEClass = createEClass(BOOLEAN_CHANGE);
+		createEAttribute(booleanChangeEClass, BOOLEAN_CHANGE__NEW_VALUE);
+
+		changeableEClass = createEClass(CHANGEABLE);
 	}
 
 	/**
@@ -743,6 +820,8 @@ public class DyncontextPackageImpl extends EPackageImpl implements DyncontextPac
 		dynamicContextGroupEClass.getESuperTypes().add(theUrncorePackage.getURNmodelElement());
 		deactivationChangeEClass.getESuperTypes().add(this.getChange());
 		constantChangeEClass.getESuperTypes().add(this.getNumericChange());
+		textChangeEClass.getESuperTypes().add(this.getPropertyChange());
+		booleanChangeEClass.getESuperTypes().add(this.getPropertyChange());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(quadraticChangeEClass, QuadraticChange.class, "QuadraticChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -796,7 +875,15 @@ public class DyncontextPackageImpl extends EPackageImpl implements DyncontextPac
 		initEAttribute(getChange_Start(), ecorePackage.getEDate(), "start", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChange_End(), ecorePackage.getEDate(), "end", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getChange_Context(), this.getDynamicContext(), this.getDynamicContext_Changes(), "context", null, 1, 1, Change.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getChange_Element(), theUrncorePackage.getURNmodelElement(), null, "element", null, 1, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getChange_Element(), this.getChangeable(), null, "element", null, 1, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(textChangeEClass, TextChange.class, "TextChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTextChange_NewValue(), ecorePackage.getEString(), "newValue", "", 0, 1, TextChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(booleanChangeEClass, BooleanChange.class, "BooleanChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getBooleanChange_NewValue(), ecorePackage.getEBoolean(), "newValue", "false", 0, 1, BooleanChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(changeableEClass, Changeable.class, "Changeable", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 	}
 
 } //DyncontextPackageImpl
