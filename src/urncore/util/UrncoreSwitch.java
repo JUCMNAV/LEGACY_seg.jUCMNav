@@ -10,6 +10,7 @@ import ca.mcgill.sel.core.CORENamedElement;
 import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import urn.dyncontext.Changeable;
 import urncore.*;
 
 /**
@@ -98,6 +99,7 @@ public class UrncoreSwitch {
 				if (result == null) result = caseUCMmodelElement(responsibility);
 				if (result == null) result = caseURNmodelElement(responsibility);
 				if (result == null) result = caseCORENamedElement(responsibility);
+			if (result == null) result = caseChangeable(responsibility);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -108,6 +110,7 @@ public class UrncoreSwitch {
 				if (result == null) result = caseIURNContainer(component);
 				if (result == null) result = caseURNmodelElement(component);
 				if (result == null) result = caseCORENamedElement(component);
+			if (result == null) result = caseChangeable(component);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -117,6 +120,7 @@ public class UrncoreSwitch {
 				if (result == null) result = caseUCMmodelElement(componentType);
 				if (result == null) result = caseURNmodelElement(componentType);
 				if (result == null) result = caseCORENamedElement(componentType);
+			if (result == null) result = caseChangeable(componentType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -125,6 +129,7 @@ public class UrncoreSwitch {
 				Object result = caseUCMmodelElement(ucMmodelElement);
 				if (result == null) result = caseURNmodelElement(ucMmodelElement);
 				if (result == null) result = caseCORENamedElement(ucMmodelElement);
+			if (result == null) result = caseChangeable(ucMmodelElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -133,6 +138,7 @@ public class UrncoreSwitch {
 				Object result = caseGRLmodelElement(grLmodelElement);
 				if (result == null) result = caseURNmodelElement(grLmodelElement);
 				if (result == null) result = caseCORENamedElement(grLmodelElement);
+			if (result == null) result = caseChangeable(grLmodelElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -159,6 +165,7 @@ public class UrncoreSwitch {
 			case UrncorePackage.CONDITION: {
 				Condition condition = (Condition)theEObject;
 				Object result = caseCondition(condition);
+			if (result == null) result = caseChangeable(condition);
 				if (result == null) result = caseLabel(condition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -173,6 +180,7 @@ public class UrncoreSwitch {
 				URNmodelElement urNmodelElement = (URNmodelElement)theEObject;
 				Object result = caseURNmodelElement(urNmodelElement);
 				if (result == null) result = caseCORENamedElement(urNmodelElement);
+			if (result == null) result = caseChangeable(urNmodelElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -211,6 +219,7 @@ public class UrncoreSwitch {
 				Object result = caseConcern(concern);
 				if (result == null) result = caseURNmodelElement(concern);
 				if (result == null) result = caseCORENamedElement(concern);
+			if (result == null) result = caseChangeable(concern);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -543,6 +552,21 @@ public class UrncoreSwitch {
 	 * @generated
 	 */
 	public Object caseCORENamedElement(CORENamedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChangeable(Changeable object) {
 		return null;
 	}
 
