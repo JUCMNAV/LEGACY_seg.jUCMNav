@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import urn.dyncontext.Changeable;
 import urncore.GRLmodelElement;
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
@@ -103,6 +104,7 @@ public class FmSwitch {
 				if (result == null) result = caseIURNDiagram(featureDiagram);
 				if (result == null) result = caseURNmodelElement(featureDiagram);
 				if (result == null) result = caseCORENamedElement(featureDiagram);
+			if (result == null) result = caseChangeable(featureDiagram);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -114,6 +116,7 @@ public class FmSwitch {
 				if (result == null) result = caseGRLmodelElement(feature);
 				if (result == null) result = caseURNmodelElement(feature);
 				if (result == null) result = caseCORENamedElement(feature);
+			if (result == null) result = caseChangeable(feature);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -125,6 +128,7 @@ public class FmSwitch {
 				if (result == null) result = caseGRLmodelElement(mandatoryFMLink);
 				if (result == null) result = caseURNmodelElement(mandatoryFMLink);
 				if (result == null) result = caseCORENamedElement(mandatoryFMLink);
+			if (result == null) result = caseChangeable(mandatoryFMLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -136,6 +140,7 @@ public class FmSwitch {
 				if (result == null) result = caseGRLmodelElement(optionalFMLink);
 				if (result == null) result = caseURNmodelElement(optionalFMLink);
 				if (result == null) result = caseCORENamedElement(optionalFMLink);
+			if (result == null) result = caseChangeable(optionalFMLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -153,6 +158,7 @@ public class FmSwitch {
 				if (result == null) result = caseGRLmodelElement(featureImpactElement);
 				if (result == null) result = caseURNmodelElement(featureImpactElement);
 				if (result == null) result = caseCORENamedElement(featureImpactElement);
+			if (result == null) result = caseChangeable(featureImpactElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -164,6 +170,7 @@ public class FmSwitch {
 				if (result == null) result = caseGRLmodelElement(reuseLink);
 				if (result == null) result = caseURNmodelElement(reuseLink);
 				if (result == null) result = caseCORENamedElement(reuseLink);
+			if (result == null) result = caseChangeable(reuseLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -288,6 +295,21 @@ public class FmSwitch {
 	 * @generated
 	 */
 	public Object caseCORENamedElement(CORENamedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChangeable(Changeable object) {
 		return null;
 	}
 
