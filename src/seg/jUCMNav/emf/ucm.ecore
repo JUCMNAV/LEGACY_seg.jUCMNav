@@ -200,7 +200,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentStub" upperBound="-1"
           eType="#//map/PluginBinding" eOpposite="#//map/PluginBinding/plugin"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="PluginBinding">
+    <eClassifiers xsi:type="ecore:EClass" name="PluginBinding" eSuperTypes="urn.ecore#//dyncontext/Changeable">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="A plugin refers to a Map that can be substituted  to the parent stub. The binding between the plugin and its  parent stub is defined by the in-connections, the  out-connections, and the instance-values. "/>
       </eAnnotations>
