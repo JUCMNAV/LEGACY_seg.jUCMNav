@@ -6,14 +6,17 @@
  */
 package grl.kpimodel.util;
 
+import java.util.List;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+
 import ca.mcgill.sel.core.CORENamedElement;
 import grl.GRLLinkableElement;
 import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.kpimodel.*;
-import java.util.List;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
+import urn.dyncontext.Changeable;
 import urncore.GRLmodelElement;
 import urncore.IURNConnection;
 import urncore.IURNNode;
@@ -99,6 +102,7 @@ public class KpimodelSwitch {
 				if (result == null) result = caseGRLmodelElement(indicatorGroup);
 				if (result == null) result = caseURNmodelElement(indicatorGroup);
 				if (result == null) result = caseCORENamedElement(indicatorGroup);
+			if (result == null) result = caseChangeable(indicatorGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -110,6 +114,7 @@ public class KpimodelSwitch {
 				if (result == null) result = caseGRLmodelElement(indicator);
 				if (result == null) result = caseURNmodelElement(indicator);
 				if (result == null) result = caseCORENamedElement(indicator);
+			if (result == null) result = caseChangeable(indicator);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -119,6 +124,7 @@ public class KpimodelSwitch {
 				if (result == null) result = caseGRLmodelElement(kpiInformationElement);
 				if (result == null) result = caseURNmodelElement(kpiInformationElement);
 				if (result == null) result = caseCORENamedElement(kpiInformationElement);
+			if (result == null) result = caseChangeable(kpiInformationElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -130,6 +136,7 @@ public class KpimodelSwitch {
 				if (result == null) result = caseIURNNode(kpiInformationElementRef);
 				if (result == null) result = caseURNmodelElement(kpiInformationElementRef);
 				if (result == null) result = caseCORENamedElement(kpiInformationElementRef);
+			if (result == null) result = caseChangeable(kpiInformationElementRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -139,6 +146,7 @@ public class KpimodelSwitch {
 				if (result == null) result = caseGRLmodelElement(kpiModelLink);
 				if (result == null) result = caseURNmodelElement(kpiModelLink);
 				if (result == null) result = caseCORENamedElement(kpiModelLink);
+			if (result == null) result = caseChangeable(kpiModelLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -173,6 +181,7 @@ public class KpimodelSwitch {
 				if (result == null) result = caseGRLmodelElement(kpiConversion);
 				if (result == null) result = caseURNmodelElement(kpiConversion);
 				if (result == null) result = caseCORENamedElement(kpiConversion);
+			if (result == null) result = caseChangeable(kpiConversion);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -183,6 +192,7 @@ public class KpimodelSwitch {
 				if (result == null) result = caseGRLmodelElement(qualitativeMappings);
 				if (result == null) result = caseURNmodelElement(qualitativeMappings);
 				if (result == null) result = caseCORENamedElement(qualitativeMappings);
+			if (result == null) result = caseChangeable(qualitativeMappings);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -388,6 +398,21 @@ public class KpimodelSwitch {
 	 * @generated
 	 */
 	public Object caseCORENamedElement(CORENamedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChangeable(Changeable object) {
 		return null;
 	}
 
