@@ -114,7 +114,16 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="context" lowerBound="1"
           eType="#//dyncontext/DynamicContext" transient="true" eOpposite="#//dyncontext/DynamicContext/changes"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
-          eType="ecore:EClass urncore.ecore#//URNmodelElement"/>
+          eType="#//dyncontext/Changeable"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TextChange" eSuperTypes="#//dyncontext/PropertyChange">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="newValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral=""/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanChange" eSuperTypes="#//dyncontext/PropertyChange">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="newValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Changeable" abstract="true"/>
   </eSubpackages>
 </ecore:EPackage>
