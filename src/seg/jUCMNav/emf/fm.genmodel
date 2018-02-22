@@ -524,6 +524,13 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference urn.ecore#//dyncontext/Change/element"/>
       </genClasses>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/TextChange">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/TextChange/newValue"/>
+      </genClasses>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/BooleanChange">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/BooleanChange/newValue"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="urn.ecore#//dyncontext/Changeable"/>
     </nestedGenPackages>
   </genPackages>
   <genPackages prefix="Ucm" disposableProviderFactory="true" ecorePackage="ucm.ecore#/">
