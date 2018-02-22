@@ -6,15 +6,17 @@
  */
 package grl.kpimodel.util;
 
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.ecore.EObject;
+
 import ca.mcgill.sel.core.CORENamedElement;
 import grl.GRLLinkableElement;
 import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.kpimodel.*;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.ecore.EObject;
+import urn.dyncontext.Changeable;
 import urncore.GRLmodelElement;
 import urncore.IURNConnection;
 import urncore.IURNNode;
@@ -113,6 +115,9 @@ public class KpimodelAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
+		}
+		public Object caseChangeable(Changeable object) {
+			return createChangeableAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {
 				return createURNmodelElementAdapter();
@@ -332,6 +337,20 @@ public class KpimodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCORENamedElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.Changeable <em>Changeable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.Changeable
+	 * @generated
+	 */
+	public Adapter createChangeableAdapter() {
 		return null;
 	}
 
