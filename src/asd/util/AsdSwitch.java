@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import urn.dyncontext.Changeable;
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
@@ -100,6 +101,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(asDelement);
 				if (result == null) result = caseURNmodelElement(asDelement);
 				if (result == null) result = caseCORENamedElement(asDelement);
+				if (result == null) result = caseChangeable(asDelement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -110,6 +112,7 @@ public class AsdSwitch {
 				if (result == null) result = caseIURNDiagram(asDiagram);
 				if (result == null) result = caseURNmodelElement(asDiagram);
 				if (result == null) result = caseCORENamedElement(asDiagram);
+				if (result == null) result = caseChangeable(asDiagram);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -120,6 +123,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(mediatingElement);
 				if (result == null) result = caseURNmodelElement(mediatingElement);
 				if (result == null) result = caseCORENamedElement(mediatingElement);
+				if (result == null) result = caseChangeable(mediatingElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -129,6 +133,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(mediation);
 				if (result == null) result = caseURNmodelElement(mediation);
 				if (result == null) result = caseCORENamedElement(mediation);
+				if (result == null) result = caseChangeable(mediation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -139,6 +144,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(mediatedElement);
 				if (result == null) result = caseURNmodelElement(mediatedElement);
 				if (result == null) result = caseCORENamedElement(mediatedElement);
+				if (result == null) result = caseChangeable(mediatedElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -147,6 +153,7 @@ public class AsdSwitch {
 				Object result = caseASDmodelElement(asDmodelElement);
 				if (result == null) result = caseURNmodelElement(asDmodelElement);
 				if (result == null) result = caseCORENamedElement(asDmodelElement);
+				if (result == null) result = caseChangeable(asDmodelElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -171,6 +178,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(tool);
 				if (result == null) result = caseURNmodelElement(tool);
 				if (result == null) result = caseCORENamedElement(tool);
+				if (result == null) result = caseChangeable(tool);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -182,6 +190,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(rule);
 				if (result == null) result = caseURNmodelElement(rule);
 				if (result == null) result = caseCORENamedElement(rule);
+				if (result == null) result = caseChangeable(rule);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -193,6 +202,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(divisionOfLabour);
 				if (result == null) result = caseURNmodelElement(divisionOfLabour);
 				if (result == null) result = caseCORENamedElement(divisionOfLabour);
+				if (result == null) result = caseChangeable(divisionOfLabour);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -204,6 +214,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(community);
 				if (result == null) result = caseURNmodelElement(community);
 				if (result == null) result = caseCORENamedElement(community);
+				if (result == null) result = caseChangeable(community);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -215,6 +226,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(subject);
 				if (result == null) result = caseURNmodelElement(subject);
 				if (result == null) result = caseCORENamedElement(subject);
+				if (result == null) result = caseChangeable(subject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -226,6 +238,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(aim);
 				if (result == null) result = caseURNmodelElement(aim);
 				if (result == null) result = caseCORENamedElement(aim);
+				if (result == null) result = caseChangeable(aim);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -236,6 +249,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(motivation);
 				if (result == null) result = caseURNmodelElement(motivation);
 				if (result == null) result = caseCORENamedElement(motivation);
+				if (result == null) result = caseChangeable(motivation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -246,6 +260,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(outcome);
 				if (result == null) result = caseURNmodelElement(outcome);
 				if (result == null) result = caseCORENamedElement(outcome);
+				if (result == null) result = caseChangeable(outcome);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -255,6 +270,7 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(contradiction);
 				if (result == null) result = caseURNmodelElement(contradiction);
 				if (result == null) result = caseCORENamedElement(contradiction);
+				if (result == null) result = caseChangeable(contradiction);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -544,6 +560,21 @@ public class AsdSwitch {
 	 * @generated
 	 */
 	public Object caseCORENamedElement(CORENamedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Changeable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChangeable(Changeable object) {
 		return null;
 	}
 
