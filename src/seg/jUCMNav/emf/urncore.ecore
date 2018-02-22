@@ -88,7 +88,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="contRef" eType="#//IURNContainerRef"
         transient="true" eOpposite="#//IURNContainerRef/label"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//Label">
+  <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="urn.ecore#//dyncontext/Changeable #//Label">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -121,7 +121,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="comments" upperBound="-1"
         eType="#//Comment" containment="true" eOpposite="#//Comment/diagram"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="URNmodelElement" abstract="true" eSuperTypes="../../../../../ca.mcgill.sel.core/model/CORE.ecore#//CORENamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="URNmodelElement" abstract="true" eSuperTypes="../../../../../ca.mcgill.sel.core/model/CORE.ecore#//CORENamedElement urn.ecore#//dyncontext/Changeable">
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromLinks" upperBound="-1"
         eType="ecore:EClass urn.ecore#//URNlink" eOpposite="urn.ecore#//URNlink/fromElem"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="toLinks" upperBound="-1"
