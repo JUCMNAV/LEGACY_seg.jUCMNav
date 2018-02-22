@@ -1,24 +1,26 @@
 package seg.jUCMNav.model.util;
 
-import grl.Actor;
-import grl.Contribution;
-import grl.ElementLink;
-import grl.IntentionalElement;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import grl.Actor;
+import grl.Contribution;
+import grl.ElementLink;
+import grl.IntentionalElement;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.Component;
@@ -411,17 +413,60 @@ public class MetadataHelper {
         	// Remove run-time TimedUCM related metadata attached to responsibilities
             for (Iterator iter = model.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
                 Responsibility responsibility = (Responsibility) iter.next();
+				MetadataHelper.removeMetaData(responsibility, PathNodeEditPart.METADATA_HITS);
                 MetadataHelper.removeMetaData(responsibility, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+				MetadataHelper.removeMetaData(responsibility, ScenarioUtils.METADATA_ORIGRESPEXPRESSION);
+
                 List<RespRef> respRefs = responsibility.getRespRefs(); 
                 for (RespRef respRef: respRefs){
+					MetadataHelper.removeMetaData(respRef, PathNodeEditPart.METADATA_HITS);
                 	MetadataHelper.removeMetaData(respRef, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+					MetadataHelper.removeMetaData(respRef, ScenarioUtils.METADATA_ORIGRESPEXPRESSION);
                 }
             }
      
             // Remove run-time TimedUCM related metadata attached to components
             for (Iterator iter = model.getUrndef().getComponents().iterator(); iter.hasNext();) {
                 Component component = (Component) iter.next();
+				MetadataHelper.removeMetaData(component, PathNodeEditPart.METADATA_HITS);
                 MetadataHelper.removeMetaData(component, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+				MetadataHelper.removeMetaData(component, ScenarioUtils.METADATA_ORIGCOMPKIND);
+				MetadataHelper.removeMetaData(component, ScenarioUtils.METADATA_ORIGCOMPONENT + ".compProtect");
+				MetadataHelper.removeMetaData(component, ScenarioUtils.METADATA_ORIGCOMPONENT + ".compContext");
+			}
+
+			// Remove run-time TimedUCM related metadata attached to path nodes
+			for (Iterator iter3 = model.getUrndef().getSpecDiagrams().iterator(); iter3.hasNext();) {
+				IURNDiagram diagram = (IURNDiagram) iter3.next();
+				if (diagram instanceof UCMmap) {
+					for (Iterator iterIn = diagram.getNodes().iterator(); iterIn.hasNext();) {
+						PathNode pn = (PathNode) iterIn.next();
+						MetadataHelper.removeMetaData(pn, PathNodeEditPart.METADATA_HITS);
+						MetadataHelper.removeMetaData(pn, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGFAILUREKIND);
+						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGWAITKIND);
+						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGFAILURELIST);
+						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGENDPTPOSTCOND);
+						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGORFORKEXP);
+						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGFAILUREPTCOND);
+						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGFAILUREEXPRESSION);
+						MetadataHelper.removeMetaData(pn, "_avgHits");
+						MetadataHelper.removeMetaData(pn, "_traversalHits");
+
+						if (pn instanceof Stub) {
+							MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGSTUB + ".staticStub");
+							MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGSTUB + ".dynStub");
+							MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGSTUB + ".syncStub");
+							MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGSTUB + ".blockStub");
+
+							List<PluginBinding> bindings = ((Stub) pn).getBindings();
+							for (PluginBinding p : bindings) {
+								MetadataHelper.removeMetaData(p.getStub(), ScenarioUtils.METADATA_ORIGREPFACTOR + "." + p.getPlugin().getName());
+								MetadataHelper.removeMetaData(p.getPrecondition().getPluginBinding().getStub(), ScenarioUtils.METADATA_ORIGPLUGINCONDITION + "." + p.getPlugin().getName());
+							}
+						}
+					}
+				}
             }
         }
     }
@@ -433,12 +478,22 @@ public class MetadataHelper {
      *            name of the metadata
      * @return true if the metadata was inserted at run-time
      */
-    public static boolean isRuntimeMetadata(String name) {
+	public static boolean isRuntimeMetadata (String name) {
         return name!=null && (name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_NUMEVAL) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_RANGEVALUES)
-                || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_QUALEVAL) || name.equalsIgnoreCase(PathNodeEditPart.METADATA_HITS) || name.equalsIgnoreCase(BatchEvaluationUtil.METADATA_TREND)
-                        || name.equalsIgnoreCase(WIDTH) || name.equalsIgnoreCase(HEIGHT) || name.equalsIgnoreCase(QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL) 
-                				|| name.equalsIgnoreCase(QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGIMP) 
-                					|| name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGEVAL) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGCONTRIB)
-                					|| name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_DEACTSTATUS) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGDECOMPTYPE));
+				|| name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_QUALEVAL) || name.equalsIgnoreCase(PathNodeEditPart.METADATA_HITS)
+				|| name.equalsIgnoreCase(BatchEvaluationUtil.METADATA_TREND) || name.equalsIgnoreCase(WIDTH) || name.equalsIgnoreCase(HEIGHT)
+				|| name.equalsIgnoreCase(QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL) || name.equalsIgnoreCase(QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR)
+				|| name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGIMP) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGEVAL)
+				|| name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGCONTRIB) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_DEACTSTATUS)
+				|| name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGDECOMPTYPE) || name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGCOMPKIND)
+				|| name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGFAILUREKIND) || name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGWAITKIND)
+				|| name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGRESPEXPRESSION) || name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGCOMPONENT + ".compProtect")
+				|| name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGCOMPONENT + ".compContext") || name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGFAILURELIST)
+				|| name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGENDPTPOSTCOND) || name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGORFORKEXP)
+				|| name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGFAILUREPTCOND) || name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGFAILUREEXPRESSION)
+				|| name.equalsIgnoreCase("_avgHits") || name.equalsIgnoreCase("_traversalHits") || name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGSTUB + ".staticStub")
+				|| name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGSTUB + ".dynStub") || name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGSTUB + ".syncStub")
+				|| name.equalsIgnoreCase(ScenarioUtils.METADATA_ORIGSTUB + ".blockStub") || name.contains(ScenarioUtils.METADATA_ORIGREPFACTOR)
+				|| name.contains(ScenarioUtils.METADATA_ORIGPLUGINCONDITION));
     }
 }
