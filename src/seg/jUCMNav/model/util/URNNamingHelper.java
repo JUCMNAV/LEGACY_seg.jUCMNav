@@ -1029,7 +1029,7 @@ public class URNNamingHelper {
 		String name = null;
 		if (plugin.getStub().getName() != null && plugin.getPlugin().getName() != null && plugin.getStub().getName().length() > 0
 				&& plugin.getPlugin().getName().length() > 0)
-			name = plugin.getStub().getName() + "." + plugin.getPlugin().getName();
+			name = plugin.getStub().getName() + " <-> " + plugin.getPlugin().getName();
 
 		return name;
 	}
