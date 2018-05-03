@@ -1,5 +1,7 @@
 package seg.jUCMNav.editparts;
 
+import java.util.List;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -10,17 +12,23 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.editparts.dynamicContextEvaluationViewEditparts.DynamicContextTraversalEvaluation;
 import seg.jUCMNav.editpolicies.element.ComponentRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
 import seg.jUCMNav.figures.ComponentRefFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.dynamicContexts.DynamicContextsView;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 import ucm.map.ComponentRef;
+import ucm.map.PathNode;
+import ucm.map.RespRef;
 import ucm.map.UCMmap;
 import urncore.Component;
+import urncore.Metadata;
 
 /**
  * EditPart for all ComponentRefs. They listen to changes in both the reference and the definition.
@@ -28,6 +36,8 @@ import urncore.Component;
  * @author Etienne Tremblay, jkealey
  */
 public class ComponentRefEditPart extends ModelElementEditPart implements Adapter {
+
+	public static DynamicContextTraversalEvaluation te;
 
     /***
      * 
@@ -139,6 +149,38 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
             // Set the tool tip
             UrnMetadata.setToolTip(comp, figure);
 
+			if (ScenarioUtils.getActiveScenario(comp) != null) {
+
+				List<ComponentRef> includedComponentReferences = ScenarioUtils.getComponentReferencesRecursively(comp);
+				for (ComponentRef cr : includedComponentReferences) {
+
+					List<PathNode> nodes = (List<PathNode>) cr.getNodes();
+					String hits = null;
+					for (PathNode p : nodes) {
+						if (p instanceof RespRef) {
+							String deactStatus = MetadataHelper.getMetaData(p, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+							if (deactStatus != null && deactStatus.equalsIgnoreCase("true") && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+								hits = "0";
+							else
+								hits = Integer.toString(ScenarioUtils.getTraversalHitCount(p));
+
+							Metadata metaHitCount = MetadataHelper.getMetaDataObj(p, PathNodeEditPart.METADATA_HITS);
+							if (metaHitCount != null)
+								metaHitCount.setValue(hits);
+							else
+								MetadataHelper.addMetaData(p.getDiagram().getUrndefinition().getUrnspec(), p, PathNodeEditPart.METADATA_HITS, hits);
+
+							if (DynamicContextsView.te != null && te !=null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()) {
+								if (p instanceof RespRef) {
+									MetadataHelper.removeMetaData(p, PathNodeEditPart.METADATA_HITS);
+									MetadataHelper.removeMetaData(((RespRef) p).getRespDef(), PathNodeEditPart.METADATA_HITS);
+								}
+							}
+						}	
+					}
+				}
+			}
+
             //For TimedUCM
             String deactStatus = MetadataHelper.getMetaData(comp, EvaluationStrategyManager.METADATA_DEACTSTATUS);
             if (deactStatus != null && deactStatus.equalsIgnoreCase("true")&& ScenarioTraversalPreferences.getIsTimedUcmEnabled())
@@ -157,5 +199,12 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         // and will not draw it correctly.
         if (getParent() != null && getViewer() != null && getLayer(URNRootEditPart.COMPONENT_LAYER) != null)
             (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
+
+
+		if (DynamicContextsView.te != null && te !=null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()) {
+			Metadata metaHitCount = MetadataHelper.getMetaDataObj((Component) getComponentRef().getContDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			if (metaHitCount != null)
+				MetadataHelper.removeMetaData((Component) getComponentRef().getContDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+		}
     }
 }
