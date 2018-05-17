@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -16,11 +17,13 @@ import grl.kpimodel.KPIInformationElementRef;
 import ucm.map.ComponentRef;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
+import ucm.map.EndPoint;
 import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.StartPoint;
 import ucm.performance.Demand;
 import urn.dyncontext.Change;
 import urn.dyncontext.DeactivationChange;
@@ -80,7 +83,7 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
 	 */
 	public static String getSortableElementName(EObject o) {
 
-		String s;
+		String s = null;
 		// want to build a string like so: Name (ID)
 		// but have to deal with special cases
 
@@ -113,16 +116,44 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
 				s = URNNamingHelper.getName((ContributionChange) change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
 			else if (change.getElement() instanceof PluginBinding)
 				s = URNNamingHelper.getName((PluginBinding) change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
-			else if (change.getElement() instanceof urncore.Condition) {
-				if (((TextChange) change).getAffectedProperty().startsWith("Expression"))
-					s = URNNamingHelper.getName((OrFork)((NodeConnection)(((urncore.Condition) change.getElement()).eContainer())).getSource()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
-				else if (((TextChange) change).getAffectedProperty().equals("Failure Condition"))
-					s = URNNamingHelper.getName((FailurePoint)((NodeConnection)(((urncore.Condition) change.getElement()).eContainer())).getSource()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
-				else
-					s = URNNamingHelper.getName((urncore.Condition) change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
-			}
-			else
+			else if (change.getElement() instanceof URNmodelElement)
 				s = URNNamingHelper.getName((URNmodelElement) change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+			else if (change.getElement() instanceof urncore.Condition) {
+				if (change.getElement().eContainer() instanceof StartPoint || change.getElement().eContainer() instanceof EndPoint || change.getElement().eContainer() instanceof PluginBinding) {
+					s = URNNamingHelper.getName((urncore.Condition) change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+				}
+				else {
+					List<NodeConnection> ncs = ((urncore.Condition) change.getElement()).getNodeConnection().getDiagram().getConnections();
+					for (NodeConnection n : ncs) {
+						if (n.getSource() instanceof OrFork && (((TextChange) change).getAffectedProperty().startsWith("Expression"))) {
+							String id = ((OrFork) ((urncore.Condition) change.getElement()).getNodeConnection().getSource()).getId();
+							String sourceId = ((OrFork) n.getSource()).getId();
+							if (sourceId.equals(id)) {
+								s = URNNamingHelper.getName((OrFork) n.getSource()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+								break;
+							}
+						}
+						else if (n.getSource() instanceof FailurePoint && (((TextChange) change).getAffectedProperty().equals("Failure Condition"))) {
+							String id = ((FailurePoint) ((urncore.Condition) change.getElement()).getNodeConnection().getSource()).getId();
+							String sourceId = ((FailurePoint) n.getSource()).getId();
+							if (sourceId.equals(id)) {
+								s = URNNamingHelper.getName((FailurePoint) n.getSource()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+								break;
+							}
+						}
+						else
+							s = URNNamingHelper.getName((urncore.Condition) change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+					}
+				}
+			}
+
+			if (s.contains("\n"))
+				s = s.replace("\n", " ");
+			if (s.contains("\r"))
+				s = s.replace("\r", " ");
+
+			if (s.contains("  "))
+				s = s.replaceAll("\\s+", " ");
 		} else {
 			try {
 				Object name = o.eGet(o.eClass().getEStructuralFeature("name")); //$NON-NLS-1$
