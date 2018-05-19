@@ -1,5 +1,6 @@
 package seg.jUCMNav.editparts;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.draw2d.ConnectionLocator;
@@ -17,13 +18,16 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editparts.dynamicContextEvaluationViewEditparts.DynamicContextTraversalEvaluation;
 import seg.jUCMNav.editpolicies.element.NodeConnectionComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.editpolicies.layout.NodeConnectionXYLayoutEditPolicy;
@@ -33,7 +37,9 @@ import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.util.NodeConnectionLocator;
 import seg.jUCMNav.figures.util.StubConnectionEndpointLocator;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.views.dynamicContexts.DynamicContextsView;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import seg.jUCMNav.views.property.URNElementPropertySource;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
@@ -42,6 +48,7 @@ import ucm.map.NodeConnection;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import urncore.IURNDiagram;
+import urncore.URNmodelElement;
 
 /**
  * EditPart associated with NodeConnection.
@@ -50,6 +57,12 @@ import urncore.IURNDiagram;
  * 
  */
 public class NodeConnectionEditPart extends AbstractConnectionEditPart {
+
+	public static DynamicContextTraversalEvaluation te;
+
+	public static Map<SplineConnection, Integer> connectionWidth = new HashMap<SplineConnection, Integer>();
+
+	public static int numberOfTimePoints;
 
     /**
      * Because GEF's AbstractConnectionEditPart has methods conflicting with EMF's Adapter, we needed an internal class to act as a listener.
@@ -124,7 +137,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
     private IURNDiagram diagram;
 
-    private Label endLabel, startLabel;
+	private Label endLabel, startLabel, traversalEvaluationLabel, traversalWidthEvaluationLabel;
 
     protected IPropertySource propertySource = null;
 
@@ -401,20 +414,207 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
             // highlight connection
             getFigure().setForegroundColor(userColor);
             getFigure().setBackgroundColor(userColor);
-        }else if (ScenarioUtils.getActiveScenario(getLink()) != null && ScenarioUtils.getTraversalHitCount(getLink()) > 0) {
+		} else if (ScenarioUtils.getActiveScenario(getLink()) != null && ScenarioUtils.getTraversalHitCount(getLink()) > 0 && (!(ScenarioTraversalPreferences.getIsTimedUcmEnabled()))
+				&& (UCMConnectionOnBottomRootEditPart) getRoot() != null && ((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView() && DynamicContextsView.currentContext.getScenario() != null) {
             getFigure().setForegroundColor(ColorManager.TRAVERSAL);
             getFigure().setBackgroundColor(ColorManager.TRAVERSAL);
+		} else if (ScenarioUtils.getActiveScenario(getLink()) != null && ScenarioTraversalPreferences.getIsTimedUcmEnabled()
+				&& (UCMConnectionOnBottomRootEditPart) getRoot() != null && ((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()
+				&& DynamicContextsView.currentContext.getScenario() != null) {
+			float maxCount = ScenarioTraversalPreferences.getMaxHitCount();
+
+			// hitCount = 1
+			if (ScenarioUtils.getTraversalHitCount(getLink()) == 1) {
+				getFigure().setForegroundColor(ColorManager.GREEN);
+				getFigure().setBackgroundColor(ColorManager.GREEN);
+			}
+
+			// hitCount = Maximum || Maximum - 1
+			else if ((ScenarioUtils.getTraversalHitCount(getLink()) == maxCount - 1) || (ScenarioUtils.getTraversalHitCount(getLink()) == maxCount)) {
+				getFigure().setForegroundColor(ColorManager.TRAVERSAL);
+				getFigure().setBackgroundColor(ColorManager.TRAVERSAL);
+			}
+
+			// hitCount = Greater than 1 to (1/2 * Maximum)
+			else if ((ScenarioUtils.getTraversalHitCount(getLink()) > 1) && (ScenarioUtils.getTraversalHitCount(getLink()) <= (maxCount / 2))) {
+				float traversalHitCount = ScenarioUtils.getTraversalHitCount(getLink());
+				maxCount = maxCount / 2;
+				float a = Math.abs((maxCount - traversalHitCount ) / maxCount);
+				float b = a * 255;
+				float traversalColor = 255 - b;
+				int traversal = (int) traversalColor; 
+				String color = String.valueOf(traversal) + ",255,0";
+				Color actualColor = new Color(Display.getCurrent(), StringConverter.asRGB(color));
+				getFigure().setForegroundColor(actualColor);
+				getFigure().setBackgroundColor(actualColor);
+			}
+
+			// hitCount = ((1/2 * Maximum) + 1) to (Maximum - 2)
+			else if (((ScenarioUtils.getTraversalHitCount(getLink()) > (maxCount / 2)) && (ScenarioUtils.getTraversalHitCount(getLink()) < (maxCount - 1)))) {
+				float traversalHitCount = ScenarioUtils.getTraversalHitCount(getLink());
+				maxCount = maxCount / 2;
+				float a = Math.abs((((maxCount - 1) * 2) - (traversalHitCount)) / (maxCount));
+				float traversalColor = (255) * a;
+				int traversal = (int) traversalColor;
+				String color = "255," + String.valueOf(traversal) + ",0";
+				Color actualColor = new Color(Display.getCurrent(), StringConverter.asRGB(color));
+				getFigure().setForegroundColor(actualColor);
+				getFigure().setBackgroundColor(actualColor);
+			}
+			else {
+				getFigure().setForegroundColor(ColorManager.LINE);
+				getFigure().setBackgroundColor(ColorManager.LINE);
+			}
         } else {
             getFigure().setForegroundColor(ColorManager.LINE);
             getFigure().setBackgroundColor(ColorManager.LINE);
         }
 
-        if (ScenarioUtils.getActiveScenario(getLink()) != null)
+		if (ScenarioUtils.getActiveScenario(getLink()) != null) {
+			if (DynamicContextsView.te != null && te != null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+				getFigure().setToolTip(null); //$NON-NLS-1$
+			else
             getFigure().setToolTip(new Label(Messages.getString("NodeConnectionEditPart.Hits") + ScenarioUtils.getTraversalHitCount(getLink()))); //$NON-NLS-1$
-        else
+		} else
             getFigure().setToolTip(null);
 
         super.refreshVisuals();
+
+
+		//TimePointGroup evaluation
+		if (DynamicContextsView.te != null && te != null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()
+				&& (UCMConnectionOnBottomRootEditPart) getRoot() != null && ((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()
+				&& DynamicContextsView.currentContext.getScenario() != null) {
+			for (Map.Entry<NodeConnection, Float> entry : te.traversalCountListNodeConnection) {
+				getTimePointGroupTraversalEvaluation(entry.getKey(), entry.getValue(), te.numberOfTimepoints);
+			}
+
+			for (Map.Entry<NodeConnection, Float> entry : te.hitCountListNodeConnection) {
+				getTimePointGroupWidthEvaluation(entry.getKey(), entry.getValue());	
+			}
+		} else {
+			SplineConnection c = (SplineConnection) getConnectionFigure();
+			c.setLineWidth(3);
+		}
+	}
+
+	/**
+	 * This method is used to color a node connection during traversal when the TimepointGroup is selected as per the number of times it appears during the timepointgroup
+	 * 		and add the label for the traversalCount
+	 * @param nc
+	 * @param traversalCount
+	 * @param numberOfTimepoints
+	 */
+
+	public void getTimePointGroupTraversalEvaluation(NodeConnection nc, Float traversalCount, int numberOfTimepoints) {
+		try {
+			String color = null;
+			Color actualColor = null;
+			String idModelSource = ((URNmodelElement) ((NodeConnection) getModel()).getSource()).getId();
+			String idModelTarget = ((URNmodelElement) ((NodeConnection) getModel()).getTarget()).getId();
+			String idIncomingNCSource = ((URNmodelElement) nc.getSource()).getId();
+			String idIncomingNCTarget = ((URNmodelElement) nc.getTarget()).getId();
+
+			if (ScenarioUtils.getActiveScenario(nc) != null) {
+
+				if (idModelSource.equals(idIncomingNCSource) && (idModelTarget.equals(idIncomingNCTarget)) && traversalCount == 1) {
+					getFigure().setForegroundColor(ColorManager.RED);
+					getFigure().setBackgroundColor(ColorManager.RED);
+
+					traversalEvaluationLabel = new Label("_traversalHits=" + String.valueOf(traversalCount * (float) numberOfTimepoints));
+
+					getFigure().setToolTip(traversalEvaluationLabel);
+				}
+
+				else if (idModelSource.equals(idIncomingNCSource) && (idModelTarget.equals(idIncomingNCTarget)) && (traversalCount > 0) && (traversalCount <= 0.5)) {
+					if (numberOfTimepoints == 2) {
+						getFigure().setForegroundColor(ColorManager.GREEN);
+						getFigure().setBackgroundColor(ColorManager.GREEN);
+					} else {
+						Double a = Math.abs((0.5 - traversalCount) / 0.5);
+						Double b = a * 255;
+						Double traversalColor = 255 - b;
+						int traversal = traversalColor.intValue();
+						color = String.valueOf(traversal) + ",255,0";
+						actualColor = new Color(Display.getCurrent(), StringConverter.asRGB(color));
+
+						getFigure().setForegroundColor(actualColor);
+						getFigure().setBackgroundColor(actualColor);
+					}
+
+					traversalEvaluationLabel = new Label("_traversalHits=" + String.valueOf(traversalCount * (float) numberOfTimepoints));
+
+					getFigure().setToolTip(traversalEvaluationLabel);
+				}
+
+				else if (idModelSource.equals(idIncomingNCSource) && (idModelTarget.equals(idIncomingNCTarget)) && ((traversalCount > 0.5) && (traversalCount < 1))) {
+					float traversalColor = 255 * traversalCount;
+					int traversal = (int) traversalColor;
+					color = "255," + String.valueOf(traversal) + ",0";
+					actualColor = new Color(Display.getCurrent(), StringConverter.asRGB(color));
+
+					getFigure().setForegroundColor(actualColor);
+					getFigure().setBackgroundColor(actualColor);
+
+					traversalEvaluationLabel = new Label("_traversalHits=" + String.valueOf(traversalCount * (float) numberOfTimepoints));
+
+					getFigure().setToolTip(traversalEvaluationLabel);
+				}
+			}
+			else {
+				getFigure().setForegroundColor(ColorManager.LINE);
+				getFigure().setBackgroundColor(ColorManager.LINE);
+			}
+
+		} catch (ArithmeticException e) {
+
+		} catch (NullPointerException e) {
+
+		}
+
+	}
+
+	/**
+	 * This method is used to to specify the width of the nodeConnection during traversal when the TimepointGroup is selected
+	 * and add the label for the average hitCount
+	 * @param nc
+	 * @param hitCount
+	 */
+
+	public void getTimePointGroupWidthEvaluation(NodeConnection nc, Float hitCount) {
+		try {
+			if (ScenarioUtils.getActiveScenario(nc) != null) {
+				Integer maxHitCount = ScenarioTraversalPreferences.getMaxHitCount();
+				Float maximumHitCount = maxHitCount.floatValue();
+				String idModelSource = ((URNmodelElement) ((NodeConnection) getModel()).getSource()).getId();
+				String idModelTarget = ((URNmodelElement) ((NodeConnection) getModel()).getTarget()).getId();
+				String idIncomingNCSource = ((URNmodelElement) nc.getSource()).getId();
+				String idIncomingNCTarget = ((URNmodelElement) nc.getTarget()).getId();
+				if (idModelSource.equals(idIncomingNCSource) && idModelTarget.equals(idIncomingNCTarget)) {
+					Float a = hitCount / maximumHitCount;
+					Float b = 4 * a;
+					Float c = 1 + b;
+					int width = (int) Math.ceil(c);
+					SplineConnection connection = (SplineConnection) getConnectionFigure();
+					connection.setLineWidth(width);
+
+					connectionWidth.put(connection, width);
+
+					traversalWidthEvaluationLabel = new Label("_avgHits=" + String.valueOf(hitCount));
+
+					getFigure().setToolTip(new Label (traversalEvaluationLabel.getText().concat(" ,  ").concat(traversalWidthEvaluationLabel.getText())));
+				}
+
+				if (String.valueOf(hitCount).equals("NaN"))
+					getFigure().setToolTip(null);
+			}
+			else {
+				SplineConnection s = (SplineConnection) getConnectionFigure();
+				s.setLineWidth(3);
+			}
+		} catch (NullPointerException e) {
+
+		}
     }
 
     /**
