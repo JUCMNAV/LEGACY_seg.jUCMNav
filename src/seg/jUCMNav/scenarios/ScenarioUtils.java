@@ -11,8 +11,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
-import grl.Actor;
-import grl.ActorRef;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.scenarios.algorithmInterfaces.IScenarioTraversalAlgorithm;
@@ -30,12 +28,20 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.UCMspec;
 import ucm.map.ComponentRef;
+import ucm.map.EndPoint;
+import ucm.map.FailureKind;
+import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.Timer;
+import ucm.map.UCMmap;
+import ucm.map.WaitKind;
+import ucm.map.WaitingPlace;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
@@ -43,21 +49,25 @@ import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.URNspec;
+import urn.dyncontext.BooleanChange;
 import urn.dyncontext.Change;
 import urn.dyncontext.DeactivationChange;
 import urn.dyncontext.DynamicContext;
+import urn.dyncontext.EnumChange;
 import urn.dyncontext.PropertyChange;
+import urn.dyncontext.TextChange;
 import urn.dyncontext.Timepoint;
 import urncore.Component;
+import urncore.ComponentKind;
 import urncore.Condition;
+import urncore.IURNDiagram;
 import urncore.Metadata;
 import urncore.Responsibility;
-import urncore.URNmodelElement;
 
 /**
  * Utility class for UCM Scenarios.
  * 
- * @author jkealey
+ * @author jkealey, sluthra
  * 
  */
 public class ScenarioUtils {
@@ -73,6 +83,71 @@ public class ScenarioUtils {
     public static final String sTypeInteger = "integer"; //$NON-NLS-1$
 
     public static boolean IS_ELSE_CONDITION_ALLOWED = true;
+
+	/**
+	 * Metadata name used to store original boolean value of a Stub
+	 */
+	public static String METADATA_ORIGSTUB = "_origStub"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original boolean value of a Component
+	 */
+	public static String METADATA_ORIGCOMPONENT = "_origComponent"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Failure Kind of a Start Point
+	 */
+	public static final String METADATA_ORIGFAILUREKIND = "_origFailureKind"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Failure List/Start Point Pre-Condition of a Start Point
+	 */
+	public static final String METADATA_ORIGFAILURELIST = "_origFailureList"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Wait Kind of a Timer and a Waiting Place
+	 */    
+	public static final String METADATA_ORIGWAITKIND = "_origWaitKind"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Component Kind of a Component
+	 */    
+	public static final String METADATA_ORIGCOMPKIND = "_origCompKind"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Replication Factor of a PluginBinding
+	 */    
+	public static final String METADATA_ORIGREPFACTOR = "_repFactor"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Post Condition Value of an End Point
+	 */    
+	public static final String METADATA_ORIGENDPTPOSTCOND = "_origEndPtPostCond"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Condition Value of a PluginBinding
+	 */    
+	public static final String METADATA_ORIGPLUGINCONDITION = "_origPluginCond"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Expression of a Responsibility
+	 */    
+	public static final String METADATA_ORIGRESPEXPRESSION = "_origRespExp"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Expression of an OR-Fork
+	 */    
+	public static final String METADATA_ORIGORFORKEXP = "_origOrForkExp"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Condition of a FailurePoint
+	 */    
+	public static final String METADATA_ORIGFAILUREPTCOND = "_origFailurePtCond"; //$NON-NLS-1$
+
+	/**
+	 * Metadata name used to store original Expression of a FailurePoint
+	 */    
+	public static final String METADATA_ORIGFAILUREEXPRESSION = "_origFailurePtExp"; //$NON-NLS-1$
 
     private static HashMap traversals = new HashMap();
 
@@ -100,8 +175,10 @@ public class ScenarioUtils {
      */
     public static void clearActiveScenario(EObject obj) {
         UcmEnvironment initial = getEnvironment(obj);
-        if (activeScenario.containsKey(initial))
+		if (activeScenario.containsKey(initial)) {
+			restoreOriginalValue(initial.getUrn().getUcmspec());
             clearTraversalResults(initial);
+		}
 
         URNspec urn = initial.getUrn();
         MetadataHelper.cleanTimedUCMMetadata(urn);
@@ -110,6 +187,159 @@ public class ScenarioUtils {
     }
 
     /**
+	 * Restore original values for elements
+	 */
+	private static void restoreOriginalValue(UCMspec ucm) {
+
+		for (Iterator iter = ucm.getUrnspec().getUrndef().getComponents().iterator(); iter.hasNext();) {
+			Component comp = (Component) iter.next();
+
+			Metadata metaOrigCompKind = MetadataHelper.getMetaDataObj(comp, METADATA_ORIGCOMPKIND);
+			if(metaOrigCompKind != null) {
+				String origCompKind = MetadataHelper.getMetaData(comp, METADATA_ORIGCOMPKIND);
+				ComponentKind compKind = ComponentKind.get(origCompKind);
+				comp.setKind(compKind);
+			}
+
+			Metadata metaOrigCompProtect = MetadataHelper.getMetaDataObj(comp, METADATA_ORIGCOMPONENT + ".compProtect");
+			if(metaOrigCompProtect != null) {
+				String origCompProtect = MetadataHelper.getMetaData(comp, METADATA_ORIGCOMPONENT + ".compProtect");
+				comp.setProtected(Boolean.valueOf(origCompProtect));	
+			}
+
+			Metadata metaOrigCompContext = MetadataHelper.getMetaDataObj(comp, METADATA_ORIGCOMPONENT + ".compContext");
+			if(metaOrigCompContext != null) {
+				String origCompContext = MetadataHelper.getMetaData(comp, METADATA_ORIGCOMPONENT + ".compContext");
+				comp.setContext(Boolean.valueOf(origCompContext));
+			}
+		}
+
+		for (Iterator iter = ucm.getUrnspec().getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
+			Responsibility resp = (Responsibility) iter.next();
+
+			Metadata metaOrigRespExpression = MetadataHelper.getMetaDataObj(resp, METADATA_ORIGRESPEXPRESSION);
+			if (metaOrigRespExpression != null) {
+				String origRespExpression = MetadataHelper.getMetaData(resp, METADATA_ORIGRESPEXPRESSION);
+				((Responsibility) resp).setExpression(origRespExpression);
+			}
+
+		}
+
+
+		for (Iterator iter1 = ucm.getUrnspec().getUrndef().getSpecDiagrams().iterator(); iter1.hasNext();) {
+			IURNDiagram diagram = (IURNDiagram) iter1.next();
+			if (diagram instanceof UCMmap) {
+				for (Iterator iterIn = diagram.getNodes().iterator(); iterIn.hasNext();) {
+					PathNode pn = (PathNode) iterIn.next();
+
+					if (pn instanceof StartPoint) {   			
+						Metadata metaOrigFailureKind = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGFAILUREKIND);
+						if (metaOrigFailureKind != null) {
+							String origFailureKind = MetadataHelper.getMetaData(pn, METADATA_ORIGFAILUREKIND);
+							FailureKind failureKind = FailureKind.get(origFailureKind);
+							((StartPoint) pn).setFailureKind(failureKind);
+						}
+
+						Metadata metaOrigFailureList = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGFAILURELIST);
+						if (metaOrigFailureList != null) {
+							String origFailureList = MetadataHelper.getMetaData(pn, METADATA_ORIGFAILURELIST);
+
+							if (((StartPoint) pn).getPrecondition() != null)
+								((StartPoint) pn).getPrecondition().setExpression(origFailureList);
+						}
+					}
+
+					else if (pn instanceof WaitingPlace) {        		
+						Metadata metaOrigWaitKind = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGWAITKIND);
+						if (metaOrigWaitKind != null) {
+							String origWaitKind = MetadataHelper.getMetaData(pn, METADATA_ORIGWAITKIND);
+							WaitKind waitKind = WaitKind.get(origWaitKind);
+							((WaitingPlace) pn).setWaitType(waitKind);
+						}
+					}
+
+					else if (pn instanceof Stub) {        		
+						Metadata metaOrigStaticStub = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGSTUB + ".staticStub");
+						Metadata metaOrigDynStub = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGSTUB + ".dynStub");
+						Metadata metaOrigSyncStub = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGSTUB + ".syncStub");
+						Metadata metaOrigBlockStub = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGSTUB + ".blockStub");
+
+						if (metaOrigStaticStub != null || metaOrigDynStub != null || metaOrigSyncStub != null || metaOrigBlockStub != null) {
+
+							String origDynStub = MetadataHelper.getMetaData(pn, METADATA_ORIGSTUB + ".dynStub");
+							((Stub) pn).setDynamic(Boolean.valueOf(origDynStub));
+
+							String origSyncStub = MetadataHelper.getMetaData(pn, METADATA_ORIGSTUB + ".syncStub");
+							((Stub) pn).setSynchronization(Boolean.valueOf(origSyncStub));
+
+							String origBlockStub = MetadataHelper.getMetaData(pn, METADATA_ORIGSTUB + ".blockStub");
+							((Stub) pn).setBlocking(Boolean.valueOf(origBlockStub));
+						}
+
+						List <PluginBinding> bindings = ((Stub) pn).getBindings();
+						for (PluginBinding p : bindings) {
+							Metadata metaOrigRepFactor = MetadataHelper.getMetaDataObj(p.getStub(), METADATA_ORIGREPFACTOR + "." + p.getPlugin().getName());
+							if (metaOrigRepFactor != null) {
+								String origRepFactor = MetadataHelper.getMetaData(p.getStub(), METADATA_ORIGREPFACTOR + "." + p.getPlugin().getName());
+								p.setReplicationFactor(Integer.parseInt(origRepFactor));
+							}
+
+							Metadata metaOrigPluginPreCondition = MetadataHelper.getMetaDataObj(p.getPrecondition().getPluginBinding().getStub(), METADATA_ORIGPLUGINCONDITION + "." + p.getPlugin().getName());
+							if (metaOrigPluginPreCondition != null) {
+								String origPluginPreCondition = MetadataHelper.getMetaData(p.getPrecondition().getPluginBinding().getStub(), METADATA_ORIGPLUGINCONDITION + "." + p.getPlugin().getName());
+
+								if (p.getPrecondition() != null)
+									p.getPrecondition().setExpression(origPluginPreCondition);
+							}
+						}
+					} else if (pn instanceof EndPoint) {
+						Metadata metaOrigEndPtPostCond = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGENDPTPOSTCOND);
+						if (metaOrigEndPtPostCond != null) {
+							String origEndPtPostCond = MetadataHelper.getMetaData(pn, METADATA_ORIGENDPTPOSTCOND);
+
+							if (((EndPoint) pn).getPostcondition() != null)
+								((EndPoint) pn).getPostcondition().setExpression(origEndPtPostCond);
+						}
+					} else if (pn instanceof OrFork) {
+						List<NodeConnection> ncs = ((OrFork) pn).getDiagram().getConnections();
+						for (NodeConnection n : ncs) {
+							if (n.getSource() instanceof OrFork) {
+								String orForkID = ((OrFork) n.getSource()).getId();
+								String branchName = "Branch: " + (n.getSource().getSucc().indexOf(n) + 1);
+								Metadata metaOrigORForkExpression = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGORFORKEXP + " (" + orForkID + ") <->" + branchName);
+								if (metaOrigORForkExpression != null) {
+									String origORForkExpression = MetadataHelper.getMetaData(pn, METADATA_ORIGORFORKEXP + " (" + orForkID + ") <->" + branchName);
+									if (origORForkExpression != null) {
+										n.getCondition().setExpression(origORForkExpression);
+									}
+								}
+							}
+						}
+					} else if (pn instanceof FailurePoint) {
+						List<NodeConnection> ncs = ((FailurePoint) pn).getDiagram().getConnections();
+						for (NodeConnection n : ncs) {
+							Metadata metaOrigFailurePtCond = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGFAILUREPTCOND);
+							if (metaOrigFailurePtCond != null) {
+								String origFailurePtCond = MetadataHelper.getMetaData(pn, METADATA_ORIGFAILUREPTCOND);
+								if (n.getSource() instanceof FailurePoint) {
+									n.getCondition().setExpression(origFailurePtCond);
+								}
+							}
+						}
+
+						Metadata metaOrigFailurePtExpression = MetadataHelper.getMetaDataObj(pn, METADATA_ORIGFAILUREEXPRESSION);
+						if (metaOrigFailurePtExpression != null) {
+							String origFailurePtExpression = MetadataHelper.getMetaData(pn, METADATA_ORIGFAILUREEXPRESSION);
+							((FailurePoint) pn).setExpression(origFailurePtExpression);
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+	/**
      * Flush any traversal results associated with this environment.
      * 
      * @param env
@@ -631,7 +861,7 @@ public class ScenarioUtils {
      *            an object
      * @return the {@link TraversalResult} of a certain object.
      */
-    private static TraversalResult getTraversalResults(EObject obj) {
+	public static TraversalResult getTraversalResults(EObject obj) {
         UcmEnvironment env = getEnvironment(obj);
         if (traversals.containsKey(env)) {
             IScenarioTraversalAlgorithm results = (IScenarioTraversalAlgorithm) traversals.get(env);
@@ -903,6 +1133,7 @@ public class ScenarioUtils {
             
             if(urn!= null)
             {
+				restoreOriginalValue(urn.getUcmspec());
               MetadataHelper.cleanTimedUCMMetadata(urn);
                 
                 if(ScenarioTraversalPreferences.getIsTimedUcmEnabled())
@@ -943,24 +1174,228 @@ public class ScenarioUtils {
         }
     }
     
-    protected static UCMspec applychange(UCMspec ucm, Change change, Timepoint tp) {
-    	if (change instanceof DeactivationChange){
+	public static UCMspec applychange(UCMspec ucm, Change change, Timepoint tp) {
+		if (change instanceof DeactivationChange) {
     		if (change.getElement() instanceof Responsibility)
-    			MetadataHelper.addMetaData(ucm.getUrnspec(), change.getElement(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
-    		if (change.getElement() instanceof Component){
-    			MetadataHelper.addMetaData(ucm.getUrnspec(), change.getElement(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
+				MetadataHelper.addMetaData(ucm.getUrnspec(), (Responsibility) change.getElement(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
+			else if (change.getElement() instanceof FailurePoint)
+				MetadataHelper.addMetaData(ucm.getUrnspec(), (FailurePoint) change.getElement(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
+			else if (change.getElement() instanceof Component) {
+				MetadataHelper.addMetaData(ucm.getUrnspec(), (Component) change.getElement(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
     			
-    			List<ComponentRef> includedComponentReferences = getComponentReferencesRecursively((Component)change.getElement());
+				List<ComponentRef> includedComponentReferences = getComponentReferencesRecursively((Component) change.getElement());
     			for (ComponentRef cr : includedComponentReferences) {
   					MetadataHelper.addMetaData(ucm.getUrnspec(), (Component) cr.getContDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
     				
   					List<PathNode> nodes = (List<PathNode>) cr.getNodes();
     				for (PathNode p : nodes) {
-    					if (p instanceof RespRef)
-    						MetadataHelper.addMetaData(ucm.getUrnspec(), p, EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
+						if (p instanceof RespRef) {
+							String deactStatus = MetadataHelper.getMetaData(((RespRef) p).getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+							if (!(deactStatus != null && deactStatus.equalsIgnoreCase("true")) && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+								MetadataHelper.addMetaData(ucm.getUrnspec(), ((RespRef) p).getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS, "true");
     					}
     			}
-    		}      		
+				}
+			}
+			else if (change.getElement() instanceof PluginBinding) {
+				String pluginID = null;
+				Metadata s = MetadataHelper.getMetaDataObj(((PluginBinding) change.getElement()).getStub(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+				if (s != null)
+					pluginID = s.getValue();
+				else
+					pluginID = "PluginMap IDs: ";
+
+				String bindingID = ((PluginBinding) (change.getElement())).getPlugin().getId();
+				if (pluginID.equals("PluginMap IDs: "))
+					MetadataHelper.addMetaData(ucm.getUrnspec(), ((PluginBinding) change.getElement()).getStub(), EvaluationStrategyManager.METADATA_DEACTSTATUS, pluginID + bindingID);
+				else
+					MetadataHelper.addMetaData(ucm.getUrnspec(), ((PluginBinding) change.getElement()).getStub(), EvaluationStrategyManager.METADATA_DEACTSTATUS, pluginID + "," + bindingID);
+			}       		
+		} else if (change instanceof EnumChange) {
+			EnumChange enumChange = (EnumChange) change;
+
+			if (change.getElement() instanceof StartPoint) {
+				StartPoint element = (StartPoint) change.getElement();
+				FailureKind origFailureKind = element.getFailureKind();
+				MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGFAILUREKIND, origFailureKind.getLiteral());
+
+				if (enumChange.getNewValue().equals("FAILURE"))
+					element.setFailureKind(FailureKind.FAILURE_LITERAL);
+				else if (enumChange.getNewValue().equals("ABORT"))
+					element.setFailureKind(FailureKind.ABORT_LITERAL);
+				else if (enumChange.getNewValue().equals("NONE"))
+					element.setFailureKind(FailureKind.NONE_LITERAL);
+			} else if (change.getElement() instanceof WaitingPlace) {
+				WaitingPlace element = (WaitingPlace) change.getElement();
+				WaitKind origWaitKind = element.getWaitType();
+				MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGWAITKIND, origWaitKind.getLiteral());
+
+				if (enumChange.getNewValue().equals("TRANSIENT"))
+					element.setWaitType(WaitKind.TRANSIENT_LITERAL);
+				else if (enumChange.getNewValue().equals("PERSISTENT"))
+					element.setWaitType(WaitKind.PERSISTENT_LITERAL);    			
+			} else if (change.getElement() instanceof Component) {
+				Component element = (Component) change.getElement();
+				ComponentKind origCompKind = element.getKind();
+				MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGCOMPKIND, origCompKind.getLiteral());
+
+				if (enumChange.getNewValue().equals("TEAM"))
+					element.setKind(ComponentKind.TEAM_LITERAL);
+				else if (enumChange.getNewValue().equals("OBJECT"))
+					element.setKind(ComponentKind.OBJECT_LITERAL);
+				else if (enumChange.getNewValue().equals("PROCESS"))
+					element.setKind(ComponentKind.PROCESS_LITERAL);
+				else if (enumChange.getNewValue().equals("AGENT"))
+					element.setKind(ComponentKind.AGENT_LITERAL);
+				else if (enumChange.getNewValue().equals("ACTOR"))
+					element.setKind(ComponentKind.ACTOR_LITERAL);
+				else if (enumChange.getNewValue().equals("OTHER"))
+					element.setKind(ComponentKind.OTHER_LITERAL);
+			}   		
+		} else if (change instanceof BooleanChange) {
+			BooleanChange booleanChange = (BooleanChange) change;
+
+			if (change.getElement() instanceof Stub) {
+				Stub element = (Stub) change.getElement();
+				boolean dynStub = element.isDynamic();
+				boolean syncStub = element.isSynchronization();
+				boolean blockStub = element.isBlocking();
+				boolean staticStub = !(element.isDynamic() || element.isSynchronization() || element.isBlocking());
+
+				if (!(element.isDynamic() || element.isSynchronization() || element.isBlocking()))
+					MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGSTUB + ".staticStub", String.valueOf(staticStub));
+				else if (element.isDynamic())
+					MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGSTUB + ".dynStub", String.valueOf(dynStub));
+				else if (element.isSynchronization())
+					MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGSTUB + ".syncStub", String.valueOf(syncStub));
+				else if (element.isBlocking())
+					MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGSTUB + ".blockStub", String.valueOf(blockStub));
+
+				if (booleanChange.getAffectedProperty().equals("Dynamic Stub"))
+					element.setDynamic(((BooleanChange) change).isNewValue());
+				else if (booleanChange.getAffectedProperty().equals("Synchronizing Stub"))
+					element.setSynchronization(((BooleanChange) change).isNewValue());
+				else if (booleanChange.getAffectedProperty().equals("Blocking Stub"))
+					element.setBlocking(((BooleanChange) change).isNewValue());
+			} else if (change.getElement() instanceof Component) {
+				Component element = (Component) change.getElement();
+
+				if (booleanChange.getAffectedProperty().equals("Component Protection")) {
+					boolean compProtect = element.isProtected();
+					if (element.isProtected())
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGCOMPONENT + ".compProtect", String.valueOf(compProtect));
+					else
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGCOMPONENT + ".compProtect", String.valueOf(compProtect));
+				}
+
+				if (booleanChange.getAffectedProperty().equals("Component Context")) {
+					boolean compContext = element.isContext();
+					if (element.getKind().getLiteral().equals("Team") && element.isContext() && !(element.isProtected()))
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGCOMPONENT + ".compContext", String.valueOf(compContext));
+					else
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGCOMPONENT + ".compContext", String.valueOf(compContext));
+				}
+
+				if (booleanChange.getAffectedProperty().equals("Component Protection"))
+					element.setProtected(((BooleanChange) change).isNewValue());
+				if (booleanChange.getAffectedProperty().equals("Component Context"))
+					element.setContext(((BooleanChange) change).isNewValue());
+
+			}
+		} else if (change instanceof TextChange) {
+			TextChange textChange = (TextChange) change;
+
+			if (change.getElement() instanceof PluginBinding) {
+				PluginBinding element = (PluginBinding) change.getElement();
+
+				if (textChange.getAffectedProperty().contains("Replication factor"))
+					MetadataHelper.addMetaData(ucm.getUrnspec(), element.getStub(), METADATA_ORIGREPFACTOR + "." + element.getPlugin().getName(), String.valueOf(element.getReplicationFactor()));
+
+				if (textChange.getAffectedProperty().contains("Replication factor"))
+					element.setReplicationFactor(Integer.parseInt(((TextChange) change).getNewValue()));
+			} else if (change.getElement() instanceof urncore.Condition) {
+				urncore.Condition element = (Condition) change.getElement();
+
+				if (textChange.getAffectedProperty().startsWith("Pre-Condition")) {
+					if (element.getExpression() != null)
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element.getPluginBinding().getStub(), METADATA_ORIGPLUGINCONDITION + "." + element.getPluginBinding().getPlugin().getName(), element.getExpression());
+					else
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element.getPluginBinding().getStub(), METADATA_ORIGPLUGINCONDITION + "." + element.getPluginBinding().getPlugin().getName(), "true");
+				}
+				if (textChange.getAffectedProperty().startsWith("Pre-Condition"))
+					element.setExpression(((TextChange) change).getNewValue());
+
+
+				if (textChange.getAffectedProperty().equals("Failure List/Start Point Pre-Condition")) {
+					if (element.getStartPoint().getPrecondition().getExpression() != null)
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element.getStartPoint(), METADATA_ORIGFAILURELIST, element.getStartPoint().getPrecondition().getExpression());
+					else
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element.getStartPoint(), METADATA_ORIGFAILURELIST, "true");
+				}
+				if (textChange.getAffectedProperty().equals("Failure List/Start Point Pre-Condition"))
+					element.getStartPoint().getPrecondition().setExpression(((TextChange) change).getNewValue());
+
+				if (textChange.getAffectedProperty().equals("Post-Condition")) {
+					if (element.getEndPoint().getPostcondition().getExpression() != null)
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element.getEndPoint(), METADATA_ORIGENDPTPOSTCOND, element.getEndPoint().getPostcondition().getExpression());
+					else
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element.getEndPoint(), METADATA_ORIGENDPTPOSTCOND, "true");
+				}
+				if (textChange.getAffectedProperty().equals("Post-Condition"))
+					element.getEndPoint().getPostcondition().setExpression(((TextChange) change).getNewValue());
+
+				if (textChange.getAffectedProperty().startsWith("Expression")) {
+					NodeConnection ncs = element.getNodeConnection();
+
+
+					if (ncs.getSource() instanceof OrFork && ncs.getCondition().getExpression() != null) {
+						String branchName = "Branch: " + (ncs.getSource().getSucc().indexOf(ncs) + 1);
+						String orForkID = ((OrFork) ncs.getSource()).getId();
+						MetadataHelper.addMetaData(ucm.getUrnspec(), (OrFork) ncs.getSource(), METADATA_ORIGORFORKEXP + " (" + orForkID + ") <->" + branchName, ncs.getCondition().getExpression());
+					}
+					else
+						MetadataHelper.addMetaData(ucm.getUrnspec(), (OrFork) ncs.getSource(), METADATA_ORIGORFORKEXP, "true");
+
+				}	
+				if (textChange.getAffectedProperty().startsWith("Expression"))
+					element.getNodeConnection().getCondition().setExpression(((TextChange) change).getNewValue());
+
+				if (textChange.getAffectedProperty().equals("Failure Condition")) {
+					NodeConnection ncs = element.getNodeConnection();
+
+					if (ncs.getSource() instanceof FailurePoint && ncs.getCondition().getExpression() != null)
+						MetadataHelper.addMetaData(ucm.getUrnspec(), (FailurePoint) ncs.getSource(), METADATA_ORIGFAILUREPTCOND, element.getNodeConnection().getCondition().getExpression());
+					else
+						MetadataHelper.addMetaData(ucm.getUrnspec(), (FailurePoint) ncs.getSource(), METADATA_ORIGFAILUREPTCOND, "true");
+				}
+				if (textChange.getAffectedProperty().equals("Failure Condition"))
+					element.getNodeConnection().getCondition().setExpression(((TextChange) change).getNewValue());
+
+			} else if (change.getElement() instanceof FailurePoint) {
+				FailurePoint element = (FailurePoint) change.getElement();
+
+				if (textChange.getAffectedProperty().equals("Failure Expression")) {
+					if (element.getExpression() != null)
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGFAILUREEXPRESSION, element.getExpression());
+					else
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGFAILUREEXPRESSION, "");
+				}
+
+				if (textChange.getAffectedProperty().equals("Failure Expression"))
+					element.setExpression(((TextChange) change).getNewValue());
+			} else if (change.getElement() instanceof Responsibility) {
+				Responsibility element = (Responsibility) change.getElement();
+
+				if (textChange.getAffectedProperty().equals("Responsibility Expression")) {
+					if (element.getExpression() != null)
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGRESPEXPRESSION, element.getExpression());
+					else
+						MetadataHelper.addMetaData(ucm.getUrnspec(), element, METADATA_ORIGRESPEXPRESSION, "");
+				}
+
+				if (textChange.getAffectedProperty().equals("Responsibility Expression"))
+					element.setExpression(((TextChange) change).getNewValue());
+			}
     	}
     
     	return ucm;
@@ -1017,7 +1452,7 @@ public class ScenarioUtils {
     				changes.addAll(collectChanges(incDynContext, tp, affected));
     			}
     		}
-    	}catch(NullPointerException e) {
+		} catch (NullPointerException e) {
     	}
     	
     	return changes;
@@ -1030,14 +1465,19 @@ public class ScenarioUtils {
     	List<Change> changes = collectChanges(dynContext, tp, affected);
        	    
     	if (changes.size() != 0) {
-        	List<Change> respCompChanges = new ArrayList<Change>();
+			List<Change> ucmElementsChanges = new ArrayList<Change>();
     		for (Iterator j = changes.iterator(); j.hasNext();){ 
     			Change change = (Change) j.next();
-    			if (change.getElement() instanceof Responsibility || change.getElement() instanceof Component)
-    				respCompChanges.add(change);
+				if (change.getElement() instanceof Responsibility || change.getElement() instanceof Component
+						|| change.getElement() instanceof FailurePoint || change.getElement() instanceof Timer
+						|| change.getElement() instanceof WaitingPlace || change.getElement() instanceof StartPoint
+						|| change.getElement() instanceof PluginBinding || change.getElement() instanceof Stub
+						|| change.getElement() instanceof EndPoint || change.getElement() instanceof OrFork
+						|| change.getElement() instanceof urncore.Condition)
+					ucmElementsChanges.add(change);
     		}
-    		if (respCompChanges.size() != 0) {
-    			for (Iterator j = respCompChanges.iterator(); j.hasNext();){ 
+			if (ucmElementsChanges.size() != 0) {
+				for (Iterator j = ucmElementsChanges.iterator(); j.hasNext();){ 
     				Change change = (Change) j.next();
     				updatedUCMmodel = applychange(updatedUCMmodel, change, tp);
     			}
@@ -1047,7 +1487,7 @@ public class ScenarioUtils {
     	return updatedUCMmodel;
     }
     
-    protected static List<ComponentRef> getComponentReferencesRecursively(Component c) {
+	public static List<ComponentRef> getComponentReferencesRecursively(Component c) {
     	List<ComponentRef> componentRefs = c.getContRefs();
     	List<ComponentRef> finalComponentReferences = new ArrayList<ComponentRef>();
     	finalComponentReferences.addAll(componentRefs);
