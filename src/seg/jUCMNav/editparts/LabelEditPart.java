@@ -1,10 +1,6 @@
 package seg.jUCMNav.editparts;
 
-import grl.Actor;
-import grl.ActorRef;
-import grl.GrlPackage;
-import grl.IntentionalElementRef;
-import grl.LinkRef;
+import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -24,6 +20,11 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import grl.Actor;
+import grl.ActorRef;
+import grl.GrlPackage;
+import grl.IntentionalElementRef;
+import grl.LinkRef;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
@@ -38,12 +39,16 @@ import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.util.JUCMNavFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.LabelPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.MapPackage;
+import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.Stub;
 import urncore.Component;
 import urncore.ComponentLabel;
 import urncore.IURNContainer;
@@ -369,7 +374,7 @@ public class LabelEditPart extends ModelElementEditPart {
                             		getRoot()!= null && !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                             	
                             	//Add change label if at least one change exists for the actor
-                            	if (DynamicContextsUtils.changeExistsFor(act, act.getGrlspec().getUrnspec())) {
+								if (DynamicContextsUtils.changeExistsFor((URNmodelElement) act, act.getGrlspec().getUrnspec())) {
                             		labelFigure.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
                             	} else
                             		labelFigure.setIcon(null);
@@ -385,8 +390,16 @@ public class LabelEditPart extends ModelElementEditPart {
                             Component component = (Component) ((ComponentRef) modelElement).getContDef();
                             if (component.isContext())
                                 labelFigure.setPrefixText(Messages.getString("LabelEditPart.parentprefix")); //$NON-NLS-1$
-                            else
+							else {
+								if (ScenarioTraversalPreferences.getIsTimedUcmEnabled() && (UCMConnectionOnBottomRootEditPart) getRoot() != null && !((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
+									if (DynamicContextsUtils.changeExistsFor((URNmodelElement) component, component.getUrndefinition().getUrnspec())) {
                                 labelFigure.setPrefixText("");//$NON-NLS-1$
+										labelFigure.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
+									} else
+										labelFigure.setIcon(null);
+								} else
+									labelFigure.setIcon(null);
+							}
                         }
                     }
                 } else if (modelElement instanceof RespRef) { // use definition
@@ -396,14 +409,61 @@ public class LabelEditPart extends ModelElementEditPart {
                         // shows {repetitioncount} from reference
                         if (respRef.getRepetitionCount().compareTo("1")!=0)
                             labelFigure.setSuffixText(UrnMetadata.getStereotypes(responsibility) + " {" + respRef.getRepetitionCount() + "}"); //$NON-NLS-1$ $NON-NLS-2$
-                        else 
+						else
                         	labelFigure.setSuffixText(UrnMetadata.getStereotypes(responsibility));
                         
                         if (responsibility.isContext())
                             labelFigure.setPrefixText(Messages.getString("LabelEditPart.parentprefix")); //$NON-NLS-1$
+						else {
+							if (ScenarioTraversalPreferences.getIsTimedUcmEnabled() && (UCMConnectionOnBottomRootEditPart) getRoot() != null && !((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
+								if ((responsibility.getUrndefinition() != null) &&(DynamicContextsUtils.changeExistsFor((Responsibility)responsibility, responsibility.getUrndefinition().getUrnspec()))) {
+									labelFigure.setPrefixText("");//$NON-NLS-1$
+									labelFigure.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
+								} else
+									labelFigure.setIcon(null);
+							} else
+								labelFigure.setIcon(null);
+						}
+					}
+				} else if (modelElement instanceof PathNode) { // use definition
+					PathNode node = (PathNode) modelElement;
+
+					if (node instanceof Stub) {
+						if (ScenarioTraversalPreferences.getIsTimedUcmEnabled() && (UCMConnectionOnBottomRootEditPart) getRoot() != null && !((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
+							if (DynamicContextsUtils.changeExistsFor((URNmodelElement)node, node.getDiagram().getUrndefinition().getUrnspec())) {
+								labelFigure.setPrefixText("");//$NON-NLS-1$
+								labelFigure.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
+							} else
+								labelFigure.setIcon(null);
+						}
                         else
-                            labelFigure.setPrefixText("");//$NON-NLS-1$                        
+							labelFigure.setIcon(null);
+
+						List<PluginBinding> bindings = ((Stub) node).getBindings();
+						for (PluginBinding p : bindings) {
+							if (ScenarioTraversalPreferences.getIsTimedUcmEnabled() && (UCMConnectionOnBottomRootEditPart) getRoot() != null && !((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
+								if ((DynamicContextsUtils.changeExistsFor((PluginBinding) p, p.getStub().getDiagram().getUrndefinition().getUrnspec()))) {
+									labelFigure.setPrefixText("");//$NON-NLS-1$
+									labelFigure.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
+								} else if ((DynamicContextsUtils.changeExistsFor((urncore.Condition) p.getPrecondition(), p.getPrecondition().getPluginBinding().getStub().getDiagram().getUrndefinition().getUrnspec()))) {
+									labelFigure.setPrefixText("");//$NON-NLS-1$
+									labelFigure.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
+								} 
+							} else
+								labelFigure.setIcon(null); 
                     }
+
+					} else if (!(node instanceof Stub)) {
+						if (ScenarioTraversalPreferences.getIsTimedUcmEnabled() && (UCMConnectionOnBottomRootEditPart) getRoot() != null && !((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
+							if (DynamicContextsUtils.changeExistsFor((URNmodelElement) node, node.getDiagram().getUrndefinition().getUrnspec())) {
+								labelFigure.setPrefixText("");//$NON-NLS-1$
+								labelFigure.setIcon(JUCMNavPlugin.getImage("icons/Change.gif"));
+							} else
+								labelFigure.setIcon(null);
+						} else
+							labelFigure.setIcon(null);
+					} else
+						labelFigure.setIcon(null);
                 } else {
                     labelFigure.setSuffixText(UrnMetadata.getStereotypes(modelElement));
                 }
