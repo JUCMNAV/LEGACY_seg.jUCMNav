@@ -1,6 +1,7 @@
 package seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.core.resources.IMarker;
@@ -445,7 +446,6 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
                 Object result = ScenarioUtils.evaluate(nc.getCondition(), env);
                 _listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition()) ? null : nc.getCondition(), Boolean.TRUE
                         .equals(result), false);
-
                 if (Boolean.TRUE.equals(result)) {
                     if (toVisit.size() != 0) {
                         if (ScenarioTraversalPreferences.getIsDeterministic())
@@ -570,15 +570,60 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
      * @throws TraversalException
      */
     protected void processStub(UcmEnvironment env, NodeConnection source, Stub stub) throws TraversalException {
-        boolean b = false;
         // TODO: Semantic variation: All true branches? First only? Error if multiple true? If multiple, in sequence or parallel?
 
         if (source != null) {
 
             Vector toVisit = new Vector();
-            for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
-                PluginBinding binding = (PluginBinding) iter.next();
+			List<PluginBinding> bindings = stub.getBindings();
 
+			if (!(stub.isDynamic() || stub.isSynchronization() || stub.isBlocking())) {
+				if (bindings.size() > 1)
+					// static stub cannot have more than one Plugin
+					_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.StaticStubPlugin"), stub, IMarker.SEVERITY_ERROR));
+
+				for (PluginBinding p : bindings) {
+					if (!(p.getPrecondition().equals(true)))
+						// PreCondition of the PluginBinding of the static stub should be true 
+						_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.StaticStubPreCond"), stub, IMarker.SEVERITY_ERROR));
+
+					if (p.getReplicationFactor() != 1)
+						// ReplicationFactor of PluginBinding of the static stub is one
+						_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.StaticStubRepFactor"), stub, IMarker.SEVERITY_ERROR));
+				}
+			}
+
+			String staticStub = MetadataHelper.getMetaData(stub, ScenarioUtils.METADATA_ORIGSTUB + ".staticStub");
+			String dynStub = MetadataHelper.getMetaData(stub, ScenarioUtils.METADATA_ORIGSTUB + ".dynStub");
+			String blockStub = MetadataHelper.getMetaData(stub, ScenarioUtils.METADATA_ORIGSTUB + ".blockStub");
+
+			if (stub.isSynchronization() || stub.isBlocking()) {
+				if (staticStub != null && staticStub.equals("true"))
+					// static stub cannot be synchronized or blocking
+					_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.StaticStub"), stub, IMarker.SEVERITY_ERROR));
+			}
+
+			if (stub.isBlocking()) {
+				if (staticStub != null && staticStub.equals("true"))
+					// only sync stub can be blocking
+					_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.SyncStub"), stub, IMarker.SEVERITY_ERROR));
+				else if (dynStub !=null && dynStub.equals("true"))
+					_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.SyncStub"), stub, IMarker.SEVERITY_ERROR));
+			}
+
+			if (stub.isSynchronization()) {
+				if (staticStub != null && blockStub.equals("true"))
+					// only dynamic stub can be sync stub
+					_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.DynStub"), stub, IMarker.SEVERITY_ERROR));
+				else if (blockStub != null && blockStub.equals("true"))
+					// only dynamic stub can be sync stub
+					_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.DynStub"), stub, IMarker.SEVERITY_ERROR));
+			}
+
+			String deactStatus = MetadataHelper.getMetaData(stub, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			String bindingID = null;
+			for (PluginBinding binding : bindings) {
+				bindingID = binding.getPlugin().getId();
                 try {
                     Object result = ScenarioUtils.evaluate(binding.getPrecondition(), env);
                     _listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(binding.getPrecondition()) ? null : binding.getPrecondition(),
@@ -587,8 +632,10 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 
                         for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
                             InBinding inb = (InBinding) iterator.next();
-                            if (inb.getStubEntry() == source)
+							if (inb.getStubEntry() == source) {
+								if (!(deactStatus != null && deactStatus.contains(bindingID) && ScenarioTraversalPreferences.getIsTimedUcmEnabled()))
                                 toVisit.add(inb);
+							}
                         }
                         if (binding.getIn().size() == 0)
                             _warnings
@@ -606,7 +653,19 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
             if (toVisit.size() == 0) {
                 // TODO: semantic variation : no plugins, what do we do?
                 // if we don't find any valid plugins, only follow first out if it exists.
-                if (stub.getPred().size() == 1 && stub.getSucc().size() == 1 && stub.getBindings().size() == 0) {
+				int numberOfBindings = 0;
+				if (deactStatus != null && deactStatus.contains(bindingID) && ScenarioTraversalPreferences.getIsTimedUcmEnabled()) {
+					numberOfBindings = stub.getBindings().size();
+					numberOfBindings = 0;
+				}
+
+				if (stub.getPred().size() == 1 && stub.getSucc().size() == 1 && numberOfBindings == 0) {
+					NodeConnection nc = (NodeConnection) stub.getSucc().get(0);
+					_traversalData.visitNodeConnection(nc);
+					_warnings
+					.add(new TraversalWarning(
+							Messages.getString("DefaultScenarioTraversal.NoPluginBindingForStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.UsingDefaultPlugin"), stub, IMarker.SEVERITY_INFO)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				} else if (stub.getPred().size() == 1 && stub.getSucc().size() == 1 && stub.getBindings().size() == 0) {
                     NodeConnection nc = (NodeConnection) stub.getSucc().get(0);
                     _traversalData.visitNodeConnection(nc);
                     _warnings
@@ -674,7 +733,11 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
             _listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition()) ? null : nc.getCondition(), Boolean.TRUE
                     .equals(result), false);
 
-            if (Boolean.TRUE.equals(result)) {
+			String deactStatus = MetadataHelper.getMetaData(pn, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+
+			if ((Boolean.TRUE.equals(result)) || 
+					(Boolean.FALSE.equals(result) && (deactStatus != null && deactStatus.equalsIgnoreCase("true") && ScenarioTraversalPreferences.getIsTimedUcmEnabled()))) {
+
                 _listeners.leftWaitingPlace(_currentVisit, true);
                 _traversalData.visitNodeConnection(nc);
             } else {
