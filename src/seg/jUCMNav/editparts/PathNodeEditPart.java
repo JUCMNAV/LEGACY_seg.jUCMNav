@@ -1,8 +1,12 @@
 package seg.jUCMNav.editparts;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -24,13 +28,17 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UcmEditor;
+import seg.jUCMNav.editparts.dynamicContextEvaluationViewEditparts.DynamicContextTraversalEvaluation;
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
 import seg.jUCMNav.editpolicies.layout.PathNodeXYLayoutEditPolicy;
@@ -47,6 +55,7 @@ import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.StartPointFigure;
+import seg.jUCMNav.figures.StubFigure;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.TimerFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
@@ -55,6 +64,7 @@ import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.PointcutBorderDetector;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.dynamicContexts.DynamicContextsView;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import seg.jUCMNav.views.stub.PluginListDialog;
@@ -76,6 +86,7 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -83,7 +94,7 @@ import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urncore.Metadata;
-import urncore.Responsibility;
+import urncore.URNmodelElement;
 
 /**
  * EditPart associated with PathNodes. All model elements that extend PathNode should be associated with this EditPart.
@@ -102,6 +113,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     private UCMmap diagram;
 
     private PluginListDialog dlg;
+
+	public static DynamicContextTraversalEvaluation te;
 
     /**
      * 
@@ -168,6 +181,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             figure = new FailurePointFigure();
         else if (getModel() instanceof Anything)
             figure = new AnythingFigure();
+		else if (getModel() instanceof Stub)
+			figure = new StubFigure();
 
         assert figure != null : "cannot map model element to figure in PathNodeEditPart.createFigure()"; //$NON-NLS-1$
 
@@ -628,29 +643,95 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         } else if (node instanceof AndJoin) {
             ((AndForkJoinFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getPred().size());
         }
-        boolean scenariosActive = ScenarioUtils.getActiveScenario(node) != null && ScenarioUtils.getTraversalHitCount(node) > 0;
+		boolean scenariosActive = ScenarioUtils.getActiveScenario(node) != null && ScenarioUtils.getTraversalHitCount(node) > 0
+				&& (UCMConnectionOnBottomRootEditPart) getRoot() != null && ((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView() && DynamicContextsView.currentContext.getScenario() != null;
         nodeFigure.setTraversed(scenariosActive);
-        if(node instanceof RespRef){
+
+		if (ScenarioTraversalPreferences.getIsTimedUcmEnabled() && (UCMConnectionOnBottomRootEditPart) getRoot() != null
+				&& ((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView() && DynamicContextsView.currentContext.getScenario() != null)
+			getNodeFigureColor(node);
+		else {
+			nodeFigure.setDeactivated(false);
+			nodeFigure.setTraversedTimedUcmHitCountOne(false);
+			nodeFigure.setTraversedTimedUcmHitCountMax(false);
+			nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(false, null);
+		}
+
+		String hits = null;
+		// Set tool tip or hit count.
+		if (ScenarioUtils.getActiveScenario(node) != null) {
+			hits = Integer.toString(ScenarioUtils.getTraversalHitCount(node));
+			if (node instanceof RespRef) {
         	String deactStatus = MetadataHelper.getMetaData(((RespRef) node).getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
         	String deactStatusRef = MetadataHelper.getMetaData(node, EvaluationStrategyManager.METADATA_DEACTSTATUS);
         	if (((deactStatus != null && deactStatus.equalsIgnoreCase("true")) || (deactStatusRef != null && deactStatusRef.equalsIgnoreCase("true"))) && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
-                nodeFigure.setDeactivated(scenariosActive);
+					hits = "0";
+			} else if (node instanceof FailurePoint) {
+				String deactStatus = MetadataHelper.getMetaData(node, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+				if (deactStatus != null && deactStatus.equalsIgnoreCase("true") && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+					hits = "0";
+			} else if (node instanceof Stub) {
+				Set<String> deactStatusElements = new HashSet<String>();
+				List<String> bindingIDs = new ArrayList<String>();
+
+				List<PluginBinding> bindings = ((Stub) node).getBindings();
+				String deactStatus = MetadataHelper.getMetaData(node, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+				if (deactStatus != null) {
+					deactStatus = deactStatus.replace("PluginMap IDs: ","");
+					String[] deactStatusPlugins = deactStatus.split(",");
+					deactStatusElements = new HashSet<String>(Arrays.asList(deactStatusPlugins));
+				}
+
+				for (PluginBinding binding : bindings) {
+					String pluginID = binding.getPlugin().getId();
+					bindingIDs.add(pluginID);
+				}
+				Set<String> bindingIDElements = new HashSet<String>(bindingIDs);
+
+				if (deactStatus != null && deactStatusElements.equals(bindingIDElements) && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+					hits = "0";
             else
-                nodeFigure.setDeactivated(false);
+					hits = Integer.toString(ScenarioUtils.getTraversalHitCount(node));
         }
-        // Set tool tip or hit count.
-        if (ScenarioUtils.getActiveScenario(node) != null) {
-            String hits = Integer.toString(ScenarioUtils.getTraversalHitCount(node));
-            //nodeFigure.setToolTip(new Label(Messages.getString("PathNodeEditPart.Hits") + hits)); //$NON-NLS-1$
+
             Metadata metaHitCount = MetadataHelper.getMetaDataObj(node, METADATA_HITS);
             if (metaHitCount != null) {
                 metaHitCount.setValue(hits);
             } else {
+				if (DynamicContextsView.te != null && te !=null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()) {
+					if (node instanceof RespRef) {
+						MetadataHelper.removeMetaData(node, METADATA_HITS);
+						MetadataHelper.removeMetaData(((RespRef) node).getRespDef(), METADATA_HITS);
+					} else
+						MetadataHelper.removeMetaData(node, METADATA_HITS);
+				}
+				else
                 MetadataHelper.addMetaData(diagram.getUrndefinition().getUrnspec(), node, METADATA_HITS, hits);
             }
+
             UrnMetadata.setToolTip(node, nodeFigure);
         } else
             UrnMetadata.setToolTip(node, nodeFigure);
+
+		if (node instanceof RespRef) {
+			String deactStatus = MetadataHelper.getMetaData(((RespRef) node).getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			String deactStatusRef = MetadataHelper.getMetaData(node, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			if (((deactStatus != null && deactStatus.equalsIgnoreCase("true")) || (deactStatusRef != null && deactStatusRef.equalsIgnoreCase("true"))) && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+				nodeFigure.setDeactivated(true);
+			else
+				nodeFigure.setDeactivated(false);
+		} else if (node instanceof FailurePoint) {
+			String deactStatus = MetadataHelper.getMetaData(node, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			if (deactStatus != null && deactStatus.equalsIgnoreCase("true") && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+				nodeFigure.setDeactivated(true);
+			else
+				nodeFigure.setDeactivated(false);
+		} else if (node instanceof Stub) {
+			if (hits == "0" && ScenarioTraversalPreferences.getIsTimedUcmEnabled())
+				nodeFigure.setDeactivated(true);
+			else
+				nodeFigure.setDeactivated(false);
+		}
 
         // check if path node is used as a border for a pointcut expression
         nodeFigure.setIsPointcutBorder(PointcutBorderDetector.detectPointcutBorder(node));
@@ -712,6 +793,195 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         // }
         if(ColorUtils.sliceON)
             ColorUtils.doColor();
+
+
+		//TimePointGroup evaluation
+		if (DynamicContextsView.te != null && te !=null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()
+				&& (UCMConnectionOnBottomRootEditPart) getRoot() != null && ((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()
+				&& DynamicContextsView.currentContext.getScenario() != null) {
+			for (Map.Entry<URNmodelElement, Float> entry : te.traversalCountListUrnModelElement) {
+				getTimePointGroupEvaluation(entry.getKey(), entry.getValue(), te.numberOfTimepoints);
+			}
+			for (Map.Entry<URNmodelElement, Float> entry : te.hitCountListUrnModelElement) {
+				getTimePointGroupEvaluationAddMetadataAverageHits(entry.getKey(), entry.getValue());
+			}
+		}
+	}
+
+	/**
+	 * This method is used to add the metadata for the average hitCount of a path node during traversal when the TimepointGroup is selected
+	 * @param element
+	 * @param hitCount
+	 */
+	private void getTimePointGroupEvaluationAddMetadataAverageHits(URNmodelElement element, Float hitCount) {
+		String id = ((PathNode) getModel()).getId();
+		if (ScenarioUtils.getActiveScenario(element) != null) {
+			if ((id.equals(element.getId())) && hitCount > 0) {
+				MetadataHelper.addMetaData(diagram.getUrndefinition().getUrnspec(), element, "_avgHits", String.valueOf(hitCount));
+			}
+		}
+	}
+
+	/**
+	 * This method is used to color a path node during traversal when the TimepointGroup is selected as per the number of times it appears during the timepointgroup
+	 * 			and to add the metadata
+	 * @param element
+	 * @param traversalCount
+	 * @param numberOfTimepoints
+	 */
+	private void getTimePointGroupEvaluation(URNmodelElement element, Float traversalCount, int numberOfTimepoints) {
+		try {
+			String color = null;
+			Color actualColor = null;
+			PathNodeFigure nodeFigure = getNodeFigure();
+			PathNode node = (PathNode) getModel();
+			String id = node.getId();
+
+			if (ScenarioUtils.getActiveScenario(element) != null) {
+
+				if (id.equals(element.getId()) && traversalCount == 1) {
+					nodeFigure.setDeactivated(false);
+					nodeFigure.setTraversed(false);
+					nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(false, null);
+					nodeFigure.setTraversedTimedUcmHitCountOne(false);
+					nodeFigure.setTraversedTimedUcmHitCountMax(true);
+
+					MetadataHelper.addMetaData(diagram.getUrndefinition().getUrnspec(), element, "_traversalHits", String.valueOf(traversalCount * (float) numberOfTimepoints));
+
+				} else if (id.equals(element.getId()) && (traversalCount > 0) && (traversalCount <= 0.5)) {
+					if (numberOfTimepoints == 2) {
+						nodeFigure.setTraversed(false);
+						nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(false, null);
+						nodeFigure.setTraversedTimedUcmHitCountMax(false);
+						nodeFigure.setTraversedTimedUcmHitCountOne(true);
+					} else {
+						Double a = Math.abs((0.5 - traversalCount ) / 0.5);
+						Double b = a * 255;
+						Double traversalColor = 255 - b;
+						int traversal = traversalColor.intValue();
+						color = String.valueOf(traversal) + ",255,0";
+						actualColor = new Color(Display.getCurrent(), StringConverter.asRGB(color));
+
+						nodeFigure.setDeactivated(false);
+						nodeFigure.setTraversed(false);
+						nodeFigure.setTraversedTimedUcmHitCountOne(false);
+						nodeFigure.setTraversedTimedUcmHitCountMax(false);
+						nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(true, actualColor);
+					}
+
+					MetadataHelper.addMetaData(diagram.getUrndefinition().getUrnspec(), element, "_traversalHits", String.valueOf(traversalCount * (float) numberOfTimepoints));
+
+				} else if (id.equals(element.getId()) && ((traversalCount > 0.5) && (traversalCount < 1))) {
+					float traversalColor = 255 * traversalCount;
+					int traversal = (int) traversalColor;
+					color = "255," + String.valueOf(traversal) + ",0";
+					actualColor = new Color(Display.getCurrent(), StringConverter.asRGB(color));
+					nodeFigure.setDeactivated(false);
+					nodeFigure.setTraversed(false);
+					nodeFigure.setTraversedTimedUcmHitCountOne(false);
+					nodeFigure.setTraversedTimedUcmHitCountMax(false);
+					nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(true, actualColor);
+
+					MetadataHelper.addMetaData(diagram.getUrndefinition().getUrnspec(), element, "_traversalHits", String.valueOf(traversalCount * (float) numberOfTimepoints));
+
+				} else if (id.equals(element.getId()) && traversalCount == 0) {
+					nodeFigure.setTraversed(false);
+					nodeFigure.setTraversedTimedUcmHitCountOne(false);
+					nodeFigure.setTraversedTimedUcmHitCountMax(false);
+					nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(false, null);
+					nodeFigure.setDeactivated(false);
+				} else
+					nodeFigure.setDeactivated(false);
+			} else {
+				nodeFigure.setDeactivated(false);
+				nodeFigure.setTraversed(false);
+				nodeFigure.setTraversedTimedUcmHitCountOne(false);
+				nodeFigure.setTraversedTimedUcmHitCountMax(false);
+				nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(false, null);
+			}	
+		} catch (ArithmeticException e) {
+
+		}
+	}
+	/**
+	 * This method is used to color a path node during traversal as per its traversal HitCount
+	 * @param node
+	 */
+	public void getNodeFigureColor(PathNode node) {
+		try {
+			String color = null;
+			Color actualColor = null;
+			PathNodeFigure nodeFigure = getNodeFigure();
+			Integer maxHitCount = ScenarioTraversalPreferences.getMaxHitCount();
+			Float maxCount = maxHitCount.floatValue();
+
+			if (ScenarioUtils.getActiveScenario(node) != null) {
+
+				// hitCount = 1
+				if (ScenarioUtils.getTraversalHitCount(node) == 1) {
+					nodeFigure.setTraversed(false);
+					nodeFigure.setTraversedTimedUcmHitCountMax(false);
+					nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(false, null);
+					nodeFigure.setTraversedTimedUcmHitCountOne(true);
+				}
+
+				// hitCount = Maximum || Maximum - 1 
+				else if ((ScenarioUtils.getTraversalHitCount(node) == maxCount - 1) || (ScenarioUtils.getTraversalHitCount(node) == maxCount)) {
+					nodeFigure.setTraversed(false);
+					nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(false, null);
+					nodeFigure.setTraversedTimedUcmHitCountOne(false);
+					nodeFigure.setTraversedTimedUcmHitCountMax(true);
+				}
+
+				// hitCount = Greater than 1 to (1/2 * Maximum)
+				else if ((ScenarioUtils.getTraversalHitCount(node) > 1) && (ScenarioUtils.getTraversalHitCount(node) <= (maxCount / 2))) {
+					Integer traversalCount = ScenarioUtils.getTraversalHitCount(node);
+					Float traversalHitCount = traversalCount.floatValue();
+					maxCount = maxCount / 2;
+					Float a = Math.abs((maxCount - traversalHitCount ) / maxCount);
+					Float b = a * 255;
+					float traversalColor = 255 - b;
+					int traversal = (int) traversalColor; 
+					color = String.valueOf(traversal) + ",255,0";
+					actualColor = new Color(Display.getCurrent(), StringConverter.asRGB(color));
+					nodeFigure.setTraversed(false);
+					nodeFigure.setTraversedTimedUcmHitCountOne(false);
+					nodeFigure.setTraversedTimedUcmHitCountMax(false);
+					nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(true, actualColor);
+				} 
+
+				// hitCount = ((1/2 * Maximum) + 1) to (Maximum - 2)
+				else if (((ScenarioUtils.getTraversalHitCount(node) > (maxCount / 2)) && (ScenarioUtils.getTraversalHitCount(node) < (maxCount - 1)))) {
+					Integer traversalCount = ScenarioUtils.getTraversalHitCount(node);
+					Float traversalHitCount = traversalCount.floatValue();
+					maxCount = maxCount / 2;
+					Float a = Math.abs((((maxCount - 1) * 2) - (traversalHitCount)) / (maxCount));
+					float traversalColor = (255) * a;
+					int traversal = (int) traversalColor;
+					color = "255," + String.valueOf(traversal) + ",0";
+					actualColor = new Color(Display.getCurrent(), StringConverter.asRGB(color));
+					nodeFigure.setTraversed(false);
+					nodeFigure.setTraversedTimedUcmHitCountOne(false);
+					nodeFigure.setTraversedTimedUcmHitCountMax(false);
+					nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(true, actualColor);
+				}
+				else {
+					nodeFigure.setTraversed(false);
+					nodeFigure.setTraversedTimedUcmHitCountOne(false);
+					nodeFigure.setTraversedTimedUcmHitCountMax(false);
+					nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(false, null);
+				}
+			}
+			else {
+				nodeFigure.setDeactivated(false);
+				nodeFigure.setTraversed(false);
+				nodeFigure.setTraversedTimedUcmHitCountOne(false);
+				nodeFigure.setTraversedTimedUcmHitCountMax(false);
+				nodeFigure.settraversedTimedUcmHitCountEitherHalfHitCount(false, null);
+			}
+		} catch (ArithmeticException e) {
+
+		}
     }
 
     /**
