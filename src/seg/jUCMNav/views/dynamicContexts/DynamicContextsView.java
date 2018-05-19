@@ -1,6 +1,8 @@
 package seg.jUCMNav.views.dynamicContexts;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
@@ -23,7 +25,6 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.part.ViewPart;
@@ -31,21 +32,24 @@ import org.eclipse.ui.part.ViewPart;
 import grl.ContributionContext;
 import grl.ContributionContextGroup;
 import grl.EvaluationStrategy;
-import grl.kpimodel.Indicator;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.editors.UrnEditDomain;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editors.actionContributors.DynamicContextMenuProvider;
 import seg.jUCMNav.editors.palette.UrnDropTargetListener;
+import seg.jUCMNav.editparts.ComponentRefEditPart;
+import seg.jUCMNav.editparts.NodeConnectionEditPart;
+import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.editparts.URNRootEditPart;
-import seg.jUCMNav.editparts.dynamicContextEvaluationViewEditparts.DynamicContextEvaluationViewObject;
+import seg.jUCMNav.editparts.dynamicContextEvaluationViewEditparts.DynamicContextTraversalEvaluation;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextTreeEditPart;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextTreeEditPartFactory;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.TimepointGroupTreeEditPart;
 import seg.jUCMNav.editparts.dynamicContextTreeEditparts.TimepointTreeEditPart;
-import seg.jUCMNav.editparts.kpiViewEditparts.KPIViewObject;
+import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -56,6 +60,10 @@ import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import seg.jUCMNav.views.strategies.StrategiesView;
 import ucm.UCMspec;
+import ucm.map.NodeConnection;
+import ucm.map.OrFork;
+import ucm.map.RespRef;
+import ucm.map.UCMmap;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
@@ -68,7 +76,7 @@ import urncore.URNmodelElement;
  * 
  * The dynamic context design/execution view.
  * 
- * @author aprajita
+ * @author aprajita, sluthra
  * 
  */
 public class DynamicContextsView extends ViewPart implements IPartListener2, ISelectionChangedListener, JUCMNavRefreshableView {
@@ -79,7 +87,7 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
     public static final int ID_STRATEGY = 1;
 
     private UCMNavMultiPageEditor multieditor;
-    private DynamicContext currentContext;
+	public static DynamicContext currentContext;
     private DynamicContextTreeEditPart currentSelection;
     
     private Timepoint currentTimepoint;
@@ -95,9 +103,11 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
 
     private IAction showDesignView, showStrategiesView, refreshTreeView, showId, enableGlobalFilter;
 
-    private int currentView;
+	public static int currentView;
 
     private UrnTemplateTransferDropTargetListener urnDropListener;
+
+	public static DynamicContextTraversalEvaluation te;
 	
 	/**
      * The constructor.
@@ -554,7 +564,47 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
                          for (int i = 0; i < multieditor.getPageCount(); i++) {
                              UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                              ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
+							if (currentTpGroupSelection != null && ScenarioTraversalPreferences.getIsTimedUcmEnabled() && u instanceof UcmEditor) {
+								te = new DynamicContextTraversalEvaluation(currentContext, currentTpGroup, (UCMmap) u.getModel());
+								PathNodeEditPart.te = te;
+								NodeConnectionEditPart.te = te;
+								ConnectionFeedbackEditPolicy.te = te;
+								ComponentRefEditPart.te = te;
                          }
+						}
+
+						// clean metadata
+						if (te !=null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()) {
+							for (Map.Entry<URNmodelElement, Float> entry : te.traversalCountListUrnModelElement) {
+								if (ScenarioUtils.getActiveScenario(entry.getKey()) != null) {
+									MetadataHelper.removeMetaData(entry.getKey(), "_avgHits");
+									MetadataHelper.removeMetaData(entry.getKey(), "_traversalHits");
+									if (entry.getKey() instanceof RespRef) {
+										MetadataHelper.removeMetaData(((RespRef) entry.getKey()).getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+									}
+									else if (entry.getKey() instanceof OrFork) {
+										List<NodeConnection> ncs = ((OrFork) entry.getKey()).getDiagram().getConnections();
+										for (NodeConnection n : ncs) {
+											if (n.getSource() instanceof OrFork) {
+												String orForkID = ((OrFork) n.getSource()).getId();
+												String branchName = "Branch: " + (n.getSource().getSucc().indexOf(n) + 1);
+												MetadataHelper.removeMetaData((OrFork) entry.getKey(), ScenarioUtils.METADATA_ORIGORFORKEXP + " (" + orForkID + ") <->" + branchName);
+											}
+										}
+									} else
+										MetadataHelper.removeMetaData(entry.getKey(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+								}
+							}
+						}
+
+						if (te != null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()) {
+							for (Map.Entry<NodeConnection, Float> entry : te.traversalCountListNodeConnection) {
+								if (ScenarioUtils.getActiveScenario(entry.getKey()) != null) {
+									refreshScenarioIfNeeded();
+								}
+							}
+						}
+
                         (EvaluationStrategyManager.getInstance(multieditor)).setStrategy(currentStrategy);
                         (EvaluationStrategyManager.getInstance(multieditor)).setContributionContext(currentContributionContext);
                         refreshScenarioIfNeeded();
@@ -565,9 +615,16 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
                         
                     }
                 } else if (obj instanceof TimepointTreeEditPart) {
-                    if (currentTimepointSelection != null) {
+					te = null;
+					if (currentTpGroupSelection != null) {
+						currentTpGroupSelection.setSelected(false);
+					}
+					currentTpGroupSelection = null;
+					currentTpGroup = null;
+
+					if (currentTimepointSelection != null)
                         currentTimepointSelection.setSelected(false);
-                    }
+
                     currentTimepointSelection = (TimepointTreeEditPart) obj;
                     Timepoint tp = ((TimepointTreeEditPart) obj).getTimepoint();
                     currentTimepoint = tp;
@@ -584,32 +641,68 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
                     (EvaluationStrategyManager.getInstance(multieditor)).setTimepoint(tp);
                     (EvaluationStrategyManager.getInstance(multieditor)).setDynamicContext(currentContext);
                     (EvaluationStrategyManager.getInstance(multieditor)).setStrategy(currentStrategy);
+				} else if (obj instanceof TimepointGroupTreeEditPart) {
+					if (currentTimepointSelection != null)
+						currentTimepointSelection.setSelected(false);
                     if (currentTpGroupSelection != null) {
                     	currentTpGroupSelection.setSelected(false);
                     }
-                    currentTpGroup = null;
-                    
-                } else if (obj instanceof TimepointGroupTreeEditPart) {
-                    if (currentTpGroupSelection != null) {
-                    	currentTpGroupSelection.setSelected(false);
-                    }
+           
+					currentTimepoint = null;
                     currentTpGroupSelection = (TimepointGroupTreeEditPart) obj;
+					currentTpGroupSelection.setSelected(true);
+					ScenarioUtils.setDynContext(currentContext);
+					TimepointGroup tpGroup = ((TimepointGroupTreeEditPart) obj).getTimepointGroup();
+					currentTpGroup = tpGroup;
                     if (currentView == ID_STRATEGY) {
                     	for (int i = 0; i < multieditor.getPageCount(); i++) {
                             UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                             ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
+							if (currentTpGroupSelection != null && ScenarioTraversalPreferences.getIsTimedUcmEnabled() && u instanceof UcmEditor) {
+								te = new DynamicContextTraversalEvaluation(currentContext, currentTpGroup, (UCMmap) u.getModel());
+								PathNodeEditPart.te = te;
+								NodeConnectionEditPart.te = te;
+								ConnectionFeedbackEditPolicy.te = te;
+								ComponentRefEditPart.te = te;
                         }
-                        currentTpGroupSelection.setSelected(true);
                     }
-                    TimepointGroup tpGroup = ((TimepointGroupTreeEditPart) obj).getTimepointGroup();
-                    currentTpGroup = tpGroup;
-                    if (currentTimepointSelection != null) {
-                    	currentTimepointSelection.setSelected(false);
+
+						// clean metadata
+						if (te !=null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()) {
+							for (Map.Entry<URNmodelElement, Float> entry : te.traversalCountListUrnModelElement) {
+								if (ScenarioUtils.getActiveScenario(entry.getKey()) != null) {
+									MetadataHelper.removeMetaData(entry.getKey(), PathNodeEditPart.METADATA_HITS);
+									MetadataHelper.removeMetaData(entry.getKey(), "_avgHits");
+									MetadataHelper.removeMetaData(entry.getKey(), "_traversalHits");
+									if (entry.getKey() instanceof RespRef) {
+										MetadataHelper.removeMetaData(((RespRef) entry.getKey()).getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+										MetadataHelper.removeMetaData(((RespRef) entry.getKey()).getRespDef(), ScenarioUtils.METADATA_ORIGRESPEXPRESSION);
+									} else if (entry.getKey() instanceof OrFork) {
+										List<NodeConnection> ncs = ((OrFork) entry.getKey()).getDiagram().getConnections();
+										for (NodeConnection n : ncs) {
+											if (n.getSource() instanceof OrFork) {
+												String orForkID = ((OrFork) n.getSource()).getId();
+												String branchName = "Branch: " + (n.getSource().getSucc().indexOf(n) + 1);
+												MetadataHelper.removeMetaData((OrFork) entry.getKey(), ScenarioUtils.METADATA_ORIGORFORKEXP + " (" + orForkID + ") <->" + branchName);
                     }
-                    currentTimepoint = null;
-                    (EvaluationStrategyManager.getInstance(multieditor)).setTimepoint(null);
-                } 
+										}
+									}
+									else
+										MetadataHelper.removeMetaData(entry.getKey(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+								}
+							}
+						}
                 
+						if (te != null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()) {
+							for (Map.Entry<NodeConnection, Float> entry : te.traversalCountListNodeConnection) {
+								if (ScenarioUtils.getActiveScenario(entry.getKey()) != null) {
+									refreshScenarioIfNeeded();
+								}
+							}
+						}
+					}
+					(EvaluationStrategyManager.getInstance(multieditor)).setTimepoint(null);
+				}
             }
         }
     }
@@ -715,6 +808,7 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
             if (multieditor != null) {
                 MetadataHelper.cleanRunTimeMetadata(multieditor.getModel());
                 MetadataHelper.cleanTimedGRLMetadata(multieditor.getModel());
+				MetadataHelper.cleanTimedUCMMetadata(multieditor.getModel());
             }
 
 
@@ -804,9 +898,48 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
                 UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                 ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);
                 ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
+				if (currentTpGroupSelection != null && ScenarioTraversalPreferences.getIsTimedUcmEnabled() && u instanceof UcmEditor) {
+					if (currentTimepointSelection != null)
+						currentTimepointSelection.setSelected(false);
+					te = new DynamicContextTraversalEvaluation(currentContext, currentTpGroup, (UCMmap) u.getModel());
+					PathNodeEditPart.te = te;
+					NodeConnectionEditPart.te = te;
+					ConnectionFeedbackEditPolicy.te = te;
+					ComponentRefEditPart.te = te;
             }
         }
         
+			// clean metadata
+			if (te !=null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()) {
+				for (Map.Entry<URNmodelElement, Float> entry : te.traversalCountListUrnModelElement) {
+					if (ScenarioUtils.getActiveScenario(entry.getKey()) != null) {
+						if (entry.getKey() instanceof RespRef) {
+							MetadataHelper.removeMetaData(((RespRef) entry.getKey()).getRespDef(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+							MetadataHelper.removeMetaData(((RespRef) entry.getKey()).getRespDef(), ScenarioUtils.METADATA_ORIGRESPEXPRESSION);
+						} else if (entry.getKey() instanceof OrFork) {
+							List<NodeConnection> ncs = ((OrFork) entry.getKey()).getDiagram().getConnections();
+							for (NodeConnection n : ncs) {
+								if (n.getSource() instanceof OrFork) {
+									String orForkID = ((OrFork) n.getSource()).getId();
+									String branchName = "Branch: " + (n.getSource().getSucc().indexOf(n) + 1);
+									MetadataHelper.removeMetaData((OrFork) entry.getKey(), ScenarioUtils.METADATA_ORIGORFORKEXP + " (" + orForkID + ") <->" + branchName);
+								}
+							}
+						} 
+						else
+							MetadataHelper.removeMetaData(entry.getKey(), EvaluationStrategyManager.METADATA_DEACTSTATUS);
+					}
+				}
+			}
+			
+			if (te != null && te.timePointGroupSelected == true && ScenarioTraversalPreferences.getIsTimedUcmEnabled()) {
+				for (Map.Entry<NodeConnection, Float> entry : te.traversalCountListNodeConnection) {
+					if (ScenarioUtils.getActiveScenario(entry.getKey()) != null) {
+						refreshScenarioIfNeeded();
+					}
+				}
+			}
+		}
     }
 
     private void disableStrategyView() {
@@ -814,7 +947,9 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
             for (int i = 0; i < multieditor.getPageCount(); i++) {
                 UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                 ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(false);
-                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
+				((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);
+				if (te != null)
+					te = null;
             }
         }
         viewer.deselectAll();
