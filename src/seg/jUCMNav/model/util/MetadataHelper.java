@@ -17,6 +17,8 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
+import ucm.map.NodeConnection;
+import ucm.map.OrFork;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
@@ -447,11 +449,21 @@ public class MetadataHelper {
 						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGWAITKIND);
 						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGFAILURELIST);
 						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGENDPTPOSTCOND);
-						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGORFORKEXP);
-						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGFAILUREPTCOND);
 						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGFAILUREEXPRESSION);
+						MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGFAILUREPTCOND);
 						MetadataHelper.removeMetaData(pn, "_avgHits");
 						MetadataHelper.removeMetaData(pn, "_traversalHits");
+
+						if (pn instanceof OrFork) {
+							List<NodeConnection> ncs = ((OrFork) pn).getDiagram().getConnections();
+							for (NodeConnection n : ncs) {
+								if (n.getSource() instanceof OrFork) {
+									String branchName = "Branch: " + (n.getSource().getSucc().indexOf(n) + 1);
+									String orForkID = ((OrFork) n.getSource()).getId();
+									MetadataHelper.removeMetaData((OrFork) pn, ScenarioUtils.METADATA_ORIGORFORKEXP + " (" + orForkID + ") <->" + branchName);
+								}
+							}
+						}
 
 						if (pn instanceof Stub) {
 							MetadataHelper.removeMetaData(pn, ScenarioUtils.METADATA_ORIGSTUB + ".staticStub");
