@@ -1,5 +1,6 @@
 package seg.jUCMNav.editpolicies.feedback;
 
+import java.util.Map.Entry;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
@@ -7,7 +8,13 @@ import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.swt.graphics.Color;
 
 import seg.jUCMNav.editparts.BeliefLinkEditPart;
+import seg.jUCMNav.editparts.NodeConnectionEditPart;
+import seg.jUCMNav.editparts.dynamicContextEvaluationViewEditparts.DynamicContextTraversalEvaluation;
 import seg.jUCMNav.figures.ColorManager;
+import seg.jUCMNav.figures.SplineConnection;
+import seg.jUCMNav.views.dynamicContexts.DynamicContextsView;
+import ucm.map.NodeConnection;
+import urncore.URNmodelElement;
 
 /**
  * On mouse hover of node connection, it becomes thicker so that we can click on it more easily. Change the connection's color when selected.
@@ -17,6 +24,8 @@ import seg.jUCMNav.figures.ColorManager;
 public class ConnectionFeedbackEditPolicy extends SelectionEditPolicy {
 
     private Color previousColor = ColorManager.LINE;
+
+	public static DynamicContextTraversalEvaluation te;
 
     /**
      * Convenience method to avoid casting.
@@ -34,6 +43,23 @@ public class ConnectionFeedbackEditPolicy extends SelectionEditPolicy {
         if (this.getHost() instanceof BeliefLinkEditPart) {
             getFigure().setLineWidth(2);
         } else {
+			if (DynamicContextsView.te != null && te != null && DynamicContextsView.currentView == DynamicContextsView.ID_STRATEGY && DynamicContextsView.currentContext != null
+					&& DynamicContextsView.currentContext.getScenario() != null) {
+				if (this.getHost() instanceof NodeConnectionEditPart) {
+					NodeConnectionEditPart ncep = (NodeConnectionEditPart) this.getHost();
+					NodeConnection n = (NodeConnection) ncep.getModel();
+					String idModelSource = ((URNmodelElement) n.getSource()).getId();
+					String idModelTarget = ((URNmodelElement) n.getTarget()).getId();
+					for (Entry<SplineConnection, Integer> entry : NodeConnectionEditPart.connectionWidth.entrySet()) {
+						NodeConnection nc = entry.getKey().getLink();
+						String idIncomingNCSource = ((URNmodelElement) nc.getSource()).getId();
+						String idIncomingNCTarget = ((URNmodelElement) nc.getTarget()).getId();
+
+						if (idModelSource.equals(idIncomingNCSource) && (idModelTarget.equals(idIncomingNCTarget)))
+							getFigure().setLineWidth(entry.getValue());
+					}
+				}
+			} else
             getFigure().setLineWidth(3);
         }
     }
@@ -45,6 +71,23 @@ public class ConnectionFeedbackEditPolicy extends SelectionEditPolicy {
         if (this.getHost() instanceof BeliefLinkEditPart) {
             getFigure().setLineWidth(4);
         } else {
+			if (DynamicContextsView.te != null && te != null  && DynamicContextsView.currentView == DynamicContextsView.ID_STRATEGY  && DynamicContextsView.currentContext != null
+					&& DynamicContextsView.currentContext.getScenario() != null) {
+				if (this.getHost() instanceof NodeConnectionEditPart) {
+					NodeConnectionEditPart ncep = (NodeConnectionEditPart) this.getHost();
+					NodeConnection n = (NodeConnection) ncep.getModel();
+					String idModelSource = ((URNmodelElement) n.getSource()).getId();
+					String idModelTarget = ((URNmodelElement) n.getTarget()).getId();
+					for (Entry<SplineConnection, Integer> entry : NodeConnectionEditPart.connectionWidth.entrySet()) {
+						NodeConnection nc = entry.getKey().getLink();
+						String idIncomingNCSource = ((URNmodelElement) nc.getSource()).getId();
+						String idIncomingNCTarget = ((URNmodelElement) nc.getTarget()).getId();
+
+						if (idModelSource.equals(idIncomingNCSource) && (idModelTarget.equals(idIncomingNCTarget)))
+							getFigure().setLineWidth(entry.getValue() + 3);
+					}
+				}
+			} else
             getFigure().setLineWidth(6);
         }
     }
