@@ -20,29 +20,28 @@ import seg.jUCMNav.editparts.ActorRefEditPart;
 import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
+import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.editparts.RespRefEditPart;
+import seg.jUCMNav.editparts.StubEditPart;
 import ucm.map.ComponentRef;
+import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
+import ucm.map.OrFork;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.StartPoint;
+import ucm.map.Stub;
+import ucm.map.Timer;
+import ucm.map.WaitingPlace;
 import ucm.scenario.ScenarioDef;
 import urn.URNspec;
 import urn.dyncontext.Change;
-import urn.dyncontext.ConstantChange;
-import urn.dyncontext.DeactivationChange;
+import urn.dyncontext.Changeable;
 import urn.dyncontext.DynamicContext;
 import urn.dyncontext.DynamicContextGroup;
-import urn.dyncontext.EnumChange;
-import urn.dyncontext.FormulaChange;
-import urn.dyncontext.LinearChange;
-import urn.dyncontext.QuadraticChange;
-import urn.dyncontext.impl.ConstantChangeImpl;
-import urn.dyncontext.impl.DeactivationChangeImpl;
-import urn.dyncontext.impl.EnumChangeImpl;
-import urn.dyncontext.impl.FormulaChangeImpl;
-import urn.dyncontext.impl.LinearChangeImpl;
-import urn.dyncontext.impl.QuadraticChangeImpl;
+import urn.dyncontext.TextChange;
 import urncore.Component;
 import urncore.Responsibility;
-import urncore.URNmodelElement;
 
 /**
  * Utility class for Dynamic Contexts.
@@ -240,8 +239,8 @@ public class DynamicContextsUtils {
     	
     	List<Change> availableChanges = new ArrayList();
     	if (dyn != null) {
-    		List allChanges = dyn.getChanges();
-	    	URNmodelElement elt = null;
+			List<Change> allChanges = dyn.getChanges();
+			Changeable elt = null;
 	    	if (parent instanceof LinkRefEditPart)
 	    		elt = ((LinkRef)((LinkRefEditPart) parent).getModel()).getLink();
 	    	else if (parent instanceof LinkRef)
@@ -266,27 +265,72 @@ public class DynamicContextsUtils {
     	    	elt = (Component)((ComponentRef)((ComponentRefEditPart) parent).getModel()).getContDef();
     	    else if (parent instanceof Component)
     	    	elt = (Component) parent;
-	    	for (Iterator iter = allChanges.iterator(); iter.hasNext();) {
-	    		Change change = null;
-	    		Object nextIter = iter.next();
-	    		if (nextIter instanceof ConstantChangeImpl) {
-	    			change = (ConstantChange) nextIter;
-				} else if (nextIter instanceof LinearChangeImpl) {
-	    			change = (LinearChange) nextIter;
-				} else if (nextIter instanceof QuadraticChangeImpl) {
-	    			change = (QuadraticChange) nextIter;
-				} else if (nextIter instanceof FormulaChangeImpl) {
-	    			change = (FormulaChange) nextIter;
-				} else if (nextIter instanceof DeactivationChangeImpl) {
-	    			change = (DeactivationChange) nextIter;
-				} else if (nextIter instanceof EnumChangeImpl) {
-	    			change = (EnumChange) nextIter;
+			else if (parent instanceof FailurePoint)
+				elt = (FailurePoint) parent;
+			else if (parent instanceof StartPoint)
+				elt = (StartPoint) parent;
+			else if (parent instanceof Timer)
+				elt = (Timer) parent;
+			else if (parent instanceof WaitingPlace)
+				elt = (WaitingPlace) parent;
+			else if (parent instanceof Stub)
+				elt = (Stub) parent;
+			else if (parent instanceof PluginBinding)
+				elt = (PluginBinding) parent;
+			else if (parent instanceof urncore.Condition)
+				elt = (urncore.Condition) parent;
+			else if (parent instanceof StubEditPart)
+				elt = (Stub) ((StubEditPart) parent).getModel();
+			else if (parent instanceof PathNodeEditPart) {
+				if ((((PathNodeEditPart) parent).getModel()) instanceof FailurePoint)
+					elt = (FailurePoint)((PathNodeEditPart) parent).getModel();
+				else if ((((PathNodeEditPart) parent).getModel()) instanceof StartPoint)
+					elt = (StartPoint)((PathNodeEditPart) parent).getModel();
+				else if ((((PathNodeEditPart) parent).getModel()) instanceof EndPoint)
+					elt = (EndPoint)((PathNodeEditPart) parent).getModel();
+				else if ((((PathNodeEditPart) parent).getModel()) instanceof OrFork)
+					elt = (OrFork)((PathNodeEditPart) parent).getModel();
+				else if ((((PathNodeEditPart) parent).getModel()) instanceof Timer)
+					elt = (Timer)((PathNodeEditPart) parent).getModel();
+				else if ((((PathNodeEditPart) parent).getModel()) instanceof WaitingPlace)
+					elt = (WaitingPlace)((PathNodeEditPart) parent).getModel();
 				}
 	    		
-	    		if (change.getElement().equals(elt)){
+			for (Change change : allChanges) {
+				if (change.getElement().equals(elt))
+					availableChanges.add(change);
+				else if (parent instanceof PathNodeEditPart) {
+					if (elt instanceof StartPoint && change.getElement() instanceof urncore.Condition && ((TextChange) change).getAffectedProperty().equals("Failure List/Start Point Pre-Condition")) {
+						if (((StartPoint) elt).getId().equals(((urncore.Condition) change.getElement()).getStartPoint().getId()))
 	    			availableChanges.add(change);
 	    		}
+					else if (elt instanceof FailurePoint && change.getElement() instanceof urncore.Condition && ((TextChange) change).getAffectedProperty().equals("Failure Condition")) {
+						if (((FailurePoint) elt).getId().equals(((FailurePoint) ((urncore.Condition) change.getElement()).getNodeConnection().getSource()).getId()))
+							availableChanges.add(change);
 	    	}
+					else if (elt instanceof OrFork && change.getElement() instanceof urncore.Condition && ((TextChange) change).getAffectedProperty().startsWith("Expression")) {
+						if (((OrFork) elt).getId().equals(((OrFork) ((urncore.Condition) change.getElement()).getNodeConnection().getSource()).getId()))
+							availableChanges.add(change);
+					}
+					else if (elt instanceof EndPoint && change.getElement() instanceof urncore.Condition && ((TextChange) change).getAffectedProperty().equals("Post-Condition")) {
+						if (((EndPoint) elt).getId().equals(((urncore.Condition) change.getElement()).getEndPoint().getId()))
+							availableChanges.add(change);
+					}
+					else if (elt instanceof Stub && change.getElement() instanceof urncore.Condition && 
+							(((TextChange) change).getAffectedProperty().startsWith("Pre-Condition- ") || ((TextChange) change).getAffectedProperty().startsWith("Replication factor"))) {
+						if (((Stub) elt).getId().equals(((urncore.Condition) change.getElement()).getPluginBinding().getStub().getId()))
+							availableChanges.add(change);
+					}
+					else if (elt instanceof Stub && change.getElement() instanceof PluginBinding) {
+						String changeElementPluginID = ((PluginBinding) change.getElement()).getPlugin().getId();
+						List<PluginBinding> bindings = ((Stub) elt).getBindings();
+						for (PluginBinding p : bindings) {
+							if (p.getPlugin().getId().equals(changeElementPluginID))
+								availableChanges.add(change);
+						}
+					}
+				}
+			} 
     	} else
     		availableChanges = null;
     	if (availableChanges != null) {
@@ -303,11 +347,11 @@ public class DynamicContextsUtils {
      * Returns a boolean indicating if any change has been added to the URNModelElement
      * 
      * @param el
-     * 				URNmodelElement for which we need to check if any change exists
+	 * 				Changeable element for which we need to check if any change exists
      * @param urn
      * 			URNSpec
      */
-    public static boolean changeExistsFor(URNmodelElement el, URNspec urn) {
+	public static boolean changeExistsFor(Changeable el, URNspec urn) {
     	boolean exists = false;
     	List dynContexts = urn.getDynamicContexts();
     	for (Iterator iter = dynContexts.iterator(); iter.hasNext();) {
@@ -315,10 +359,45 @@ public class DynamicContextsUtils {
 	    	List allChanges = dyn.getChanges();
 	    	
 	    	for (Iterator iter1 = allChanges.iterator(); iter1.hasNext();) {
+				try {
 	    		Change change = (Change) iter1.next();
-	    		if (change.getElement().equals(el)){
+					if (change instanceof TextChange) {
+						if (((((TextChange) change).getAffectedProperty().equals("Post-Condition")) && el instanceof EndPoint)) {
+							String changeId = ((urncore.Condition) change.getElement()).getEndPoint().getId();
+							if (((EndPoint) el).getId().equals(changeId)) {
 	    			exists = true;
 	    			break;
+							}	
+						}
+						else if ((((TextChange) change).getAffectedProperty().startsWith("Expression")) && el instanceof OrFork) {
+							String changeId = ((OrFork) ((urncore.Condition) change.getElement()).getNodeConnection().getSource()).getId();
+							if (((OrFork) el).getId().equals(changeId)) {
+								exists = true;
+								break;
+							}
+						}
+						else if ((((TextChange) change).getAffectedProperty().equals("Failure Condition")) && el instanceof FailurePoint 
+								&& (change.getElement() instanceof FailurePoint || change.getElement() instanceof urncore.Condition)) {
+							String changeId = ((FailurePoint) ((urncore.Condition) change.getElement()).getNodeConnection().getSource()).getId();
+							if (((FailurePoint) el).getId().equals(changeId)) {
+								exists = true;
+								break;
+							}
+						}
+						else if ((((TextChange) change).getAffectedProperty().equals("Failure List/Start Point Pre-Condition")) && el instanceof StartPoint) {
+							String changeId = ((urncore.Condition) change.getElement()).getStartPoint().getId();
+							if (((StartPoint) el).getId().equals(changeId)) {
+								exists = true;
+								break;
+							}
+						}
+					}
+					if (change.getElement().equals(el)) {
+						exists = true;
+						break;
+					}
+				} catch (NullPointerException e) {
+
 	    		}
 	    	}
 	    	if (exists)
