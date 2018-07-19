@@ -1,6 +1,7 @@
 package seg.jUCMNav.model.commands.delete.internal;
 
 import grl.ActorRef;
+import asd.*;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.IntentionalElementRef;
@@ -514,6 +515,10 @@ public class CleanRelationshipsCommand extends CompoundCommand {
             build((EnumerationType) element);
         else if (element instanceof Concern)
             build((Concern) element);
+    }
+    
+    public CleanRelationshipsCommand(ASDiagram map) {
+        this.element = map;
     }
 
 }

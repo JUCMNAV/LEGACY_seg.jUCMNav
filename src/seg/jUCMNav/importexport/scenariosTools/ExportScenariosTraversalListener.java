@@ -1,6 +1,7 @@
 package seg.jUCMNav.importexport.scenariosTools;
 
 import grl.EvaluationStrategy;
+import asd.*;
 import grl.StrategiesGroup;
 
 import java.io.File;
@@ -82,6 +83,7 @@ public class ExportScenariosTraversalListener {
 	protected CommandStack cs;
 	protected ScenarioDef currentDestScenario;
 	protected UCMmap currentMap;
+	
 	protected ScenarioDef currentSrcScenario;
 	protected HashMap htComponentRefs;
 	protected HashMap htComponents;
@@ -113,7 +115,7 @@ public class ExportScenariosTraversalListener {
         this.whenToSave = whenToSave;
 
         htScenarioToMap = new HashMap();
-        urnspec = ModelCreationFactory.getNewURNspec(true, false, false);
+        urnspec = ModelCreationFactory.getNewURNspec(true, false, false,false);
 
         // TODO: find a better way to store this information, e.g., use URNspec metadata.
         urnspec.setAuthor(originalFilename);
@@ -129,6 +131,7 @@ public class ExportScenariosTraversalListener {
         cs.execute(cmd);
         cmd = new DeleteStrategiesGroupCommand((StrategiesGroup) urnspec.getGrlspec().getGroups().get(0));
         cs.execute(cmd);
+              
 	}
 
 	private IURNContainerRef addCompRefIfAbsent(IURNContainer def) {

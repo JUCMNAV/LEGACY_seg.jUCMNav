@@ -22,6 +22,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
+import asd.ASDiagram;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.concerns.ManageConcernsAction;
 import seg.jUCMNav.editors.GrlEditor;
@@ -55,7 +56,8 @@ public class DisplayPreferences {
     public static final String PREF_OUTLINE_SHOWCONCERNS = "PREF_OUTLINE_SHOWCONCERNS"; //$NON-NLS-1$
     public static final String PREF_OUTLINE_SHOWEMPTY = "PREF_OUTLINE_SHOWEMPTY"; //$NON-NLS-1$
     public static final String PREF_OUTLINE_SHOWFORKJOIN = "PREF_OUTLINE_SHOWFORKJOIN"; //$NON-NLS-1$
-    public static final String PREF_OUTLINE_SHOWGRLS = "PREF_OUTLINE_SHOWGRLS"; //$NON-NLS-1$
+    public static final String PREF_OUTLINE_SHOWGRLS = "PREF_OUTLINE_SHOWGRLS";
+    public static final String PREF_OUTLINE_SHOWASDS = "PREF_OUTLINE_SHOWASDS";//$NON-NLS-1$
     public static final String PREF_OUTLINE_SHOWNODENUMBER = "PREF_OUTLINE_SHOWNODENUMBER"; //$NON-NLS-1$
     public static final String PREF_OUTLINE_SHOWSTARTEND = "PREF_OUTLINE_SHOWSTARTEND"; //$NON-NLS-1$
     public static final String PREF_OUTLINE_SHOWUCMS = "PREF_OUTLINE_SHOWUCMS"; //$NON-NLS-1$
@@ -83,6 +85,7 @@ public class DisplayPreferences {
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_OUTLINE_SHOWSTARTEND, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_OUTLINE_SHOWUCMS, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_OUTLINE_SHOWGRLS, true);
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_OUTLINE_SHOWASDS, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_OUTLINE_SHOWCONCERNS, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_OUTLINE_SORT, SORT_DEFAULT);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_OUTLINE_FILTER, ""); //$NON-NLS-1$
@@ -373,6 +376,9 @@ public class DisplayPreferences {
         return getPreferenceStore().getBoolean(PREF_OUTLINE_SHOWGRLS);
     }
 
+    public boolean getShowASDS() {
+        return getPreferenceStore().getBoolean(PREF_OUTLINE_SHOWASDS);
+    }
     /**
      * Return true if the node number must be shown in the outline.
      * 
@@ -456,6 +462,11 @@ public class DisplayPreferences {
         // refreshViews();
     }
 
+    
+    public void setShowASDS(boolean value) {
+        getPreferenceStore().setValue(PREF_OUTLINE_SHOWASDS, value);
+        // refreshViews();
+    }
     /**
      * Set whether node number must been shown in the outline.
      */
@@ -525,6 +536,9 @@ public class DisplayPreferences {
             return true;
 
         if (element instanceof GRLGraph && !getShowGRLS())
+            return true;
+        
+        if (element instanceof ASDiagram && !getShowASDS())
             return true;
 
         if ((element instanceof StartPoint || element instanceof EndPoint) && !getShowStartEnd())

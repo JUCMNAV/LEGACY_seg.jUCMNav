@@ -54,6 +54,7 @@ import urncore.NodeLabel;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 import urncore.UrncorePackage;
+import asd.*;
 
 /**
  * EditPart associated with urncore.Label
@@ -272,6 +273,7 @@ public class LabelEditPart extends ModelElementEditPart {
         int featureIdUrn = notification.getFeatureID(UrncorePackage.class);
         int featureIdUcm = notification.getFeatureID(MapPackage.class);
         int featureIdGrl = notification.getFeatureID(GrlPackage.class);
+        int featureIdAsd = notification.getFeatureID(AsdPackage.class);  
 
         // bug 523: feedback remains even when element is deleted.
         eraseTargetFeedback(new SelectionRequest());

@@ -31,7 +31,7 @@ public class AddGrlGraphAction extends URNSelectionAction {
         int type = sel.getSelectionType();
 
         return sel.getUrnspec() != null
-                && (type == SelectionHelper.MAP || type == SelectionHelper.GRLGRAPH || (type == SelectionHelper.URNSPEC) && (sel.getSelection().size() == 1));
+                && (type == SelectionHelper.MAP || type == SelectionHelper.ASDIAGRAM || type == SelectionHelper.GRLGRAPH || (type == SelectionHelper.URNSPEC) && (sel.getSelection().size() == 1));
 
     }
 
@@ -47,7 +47,8 @@ public class AddGrlGraphAction extends URNSelectionAction {
             create.setIndex(sel.getUrnspec().getUrndef().getSpecDiagrams().indexOf(sel.getMap())+1);
         else if (sel.getUrnspec()!=null && sel.getGrlgraph()!=null)
             create.setIndex(sel.getUrnspec().getUrndef().getSpecDiagrams().indexOf(sel.getGrlgraph())+1);
-
+        else if (sel.getUrnspec()!=null && sel.getASDiagram()!=null)        	
+            create.setIndex(sel.getUrnspec().getUrndef().getSpecDiagrams().indexOf(sel.getASDiagram())+1);
         if (create.canExecute()) {
             DisplayPreferences.getInstance().setShowGRLS(true);
         }

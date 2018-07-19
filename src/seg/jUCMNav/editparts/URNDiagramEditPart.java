@@ -197,7 +197,7 @@ public abstract class URNDiagramEditPart extends ModelElementEditPart {
         List comps = getComponentEditParts(); // All the components of the model
         List nodes = getSpecificationNodeEditParts(); // All the path nodes.
 
-        // Udate the hashmap (model, editpart)
+        // Update the hashmap (model, editpart)
         for (i = 0; i < children.size(); i++) {
             editPart = (EditPart) children.get(i);
             modelToEditPart.put(editPart.getModel(), editPart);

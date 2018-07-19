@@ -1,6 +1,7 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
 import grl.Actor;
+
 import grl.ActorRef;
 import grl.Belief;
 import grl.ElementLink;
@@ -10,6 +11,8 @@ import grl.IntentionalElementRef;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIInformationElementRef;
 import grl.kpimodel.KPIModelLink;
+
+import asd.*;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -103,6 +106,8 @@ public class TreeEditPartFactory implements EditPartFactory {
             return new DemandTreeEditPart((Demand) model);
         else if (model instanceof Concern)
             return new ConcernTreeEditPart((Concern) model);
+        else if (model instanceof ASDiagram)
+            return new DiagramTreeEditPart((ASDiagram) model);
         else
             return null;
     }

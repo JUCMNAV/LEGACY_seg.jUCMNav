@@ -51,6 +51,7 @@ import seg.jUCMNav.views.dnd.UrnTemplateTransferDragSourceListener;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import asd.*;
 
 /**
  * Creates an outline pagebook for both UCMNavMultiPageEditor and UcmEditor. Supports three views: hierarchical model element tree view hierarchical concern
@@ -362,7 +363,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         return viewers;
     }
 
-    /**
+    /** 
      * 
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
@@ -513,7 +514,18 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                     definitionsViewer.setContents(root);
                     expand = true;
                 }
-            } else {
+            }
+            
+            else if (multieditor.getCurrentPage().getModel() instanceof ASDiagram) {
+            	String root = Messages.getString("LabelTreeEditPart.asdDefs"); //$NON-NLS-1$
+                if (forceRefresh || definitionsViewer.getContents() == null || definitionsViewer.getContents().getModel() == null
+                        || !definitionsViewer.getContents().getModel().equals(root)) {
+                    definitionsViewer.setContents(root);
+                    expand = true;	
+            	
+            }
+            }
+            else {
                 String root = Messages.getString("LabelTreeEditPart.grlDefs"); //$NON-NLS-1$
                 if (forceRefresh || definitionsViewer.getContents() == null || definitionsViewer.getContents().getModel() == null
                         || !definitionsViewer.getContents().getModel().equals(root)) {
@@ -521,9 +533,11 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                     expand = true;
                 }
             }
+            
             if (expand)
                 expandOutline((Tree) ((PageBook) getControl()).getChildren()[2], false);
         }
+        
     }
 
     /**

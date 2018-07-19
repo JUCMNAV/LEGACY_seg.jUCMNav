@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.delete.internal;
 
 import grl.GRLGraph;
 
+import asd.*;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;

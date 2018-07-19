@@ -37,6 +37,9 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_METADATAINDVISIBLE = "PREF_METADATAINDVISIBLE"; //$NON-NLS-1$
     public static final String PREF_ANTIALIASING = "PREF_ANTIALIASING"; //$NON-NLS-1$
     public static final String PREF_FMCONTRIVISIBLE = "PREF_FMCONTRIVISIBLE"; //$NON-NLS-1$
+    //ASD
+    public static final String PREF_ASDCONTRIVISIBLE = "PREF_ASDCONTRIVISIBLE"; //$NON-NLS-1$
+    
     public static final String PREF_GRLTEXTVISIBLE = "PREF_GRLTEXTVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLICONVISIBLE = "PREF_GRLICONVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLAUTOADDLINKS = "PREF_GRLAUTOADDLINKS"; //$NON-NLS-1$
@@ -50,6 +53,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_NEWUCM = "PREF_NEWUCM"; //$NON-NLS-1$
     public static final String PREF_NEWFMD = "PREF_NEWFMD"; //$NON-NLS-1$
     public static final String PREF_NEWCRN = "PREF_NEWCRN"; //$NON-NLS-1$
+    //ASD
+    public static final String PREF_NEWASD = "PREF_NEWASD"; //$NON-NLS-1$
     
     // To accelerate access to preferences...
     private static int antialising_pref = SWT.ON;
@@ -225,6 +230,10 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static boolean getFmContriVisible() {
         return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_FMCONTRIVISIBLE);
     }
+    
+    //public static boolean getAsdContriVisible() {
+    //    return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_ASDCONTRIVISIBLE);
+   // }
 
     /**
      * @return boolean TRUE if GRL contribution icons should be visible.
@@ -289,6 +298,12 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static boolean getNewFMD() {
     	return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_NEWFMD);
     }
+    /**
+     * @return whether any activity theory diagram should be created in a new .jucm file
+     */
+    public static boolean getNewASD() {
+   	return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_NEWASD);
+    }
 
     /**
      * @return whether a new UCM diagram should be created in a new .jucm file
@@ -318,7 +333,12 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static void setNewFMD(boolean value) {
     	JUCMNavPlugin.getDefault().getPreferenceStore().setValue(PREF_NEWFMD, value);
     }
-
+    /**
+     * Set whether any activity theory diagram should be created in a new .jucm file
+     */
+    public static void setNewASD(boolean value) {
+   	JUCMNavPlugin.getDefault().getPreferenceStore().setValue(PREF_NEWASD, value);
+   }
     /**
      * Set whether a new UCM diagram should be created in a new .jucm file
      */

@@ -3,6 +3,7 @@ package seg.jUCMNav.editors;
 import java.io.File;
 import java.net.URI;
 import java.util.Iterator;
+import asd.*;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -751,7 +752,8 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 		case Notification.SET:
 			int featureIdUcm = notification.getFeatureID(UcmPackage.class);
 			int featureIdGrl = notification.getFeatureID(GrlPackage.class);
-			if ((featureIdUcm == MapPackage.UC_MMAP__NAME) || (featureIdGrl == GrlPackage.GRL_GRAPH__NAME)) {
+			int featureIdAsd = notification.getFeatureID(AsdPackage.class);
+			if ((featureIdUcm == MapPackage.UC_MMAP__NAME) || (featureIdGrl == GrlPackage.GRL_GRAPH__NAME) || (featureIdAsd == AsdPackage.AS_DIAGRAM__NAME)) {
 				getMultiPageTabManager().refreshPageNames();
 			}
 			break;
@@ -796,7 +798,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 	 * 
 	 * @param dirty
 	 */
-	protected void setDirty(boolean dirty) {
+	public void setDirty(boolean dirty) {
 		if (isDirty != dirty) {
 			isDirty = dirty;
 			firePropertyChange(IEditorPart.PROP_DIRTY);

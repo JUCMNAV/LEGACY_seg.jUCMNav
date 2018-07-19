@@ -1,5 +1,17 @@
 package seg.jUCMNav.actions;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
+
+import asd.ASDiagram;
+import asd.ASDmodelElement;
+import asd.ASDspec;
+import asd.Tool;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
@@ -24,16 +36,8 @@ import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIInformationElementRef;
 import grl.kpimodel.KPIModelLink;
 import grl.kpimodel.KPIModelLinkRef;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
-
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
-
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
+import seg.jUCMNav.editparts.ToolEditPart;
 import seg.jUCMNav.editparts.treeEditparts.LabelTreeEditPart;
 import ucm.UCMspec;
 import ucm.map.AndFork;
@@ -79,6 +83,7 @@ import urncore.Responsibility;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
+
 /**
  * This class will help reduce redundant code in all action classes. When given a selection, it parses it and gives utility functions to return its type and
  * allows for easy access to the concerned model elements by encapsulating the casts and other management overhead.
@@ -99,6 +104,8 @@ public class SelectionHelper {
     public static final int COMPONENTREF = 11;
     public static final int COMPONENT = 125;
     public static final int CONNECT = 18;
+    public static final int ASDIAGRAM=46;
+    public static final int TOOL=54;
     public static final int DIRECTIONARROW = 19;
     public static final int EMPTYPOINT = 1;
     public static final int EMPTYPOINT_TIMER = 116;
@@ -180,6 +187,7 @@ public class SelectionHelper {
     private Component component;
     private ComponentRef componentref;
     private Connect connect;
+    private Tool tool;
     private DirectionArrow directionarrow;
     private EmptyPoint emptypoint;
     private EndPoint endpoint;
@@ -238,8 +246,11 @@ public class SelectionHelper {
     private Concern concern;
     private UCMspec ucmspec;
     private GRLspec grlspec;
+    private ASDspec asdspec;
     private URNmodelElement urnelem;
-
+    
+    private ASDiagram asdiagram;
+    private EditPart part;
     private Vector allModel = new Vector();
 
     public SelectionHelper(List selection) {
@@ -251,7 +262,7 @@ public class SelectionHelper {
      */
     private EObject setInternals(EditPart part) {
         EObject model = (EObject) part.getModel();
-
+        this.part=part;
         // Separate UCM from GRL and others... Cuts search time by half!
         // Also tries to sort them by likelihood of being found.
 
@@ -427,6 +438,20 @@ public class SelectionHelper {
                     urnspec = grlspec.getUrnspec();
             }
             
+        }
+        
+        //ASD
+        
+        else if (model instanceof ASDmodelElement)
+        {
+        	if(model instanceof Tool)
+        		{
+        		tool=(Tool) model;
+        		}
+        	else if (model instanceof ASDiagram && ((ASDiagram) model).getUrndefinition() != null) {
+                asdiagram = (ASDiagram) model;
+                urnspec = asdiagram.getUrndefinition().getUrnspec();
+            }
         }
         
         //Dynamic Context
@@ -637,8 +662,11 @@ public class SelectionHelper {
                             urnspec = ((Timepoint) model).getGroup().getUrnspec();
                         else if (model instanceof TimepointGroup)
                             urnspec = ((TimepointGroup) model).getUrnspec();
+                        else if (model instanceof Tool){
+                           ASDiagram asdiagram = ((ToolEditPart) part).getDiagram();
+                           urnspec= asdiagram.getUrndefinition().getUrnspec();
                     }
-
+                    }
                     if (urnspec == null && element instanceof LabelTreeEditPart) {
                         urnspec = ((LabelTreeEditPart) element).getURNSpec();
                     }
@@ -694,6 +722,8 @@ public class SelectionHelper {
             selectionType = EMPTYPOINT_TIMER;
         else if (emptypoint != null)
             selectionType = EMPTYPOINT;
+        else if (tool != null)
+            selectionType = TOOL;
         else if (directionarrow != null)
             selectionType = DIRECTIONARROW;
         else if (endpoint != null)
@@ -774,12 +804,16 @@ public class SelectionHelper {
             selectionType = CONTRIBUTIONCONTEXTGROUP;
         else if (grlgraph != null)
             selectionType = GRLGRAPH;
+        else if (asdiagram != null)
+            selectionType = ASDIAGRAM;
         else if (concern != null)
             selectionType = CONCERN;
         else if (dynContext != null)
             selectionType = DYNAMICCONTEXT;
         else if (dynamicGroup != null)
             selectionType = DYNAMICCONTEXTGROUP;
+        else if (asdiagram !=null)
+        	selectionType = ASDIAGRAM;
         else if (timepoint != null)
             selectionType = TIMEPOINT;
         else if (timeGroup != null)
@@ -835,6 +869,10 @@ public class SelectionHelper {
 
     public UCMmap getMap() {
         return map;
+    }
+    
+    public Tool getTool(){
+    	return tool;
     }
 
     public NodeConnection getNodeconnection() {
@@ -916,11 +954,14 @@ public class SelectionHelper {
     public Belief getBelief() {
         return belief;
     }
+   
 
     public GRLGraph getGrlgraph() {
         return grlgraph;
     }
-
+    public ASDiagram getASDiagram() {
+        return asdiagram;
+    }
     public IntentionalElement getIntentionalElement() {
         return intentionalelement;
     }
@@ -1053,6 +1094,10 @@ public class SelectionHelper {
         return grlspec;
     }
 
+    public ASDspec getAsdspec() {
+        return asdspec;
+    }
+    
     public ContributionContextGroup getContributionContextGroup() {
         return contributionContextGroup;
     }

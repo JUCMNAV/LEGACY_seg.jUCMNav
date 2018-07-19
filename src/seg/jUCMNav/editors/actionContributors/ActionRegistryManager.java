@@ -1,7 +1,5 @@
 package seg.jUCMNav.editors.actionContributors;
 
-import grl.kpimodel.QualitativeMappings;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,17 +23,22 @@ import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.services.IDisposable;
 
+import grl.kpimodel.QualitativeMappings;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.actions.AddASDDiagramAction;
+import seg.jUCMNav.actions.AddAimAction;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddAnythingAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddBranchOnStubAction;
+import seg.jUCMNav.actions.AddCommunityAction;
 import seg.jUCMNav.actions.AddConditionLabelAction;
 import seg.jUCMNav.actions.AddContainerRefAction;
 import seg.jUCMNav.actions.AddDirectionArrow;
+import seg.jUCMNav.actions.AddDivisionOfLabourAction;
 import seg.jUCMNav.actions.AddEmptyPoint;
 import seg.jUCMNav.actions.AddFailurePointAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
@@ -43,11 +46,15 @@ import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
+import seg.jUCMNav.actions.AddOutcomeAction;
 import seg.jUCMNav.actions.AddResponsibilityAction;
+import seg.jUCMNav.actions.AddRuleAction;
 import seg.jUCMNav.actions.AddStartPointAction;
 import seg.jUCMNav.actions.AddStereotypeDefinitionsAction;
 import seg.jUCMNav.actions.AddStubAction;
+import seg.jUCMNav.actions.AddSubjectAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
+import seg.jUCMNav.actions.AddToolAction;
 import seg.jUCMNav.actions.AddWaitingPlaceAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
@@ -469,6 +476,34 @@ public class ActionRegistryManager implements IDisposable {
         action = new AddBranchAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addBranch")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
+        
+        action = new AddToolAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addtool")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddOutcomeAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addoutcome")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddCommunityAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addcommunity")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddRuleAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addrule")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddDivisionOfLabourAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.adddivisionoflabour")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+    
+        action = new AddAimAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addaim")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddSubjectAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addsubject")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
 
         action = new AddBranchOnStubAction(editor, true);
         action.setText(Messages.getString("ActionRegistryManager.AddIncomingBranch")); //$NON-NLS-1$
@@ -625,6 +660,10 @@ public class ActionRegistryManager implements IDisposable {
 
         action = new AddGrlGraphAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addGRLGraph")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddASDDiagramAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addASDiagram")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddFMDAction(editor);

@@ -1,5 +1,23 @@
 package seg.jUCMNav.model;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.jface.resource.StringConverter;
+
+import asd.ASDiagram;
+import asd.ASDmodelElement;
+import asd.ASDspec;
+import asd.Aim;
+import asd.AsdFactory;
+import asd.Community;
+import asd.DivisionOfLabour;
+import asd.Outcome;
+import asd.Rule;
+import asd.Subject;
+import asd.Tool;
 import fm.FeatureDiagram;
 import fm.FeatureModel;
 import fm.FmFactory;
@@ -43,16 +61,7 @@ import grl.kpimodel.KPINewEvalValue;
 import grl.kpimodel.KpimodelFactory;
 import grl.kpimodel.QualitativeMapping;
 import grl.kpimodel.QualitativeMappings;
-
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.jface.resource.StringConverter;
-
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
@@ -279,7 +288,16 @@ public class ModelCreationFactory implements CreationFactory {
         UrncoreFactory urncorefactory = UrncoreFactory.eINSTANCE;
         PerformanceFactory performancefactory = PerformanceFactory.eINSTANCE;
         GrlFactory grlfactory = GrlFactory.eINSTANCE;
-        FmFactory fmfactory = FmFactory.eINSTANCE; 
+        FmFactory fmfactory = FmFactory.eINSTANCE;
+        /**
+         * Creating instance of asdfactory which is singleton.Right now, using asdfactory
+         * to create instance of tool class.
+         * 
+         */
+        AsdFactory asdfactory=AsdFactory.eINSTANCE; 
+        /**
+         * 
+         */
         UrnFactory urnmainfactory = UrnFactory.eINSTANCE;
         KpimodelFactory kpiFactory = KpimodelFactory.eINSTANCE;
         DyncontextFactory dynFactory = DyncontextFactory.eINSTANCE;
@@ -296,7 +314,24 @@ public class ModelCreationFactory implements CreationFactory {
                 result = grlfactory.createGRLspec();
             } else if (targetClass.equals(FeatureModel.class)) {
                 result = fmfactory.createFeatureModel();
-            } else if (targetClass.equals(ImpactModel.class)) {
+            } else if (targetClass.equals(ASDspec.class)) {
+                result = asdfactory.createASDspec();
+            } else if (targetClass.equals(Tool.class)) {
+                result = asdfactory.createTool();
+            } else if (targetClass.equals(Community.class)) {
+                result = asdfactory.createCommunity();
+            } else if (targetClass.equals(Rule.class)) {
+                result = asdfactory.createRule();
+            }else if (targetClass.equals(Subject.class)) {
+                result = asdfactory.createSubject();
+            } else if (targetClass.equals(DivisionOfLabour.class)) {
+                result = asdfactory.createDivisionOfLabour();
+            }else if (targetClass.equals(Aim.class)) {
+                result = asdfactory.createAim();
+            } else if (targetClass.equals(Outcome.class)) {
+                result = asdfactory.createOutcome();
+            }          
+            else if (targetClass.equals(ImpactModel.class)) {
                 result = grlfactory.createImpactModel();
             } else if (targetClass.equals(URNdefinition.class)) {
                 result = urncorefactory.createURNdefinition();
@@ -628,6 +663,10 @@ public class ModelCreationFactory implements CreationFactory {
                     // create a diagram
                     result = fmfactory.createFeatureDiagram();
                     URNNamingHelper.setElementNameAndID(urn, result);
+                }else if (targetClass.equals(ASDiagram.class)) {
+                    // create a diagram
+                    result = asdfactory.createASDiagram();
+                    URNNamingHelper.setElementNameAndID(urn, result);
                 } else if (targetClass.equals(IntentionalElementRef.class)) {
                     // create the intentional Element ref
                     result = grlfactory.createIntentionalElementRef();
@@ -726,7 +765,7 @@ public class ModelCreationFactory implements CreationFactory {
 
         // set the name and id of model elements
         // doesn't verify unique names.
-        if (result instanceof UCMmodelElement || result instanceof GRLmodelElement) {
+        if (result instanceof UCMmodelElement || result instanceof GRLmodelElement || result instanceof ASDmodelElement) {
             URNNamingHelper.setElementNameAndID(urn, result);
         }
 
@@ -765,16 +804,16 @@ public class ModelCreationFactory implements CreationFactory {
      */
     public static URNspec getNewURNspec() {
         // Will also create one if no GRL or UCM diagrams were selected (so at least one diagram is present)
-        return getNewURNspec(GeneralPreferencePage.getNewUCM() || ((!GeneralPreferencePage.getNewGRL()) && (!GeneralPreferencePage.getNewFMD())),
+        return getNewURNspec(GeneralPreferencePage.getNewUCM() || ((!GeneralPreferencePage.getNewGRL()) || (!GeneralPreferencePage.getNewASD()) && (!GeneralPreferencePage.getNewFMD())),
         		GeneralPreferencePage.getNewGRL(),
-        		GeneralPreferencePage.getNewFMD());
+        		GeneralPreferencePage.getNewFMD(),GeneralPreferencePage.getNewASD());
     }
     
     public static URNspec getNewURNspec(String filename) {
         // Will also create one if no GRL or UCM diagrams were selected (so at least one diagram is present)
-        return getNewURNspec(GeneralPreferencePage.getNewUCM() || ((!GeneralPreferencePage.getNewGRL()) && (!GeneralPreferencePage.getNewFMD())),
+        return getNewURNspec(GeneralPreferencePage.getNewUCM() || ((!GeneralPreferencePage.getNewGRL()) || (!GeneralPreferencePage.getNewASD()) && (!GeneralPreferencePage.getNewFMD())),
         		GeneralPreferencePage.getNewGRL(),
-        		GeneralPreferencePage.getNewFMD(),GeneralPreferencePage.getNewCRN(),filename);
+        		GeneralPreferencePage.getNewFMD(),GeneralPreferencePage.getNewASD(),GeneralPreferencePage.getNewCRN(),filename);
     } 
 
     /**
@@ -793,12 +832,12 @@ public class ModelCreationFactory implements CreationFactory {
      * @return a new URN spec
      */
     
-    public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolean createFmd) {
-    	return getNewURNspec(createUcm, createGrl,createFmd, false,"");
+    public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolean createFmd,boolean createAsd) {
+    	return getNewURNspec(createUcm, createGrl,createFmd,createAsd, false,"");
         
     }
     
-public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolean createFmd,boolean createCRN,String filename) {
+public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolean createFmd,boolean createAsd,boolean createCRN,String filename) {
     	
         URNspec result = null;
 
@@ -828,6 +867,9 @@ public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolea
 
         // add its UCMspec
         urnspec.setUcmspec(UcmFactory.eINSTANCE.createUCMspec());
+        
+        //add its Asdspec
+        urnspec.setAsdspec(AsdFactory.eINSTANCE.createASDspec());
 
         // add its GRLspec
         urnspec.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
@@ -844,6 +886,10 @@ public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolea
         // add a new UCM map to the UCMspec, if desired.
         if (createUcm) {
             urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, UCMmap.class));
+        }
+        
+        if (createAsd) {
+            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, ASDiagram.class));
         }
         
         // add a new FMD diagram to the FMDspec, if desired.

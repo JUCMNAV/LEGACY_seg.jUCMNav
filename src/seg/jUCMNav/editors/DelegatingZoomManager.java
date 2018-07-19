@@ -1,7 +1,7 @@
 /**
  * Eclipse GEF redbook sample application
  * $Source$
- * $Revision$
+ * $Revision: 2175 $
  * 
  * (c) Copyright IBM Corp.
  *

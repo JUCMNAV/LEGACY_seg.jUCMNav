@@ -19,6 +19,7 @@ import seg.jUCMNav.importexport.z151.generated.URNspec;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
 import urncore.URNdefinition;
+import asd.*;
 
 public class URNspecUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
@@ -27,7 +28,7 @@ public class URNspecUMHandler extends EObjectImplUMHandler {
 		urn.URNspec elem = null;
 		if (null == elem) {
 			if (null == target) {
-				elem = (urn.URNspec) ModelCreationFactory.getNewURNspec(false, false, false);
+				elem = (urn.URNspec) ModelCreationFactory.getNewURNspec(false, false, false,false);
 				//elem = (urn.URNspec) ModelCreationFactory.getNewObject(urn,
 					//	urn.URNspec.class);
 				urn = elem;
@@ -39,6 +40,8 @@ public class URNspecUMHandler extends EObjectImplUMHandler {
 		}
 		if (isFullConstruction) {
 			elem.setGrlspec((grl.GRLspec) process(elemZ.getGrlspec(), null,
+					true));
+			elem.setAsdspec((asd.ASDspec) process(elemZ.getAsdspec(), null,
 					true));
 			elem.setModified(elemZ.getInfo().getModified());
 			elem.setAuthor(elemZ.getInfo().getAuthor());

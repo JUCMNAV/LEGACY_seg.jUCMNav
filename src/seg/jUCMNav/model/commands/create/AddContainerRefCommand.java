@@ -1,6 +1,7 @@
 package seg.jUCMNav.model.commands.create;
 
 import grl.Actor;
+import asd.*;
 
 import org.eclipse.gef.commands.Command;
 
@@ -47,8 +48,12 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand, I
         this.compRef = cr;
         if (compRef instanceof UCMmodelElement) {
             setLabel(Messages.getString("AddContainerRefCommand.createComp")); //$NON-NLS-1$
-        } else {
+        } else if (compRef instanceof GRLmodelElement) {
             setLabel(Messages.getString("AddContainerRefCommand.createActor")); //$NON-NLS-1$        
+        }
+        else
+        {
+        	setLabel(Messages.getString("AddContainerRefCommand.createMotivation")); //$NON-NLS-1$        
         }
     }
 
@@ -78,6 +83,19 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand, I
             		(((Actor)existingDef).getGrlspec() != null)){
             	
             	if ( ((Actor)existingDef).getGrlspec().getActors().contains(existingDef))
+            		bDefAlreadyExists = true;
+            }
+            
+        }
+        
+        else if (compRef instanceof ASDmodelElement) {
+            bDefAlreadyExists = diagram.getUrndefinition().getUrnspec().getAsdspec().getMotivations().contains(existingDef);
+            
+            // Is definition is contained in another resource's concern?
+            if( !bDefAlreadyExists && existingDef != null &&
+            		(((Motivation)existingDef).getAsdSpec() != null)){
+            	
+            	if ( ((Motivation)existingDef).getAsdSpec().getMotivations().contains(existingDef))
             		bDefAlreadyExists = true;
             }
             
@@ -113,6 +131,8 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand, I
             urnspec.getUrndef().getComponents().add(compRef.getContDef());
         } else if (!bDefAlreadyExists && compRef instanceof GRLmodelElement) {
             urnspec.getGrlspec().getActors().add(compRef.getContDef());
+        }else if (!bDefAlreadyExists && compRef instanceof ASDmodelElement) {
+            urnspec.getAsdspec().getMotivations().add(compRef.getContDef());
         } else if (bDefAlreadyExists)
             compRef.setContDef(existingDef);
 
@@ -152,6 +172,8 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand, I
             assert diagram.getUrndefinition().getUrnspec().getUrndef().getComponents().contains(compRef.getContDef()) : "post compDef in model"; //$NON-NLS-1$
         } else if (compRef instanceof GRLmodelElement) {
             assert diagram.getUrndefinition().getUrnspec().getGrlspec().getActors().contains(compRef.getContDef()) : "post compDef in model"; //$NON-NLS-1$
+        }else if (compRef instanceof ASDmodelElement) {
+            assert diagram.getUrndefinition().getUrnspec().getAsdspec().getMotivations().contains(compRef.getContDef()) : "post compDef in model"; //$NON-NLS-1$
         }
     }
 
@@ -172,6 +194,8 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand, I
             assert bDefAlreadyExists || !diagram.getUrndefinition().getUrnspec().getUrndef().getComponents().contains(compRef.getContDef()) : "pre compDef not in model"; //$NON-NLS-1$
         } else if (compRef instanceof GRLmodelElement) {
             assert bDefAlreadyExists || !diagram.getUrndefinition().getUrnspec().getGrlspec().getActors().contains(compRef.getContDef()) : "pre compDef not in model"; //$NON-NLS-1$
+        }else if (compRef instanceof ASDmodelElement) {
+            assert bDefAlreadyExists || !diagram.getUrndefinition().getUrnspec().getAsdspec().getMotivations().contains(compRef.getContDef()) : "pre compDef not in model"; //$NON-NLS-1$
         }
     }
 
@@ -191,7 +215,10 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand, I
             urnspec.getUrndef().getComponents().remove(compRef.getContDef());
         } else if (!bDefAlreadyExists && compRef instanceof GRLmodelElement) {
             urnspec.getGrlspec().getActors().remove(compRef.getContDef());
-        } else if (bDefAlreadyExists)
+        } else if (!bDefAlreadyExists && compRef instanceof ASDmodelElement) {
+            urnspec.getAsdspec().getMotivations().remove(compRef.getContDef());
+        }    
+        else if (bDefAlreadyExists)
             compRef.setContDef(null);
 
         testPreConditions();

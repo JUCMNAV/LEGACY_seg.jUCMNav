@@ -277,6 +277,8 @@ public interface URNspec extends EObject {
 	 * @generated
 	 */
     UCMspec getUcmspec();
+    
+    
 
     /**
 	 * Sets the value of the '{@link urn.URNspec#getUcmspec <em>Ucmspec</em>}' containment reference.

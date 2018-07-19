@@ -11,15 +11,19 @@ import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.actions.AddASDDiagramAction;
+import seg.jUCMNav.actions.AddAimAction;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddAnythingAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddBranchOnStubAction;
+import seg.jUCMNav.actions.AddCommunityAction;
 import seg.jUCMNav.actions.AddConditionLabelAction;
 import seg.jUCMNav.actions.AddContainerRefAction;
 import seg.jUCMNav.actions.AddDirectionArrow;
+import seg.jUCMNav.actions.AddDivisionOfLabourAction;
 import seg.jUCMNav.actions.AddEmptyPoint;
 import seg.jUCMNav.actions.AddFailurePointAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
@@ -27,10 +31,14 @@ import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
+import seg.jUCMNav.actions.AddOutcomeAction;
 import seg.jUCMNav.actions.AddResponsibilityAction;
+import seg.jUCMNav.actions.AddRuleAction;
 import seg.jUCMNav.actions.AddStartPointAction;
 import seg.jUCMNav.actions.AddStubAction;
+import seg.jUCMNav.actions.AddSubjectAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
+import seg.jUCMNav.actions.AddToolAction;
 import seg.jUCMNav.actions.AddWaitingPlaceAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
@@ -329,7 +337,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
                 actions,
                 Messages.getString("UrnContextMenuProvider.SetNumericalImportance"), Messages.getString("UrnContextMenuProvider.SetNumericalImportance"), JUCMNavPlugin.getImageDescriptor("icons/StrategyNumImp16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
         if (submenu.getActiveOperationCount() > 0)
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+            manager.appendToGroup	(GEFActionConstants.GROUP_REST, submenu);
 
         actions = new IAction[6];
         for (int i = 0; i <= 5; i++)
@@ -425,6 +433,26 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
         
+     /* action = getActionRegistry().getAction(AddToolAction.ADDTOOL);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(AddCommunityAction.ADDCOMMUNITY);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);*/
+        actions = new IAction[7];
+        actions[0] =getActionRegistry().getAction(AddToolAction.ADDTOOL);
+        actions[1] = getActionRegistry().getAction(AddCommunityAction.ADDCOMMUNITY);
+        actions[2] = getActionRegistry().getAction(AddRuleAction.ADDRULE);
+        actions[3] = getActionRegistry().getAction(AddDivisionOfLabourAction.ADDDIVISIONOFLABOUR);
+        actions[4] = getActionRegistry().getAction(AddAimAction.ADDAIM);
+        actions[5] = getActionRegistry().getAction(AddSubjectAction.ADDSUBJECT);
+        actions[6] = getActionRegistry().getAction(AddOutcomeAction.ADDOUTCOME);
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.AddAsdElement"), Messages.getString("UrnContextMenuProvider.AddAsdElement"), JUCMNavPlugin.getImageDescriptor("icons/ChangeLinkCommandIcon.ico"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);		
+        		
+        		
         action = getActionRegistry().getAction(ListDefinitionReferencesAction.LISTREFERENCES);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -459,6 +487,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(AddGrlGraphAction.ADDGRLGRAPH);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(AddASDDiagramAction.ADDASDIAGRAM);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
         

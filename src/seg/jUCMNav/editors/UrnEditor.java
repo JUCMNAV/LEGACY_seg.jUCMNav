@@ -49,6 +49,7 @@ import seg.jUCMNav.actions.palette.SelectPaletteEntryAction;
 import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editors.palette.UrnDropTargetListener;
 import seg.jUCMNav.editors.palette.UrnPaletteViewerProvider;
+import seg.jUCMNav.editparts.AsdGraphicalEditPartFactory;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.editparts.UCMMapEditPart;
 import seg.jUCMNav.editparts.URNRootEditPart;
@@ -165,6 +166,8 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
                 GraphicalEditPartFactory f = (GraphicalEditPartFactory) getGraphicalViewer().getEditPartFactory();
                 f.setRoot(null);
             }
+            
+            
             getGraphicalViewer().setEditPartFactory(null);
             getGraphicalViewer().getEditPartRegistry().clear();
 

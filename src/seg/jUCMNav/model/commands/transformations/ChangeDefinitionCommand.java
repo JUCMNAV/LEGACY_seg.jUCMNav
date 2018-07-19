@@ -10,6 +10,7 @@ import grl.kpimodel.KPIInformationElementRef;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
+import asd.ASDmodelElement;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNElementFinder;
@@ -43,6 +44,13 @@ public class ChangeDefinitionCommand extends Command implements JUCMNavCommand {
     }
 
     public ChangeDefinitionCommand(URNspec urn, GRLNode node, String newName) {
+        this.elem = node;
+        this.name = newName;
+        this.urn = urn;
+        setLabel(Messages.getString("ChangeDefinitionCommand.ReplaceDefinition")); //$NON-NLS-1$
+    }
+    
+    public ChangeDefinitionCommand(URNspec urn, ASDmodelElement node, String newName) {
         this.elem = node;
         this.name = newName;
         this.urn = urn;
@@ -86,6 +94,7 @@ public class ChangeDefinitionCommand extends Command implements JUCMNavCommand {
                 this.oldDef = (((KPIInformationElementRef) elem).getDef());
                 this.newDef = URNElementFinder.findKPIInformationElementByName(urn, name);
             }
+            
         }
         redo();
     }

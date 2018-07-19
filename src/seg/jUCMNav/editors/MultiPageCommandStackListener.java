@@ -10,6 +10,7 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.ui.PartInitException;
 
+import asd.ASDiagram;
 import seg.jUCMNav.editors.actionContributors.ModeComboContributionItem;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeUCMDiagramOrderCommand;
@@ -109,7 +110,8 @@ public class MultiPageCommandStackListener implements CommandStackListener {
             {
                 if (this.editor.getDelegatingCommandStack().getRedoCommand() instanceof ChangeUCMDiagramOrderCommand ||  this.editor.getDelegatingCommandStack().getUndoCommand() instanceof ChangeUCMDiagramOrderCommand)
                 {
-                    IURNDiagram diag =this.editor.getDelegatingCommandStack().getLastAffectedDiagram();
+
+                	IURNDiagram diag =this.editor.getDelegatingCommandStack().getLastAffectedDiagram();
                     if (diag.getUrndefinition()!=null) 
                     {
                         int modelIndex = diag.getUrndefinition().getSpecDiagrams().indexOf(diag);
@@ -148,6 +150,9 @@ public class MultiPageCommandStackListener implements CommandStackListener {
         UrnEditor u = null;
         if (diagramChanged instanceof UCMmap) {
             u = new UcmEditor(this.editor);
+        } 
+        else if (diagramChanged instanceof ASDiagram) {
+                u = new AsdEditor(this.editor);
         } else { // if(diagramChanged instanceof GRLGraph){
             u = new GrlEditor(this.editor);
         }

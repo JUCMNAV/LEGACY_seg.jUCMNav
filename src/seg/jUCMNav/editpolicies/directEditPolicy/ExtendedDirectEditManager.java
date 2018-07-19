@@ -1,10 +1,5 @@
 package seg.jUCMNav.editpolicies.directEditPolicy;
  
-import grl.ActorRef;
-import grl.GRLNode;
-import grl.IntentionalElementRef;
-import grl.kpimodel.KPIInformationElementRef;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.GraphicalEditPart;
@@ -24,12 +19,20 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import asd.ASDmodelElement;
+import asd.Tool;
+import grl.ActorRef;
+import grl.GRLNode;
+import grl.IntentionalElementRef;
+import grl.kpimodel.KPIInformationElementRef;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editparts.ToolEditPart;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.figures.LabelElementFigure;
 import seg.jUCMNav.model.commands.transformations.ChangeDefinitionCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeToolNameCommand;
 import ucm.map.RespRef;
 import urn.URNspec;
 import urncore.ComponentLabel;
@@ -115,6 +118,12 @@ public class ExtendedDirectEditManager extends DirectEditManager {
                     ((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new KPIInformationElementProposalProvider(urn), null, null);
                 }
             }
+            
+            else if (getEditPart().getModel() instanceof ASDmodelElement){
+            	//ASDmodelElement model= (ASDmodelElement) getEditPart().getModel();
+            	((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new AsdModelElementProposalProvider(urn), null, null);
+            	
+            }
 
         }
         Text text = (Text) getCellEditor().getControl();
@@ -194,10 +203,24 @@ public class ExtendedDirectEditManager extends DirectEditManager {
             if (isDirty()) {
                 CommandStack stack = getEditPart().getViewer().getEditDomain().getCommandStack();
                 Command command = getEditPart().getCommand(getDirectEditRequest());
+                
+                if(command instanceof ChangeToolNameCommand)
+                {
+               //	((ChangeToolNameCommand) command).setOldName(((URNmodelElement)(getEditPart().getModel())).getName());
+                 ChangeToolNameCommand  comm= new ChangeToolNameCommand((Tool)getEditPart().getModel(), ((ChangeToolNameCommand) command).getName(),((ToolEditPart) getEditPart()).getDiagram());
+                	//comm.execute();
+            
+                	stack.execute(comm);
+                	
+                	
+                	//((URNmodelElement)(getEditPart().getModel())).setName(((ChangeToolNameCommand) command).getName());
+                
+                	
+                } 	
 
                 if (command != null && command.canExecute())
                     stack.execute(command);
-                else if (command instanceof ChangeLabelNameCommand || command instanceof ChangeGrlNodeNameCommand) {
+                else if (command instanceof ChangeLabelNameCommand || command instanceof ChangeGrlNodeNameCommand ) {
                     boolean confirm = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages
                             .getString("ExtendedDirectEditManager.NameAlreadyInUse"), Messages.getString("ExtendedDirectEditManager.OtherDefinitionExists")); //$NON-NLS-1$ //$NON-NLS-2$
                     if (confirm) {
@@ -207,7 +230,10 @@ public class ExtendedDirectEditManager extends DirectEditManager {
                         if (command instanceof ChangeLabelNameCommand) {
                             ChangeLabelNameCommand rename = ((ChangeLabelNameCommand) command);
                             cmd = new ChangeDefinitionCommand(urn, rename.getRenamedLabel(), rename.getName());
-                        } else if (command instanceof ChangeGrlNodeNameCommand) {
+                        } 
+                                       
+                        
+                        else if (command instanceof ChangeGrlNodeNameCommand) {
                             ChangeGrlNodeNameCommand rename = ((ChangeGrlNodeNameCommand) command);
                             cmd = new ChangeDefinitionCommand(urn, rename.getElement(), rename.getName());
 
@@ -217,6 +243,7 @@ public class ExtendedDirectEditManager extends DirectEditManager {
 
                     }
                 }
+               
 
             }
         } finally {

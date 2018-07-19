@@ -9,6 +9,7 @@
 package seg.jUCMNav.importexport.z151.generated;
 
 import java.util.ArrayList;
+import asd.*;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -60,6 +61,7 @@ public class URNspec {
     protected List<Metadata> metadata;
     protected List<URNlink> urnLinks;
     protected GRLspec grlspec;
+    protected ASDspec asdspec;
     protected ConcreteURNspec info;
     protected List<Concern> concerns;
 
@@ -201,6 +203,14 @@ public class URNspec {
      *     {@link ConcreteURNspec }
      *     
      */
+    
+    public ASDspec getAsdspec() {
+        return asdspec;
+    }
+    
+    public void setAsdspec(ASDspec value) {
+        this.asdspec = value;
+    }
     public ConcreteURNspec getInfo() {
         return info;
     }

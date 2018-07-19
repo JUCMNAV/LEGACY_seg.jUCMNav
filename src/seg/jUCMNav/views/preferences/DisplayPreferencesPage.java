@@ -48,6 +48,8 @@ public class DisplayPreferencesPage extends FieldEditorPreferencePage implements
 
         bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWGRLS, Messages.getString("DisplayPreferencesPage_ShowGRL"), getFieldEditorParent()); //$NON-NLS-1$
         addField(bef);
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWASDS, Messages.getString("DisplayPreferencesPage_ShowASD"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(bef);
 
         bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWUCMS, Messages.getString("DisplayPreferencesPage_ShowUCM"), getFieldEditorParent()); //$NON-NLS-1$
         addField(bef);

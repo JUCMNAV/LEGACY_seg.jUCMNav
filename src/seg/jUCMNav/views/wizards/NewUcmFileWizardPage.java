@@ -119,6 +119,12 @@ public class NewUcmFileWizardPage extends WizardPage {
         ucmButton.setImage(JUCMNavPlugin.getImage("icons/ucm16.gif")); //$NON-NLS-1$
         ucmButton.setText("UCM"); //$NON-NLS-1$
         ucmButton.addListener(SWT.Selection, checkGroupListener);
+        //ASD-displays icon on widget while creating new jucmnav file, check box appears.
+        
+        Button asdButton = new Button(diagramComposite, SWT.CHECK);
+        asdButton.setImage(JUCMNavPlugin.getImage("icons/ucm16.gif")); //$NON-NLS-1$
+        asdButton.setText("ASD"); //$NON-NLS-1$
+        asdButton.addListener(SWT.Selection, checkGroupListener);
 
         Button grlButton = new Button(diagramComposite, SWT.CHECK);
         grlButton.setImage(JUCMNavPlugin.getImage("icons/grl16.gif")); //$NON-NLS-1$
@@ -163,7 +169,12 @@ public class NewUcmFileWizardPage extends WizardPage {
         	doDiagramSelection(crnButton);
         }
         
+        if (GeneralPreferencePage.getNewASD()) {
+      	asdButton.setSelection(true);
+       	doDiagramSelection(asdButton);
+      }
         
+
         
 
         initialize();
@@ -185,6 +196,9 @@ public class NewUcmFileWizardPage extends WizardPage {
             else if (button.getText().equals("FMD")) { //$NON-NLS-1$
             	GeneralPreferencePage.setNewFMD(true);
             }
+           else if (button.getText().equals("ASD")) { //$NON-NLS-1$
+           	GeneralPreferencePage.setNewASD(true);
+           }
             else if(button.getText().equals("Concern")){ //$NON-NLS-1$
             	GeneralPreferencePage.setNewCRN(true);
             }
@@ -198,6 +212,9 @@ public class NewUcmFileWizardPage extends WizardPage {
             }
             else if (button.getText().equals("FMD")) { //$NON-NLS-1$
             	GeneralPreferencePage.setNewFMD(false);
+            }
+            else if (button.getText().equals("ASD")) { //$NON-NLS-1$
+            	GeneralPreferencePage.setNewASD(false);
             }
             else if(button.getText().equals("Concern")) {
             	GeneralPreferencePage.setNewCRN(false);

@@ -126,6 +126,9 @@ public class GrlEditor extends UrnEditor {
         // listen for dropped parts
         graphicalViewer.addDropTargetListener(getTransferDropTargetListener());
         graphicalViewer.addDropTargetListener(getUrnTransferDropTargetListener());
+        
+        
+        
     }
 
     /**

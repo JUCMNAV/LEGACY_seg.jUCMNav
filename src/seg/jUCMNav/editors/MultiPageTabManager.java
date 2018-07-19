@@ -21,6 +21,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 
+import asd.ASDiagram;
 import seg.jUCMNav.editparts.ModelElementEditPart;
 import seg.jUCMNav.editparts.URNDiagramEditPart;
 import seg.jUCMNav.editparts.treeEditparts.URNspecTreeEditPart;
@@ -122,6 +123,15 @@ public class MultiPageTabManager {
                 editor.getMultiPageCommandStackListener().addCommandStack(grl.getCommandStack());
                 setPageText(getPageCount() - 1, ((GRLGraph) getDiagram(i)).getName());
             }
+            
+            else if ( g instanceof ASDiagram){
+            	AsdEditor a = new AsdEditor(getEditor());
+               a.setModel(getDiagram(i));
+                addPage(a, editor.getEditorInput());
+                editor.getMultiPageCommandStackListener().addCommandStack(a.getCommandStack());
+               setPageText(getPageCount() - 1, ((ASDiagram) getDiagram(i)).getName());
+            }
+            	
         }
     }
 
@@ -200,7 +210,14 @@ public class MultiPageTabManager {
         if (editor.getCurrentPage().getModel() instanceof UCMmap) {
             // we want the outline to know that we've selected another map.
             e = (URNDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(((UcmEditor) editor.getCurrentPage()).getModel());
-        } else {
+        } 
+        
+        else if (editor.getCurrentPage().getModel() instanceof ASDiagram) {
+            // we want the outline to know that we've selected another map.
+            e = (URNDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(((AsdEditor) editor.getCurrentPage()).getModel());
+        } 
+        
+        else {
             e = (URNDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(((GrlEditor) editor.getCurrentPage()).getModel());
         }
         // If we don't flush, paint buffer not displayed on screen
